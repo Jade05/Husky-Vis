@@ -16,7 +16,7 @@ public:
     void statistic_suggestions(std::vector<husky::visualization::BaseObj> dataset, husky::visualization::Constant constant);
     std::vector<husky::visualization::BaseObj> get_statistic_suggestions();
 private:
-    std::vector<husky::visualization:;BaseObj> suggestions;
+    std::vector<husky::visualization::BaseObj> suggestions;
 };
 
 }

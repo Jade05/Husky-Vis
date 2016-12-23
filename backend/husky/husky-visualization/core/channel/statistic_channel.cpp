@@ -19,7 +19,7 @@ namespace visualization {
 
         for(auto set : dataset) {
             BOOST_FOREACH(ptree::value_type & v, statistic) {
-                set.statistic_method = v.second.data();
+                set.statistical_method = v.second.data();
                 suggestions.push_back(set);
             }
         }

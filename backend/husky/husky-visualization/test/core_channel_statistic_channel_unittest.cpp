@@ -45,7 +45,7 @@ int main () {
     // statistic channel
     husky::visualization::StatisticChannel statistic_channel_test;
     statistic_channel_test.statistic_suggestions(aggregate_suggestions, constant_test);
-    std::vector<husky::visualization::BaseObj> statistic_suggestions = get_statistic_suggestions();
+    std::vector<husky::visualization::BaseObj> statistic_suggestions = statistic_channel_test.get_statistic_suggestions();
 
     // output
     for (std::vector<husky::visualization::BaseObj>::iterator item = statistic_suggestions.begin(); item != statistic_suggestions.end(); item++) {
