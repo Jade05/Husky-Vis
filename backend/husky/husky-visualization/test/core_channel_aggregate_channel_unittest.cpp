@@ -38,7 +38,7 @@ int main () {
 
     // aggregate channel
     husky::visualization::AggregateChannel aggregate_channel_test;
-    aggregate_channel_test.aggregate_suggestions(chart_suggestions);
+    aggregate_channel_test.aggregate_suggestions(chart_suggestions, constant_test);
     std::vector<husky::visualization::BaseObj> aggregate_suggestions = aggregate_channel_test.get_aggregate_suggestions();
 
     // output

@@ -8,6 +8,7 @@
 namespace husky {
 namespace visualization {
 
+int count = 0;
 
 std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj) {
     stream << "measure: " << base_obj.measure << std::endl
@@ -27,7 +28,7 @@ std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj) {
         stream << std::endl<< "aggreagate_data: " << z.first << " " << z.second;
     }
 
-    stream << "-------------------------------------------------" << std::endl;
+    stream << "-------------------------------------------------" << ++count << std::endl;
     return stream;
 }
 }

@@ -23,12 +23,12 @@ namespace visualization {
      * 
      * @param constant [description]
      */
-    void AggregateChannel::aggregate_channel(std::vector<husky::visualization::BaseObj> dataset, husky::visualization::Constant constant) {
+    void AggregateChannel::aggregate_suggestions(std::vector<husky::visualization::BaseObj> dataset, husky::visualization::Constant constant) {
         ptree aggregate = constant.get_aggregate();
 
         for (auto set : dataset) {
             BOOST_FOREACH(ptree::value_type & v, aggregate) {
-                set.aggregateType = v.second.data();
+                set.aggregate_type = v.second.data();
                 suggestions.push_back(set);
             }
         }
