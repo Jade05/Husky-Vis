@@ -2,6 +2,8 @@
 #include <map>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
+#include <boost/optional/optional.hpp>
+#include <boost/foreach.hpp>
 
 #include "chart_type_channel.hpp"
 #include "../common/base_obj.hpp"
@@ -25,15 +27,25 @@ namespace visualization {
     std::map<std::string, std::string> schema,
     husky::visualization::Constant constant) {
       ptree data_type_map_chart_type = constant.get_data_type_map_chart_type_method();
+      ptree two_dimension_chart = data_type_map_chart_type.get_child("TWO_DIMENSION_CHART");
 
       for(auto dataset : set) {
         const string measure = set.measure;
         const string dimension = set.dimension;
 
-        const string measureValueType = schema.find(measure);
-        const string dimensionValueType = schema.find(dimension);
+        const string measure_value_type = schema.find(measure);
+        const string dimension_value_type = schema.find(dimension);
 
-        ptree pr0 = data_type_map_chart_type.get_child(elem0)
+        // identify measure
+        boost::optional<ptree&> measure_opt = two_dimension_chart.get_child_optional(measure_value_type);
+        if (measure_opt) {
+          boost::optional<ptree&> dimension_opt = measure_opt.get_child_optional(dimension_value_type);
+            // add chart type to set
+            BOOST_FOREACH(ptree::value_type & v, boost::optional<ptree&> dimension_opt) {
+              set.chart_type = v.second.data();
+              suggestions.push_back(set);
+            }
+        }
       }
   }
 
