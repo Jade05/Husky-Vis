@@ -17,7 +17,7 @@ int main() {
     
     // test without selectedAttribute
     husky::visualization::GenerateChannel generate_channel_test;
-    generate_channel_test.generate_suggesstions(dataset, "");
+    generate_channel_test.generate_suggesstions(dataset, "name");
     std::vector<husky::visualization::BaseObj> suggestions = generate_channel_test.get_generated_suggestions();
     
     for (std::vector<husky::visualization::BaseObj>::iterator item = suggestions.begin(); item != suggestions.end(); item++) {

@@ -23,7 +23,7 @@ namespace visualization {
    *
    * default: the first attribute as a measure, the second as a dimension, it may constomizable later
    */
-  void ChartTypeChannel::chart_type_suggesstions(std::std::vector<husky::visualization::BaseObj> dataset,
+  void ChartTypeChannel::chart_type_suggesstions(std::vector<husky::visualization::BaseObj> dataset,
     std::map<std::string, std::string> schema,
     husky::visualization::Constant constant) {
       ptree data_type_map_chart_type = constant.get_data_type_map_chart_type_method();
