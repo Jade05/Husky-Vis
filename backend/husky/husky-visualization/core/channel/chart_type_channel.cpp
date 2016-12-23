@@ -48,7 +48,6 @@ namespace visualization {
                   suggestions.push_back(set);
                 }
             }
-            // add chart type to set
         }
       }
   }
