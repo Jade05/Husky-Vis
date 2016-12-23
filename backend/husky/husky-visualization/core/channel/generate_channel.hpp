@@ -15,7 +15,7 @@ public:
     ~GenerateChannel() = default;
     // generate suggestion based on selectedAttributes
     // if selectedAttribuite is none, it means generating by default
-    void generate_suggesstions(std::vector<std::string> dataset,const std::string& selectedAttribute);
+    void generate_suggestions(std::vector<std::string> dataset,const std::string& selectedAttribute);
     std::vector<husky::visualization::BaseObj> get_generated_suggestions();
 private:
     std::vector<husky::visualization::BaseObj> suggestions;

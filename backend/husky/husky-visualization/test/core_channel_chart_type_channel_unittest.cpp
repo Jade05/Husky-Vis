@@ -1,5 +1,5 @@
 #include <iostream>
-#include <std::vector>
+#include <vector>
 #include <map>
 
 #include "../core/channel/generate_channel.hpp"
@@ -7,7 +7,7 @@
 #include "../core/common/base_obj.hpp"
 #include "../core/common/constant.hpp"
 
-using namespace name;
+using namespace std;
 
 int main () {
     // constant
@@ -20,22 +20,22 @@ int main () {
     generate_dataset.push_back("year");
     generate_dataset.push_back("cylinder");
 
-    husky::visualization::GenerateChannel generate_test;
+    husky::visualization::GenerateChannel generate_channel_test;
     generate_channel_test.generate_suggestions(generate_dataset, "name");
     
     std::vector<husky::visualization::BaseObj> suggestions = generate_channel_test.get_generated_suggestions();
 
-    std::map<std::string, sd::string> schema;
+    std::map<std::string, std::string> schema;
     schema.emplace("name", "N");
     schema.emplace("year", "T");
     schema.emplace("cylinder", "Q");
 
     // chart_type_channel
     husky::visualization::ChartTypeChannel chart_type_channel_test;
-    chart_type_channel_test.chart_type_suggestions(suggestions, schema, chart_type)
+    chart_type_channel_test.chart_type_suggestions(suggestions, schema, constant_test);
 
     // output
-    std::vecotr<husku::visualization::BaseObj> chart_suggestions = chart_type_channel_test.get_chart_type_suggestions();
+    std::vector<husky::visualization::BaseObj> chart_suggestions = chart_type_channel_test.get_chart_type_suggestions();
 
     for (std::vector<husky::visualization::BaseObj>::iterator item = chart_suggestions.begin(); item != chart_suggestions.end(); item++) {
         cout << *item;

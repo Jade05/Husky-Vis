@@ -14,7 +14,7 @@ namespace visualization {
  * selectedAttribute "name", 
  * generate suggestions [{"measure": name, "dimension": year}, {"measure":name, "dimension": year}, ...] 
  * */
-void GenerateChannel::generate_suggesstions(std::vector<std::string> dataset, const std::string& selectedAttribute) {
+void GenerateChannel::generate_suggestions(std::vector<std::string> dataset, const std::string& selectedAttribute) {
     husky::visualization::BaseObj suggestion;
     // no attribute selected
     if (selectedAttribute.length()) {

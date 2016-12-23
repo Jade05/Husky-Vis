@@ -23,28 +23,32 @@ namespace visualization {
    *
    * default: the first attribute as a measure, the second as a dimension, it may constomizable later
    */
-  void ChartTypeChannel::chart_type_suggesstions(std::vector<husky::visualization::BaseObj> dataset,
+  void ChartTypeChannel::chart_type_suggestions(std::vector<husky::visualization::BaseObj> dataset,
     std::map<std::string, std::string> schema,
     husky::visualization::Constant constant) {
       ptree data_type_map_chart_type = constant.get_data_type_map_chart_type_method();
       ptree two_dimension_chart = data_type_map_chart_type.get_child("TWO_DIMENSION_CHART");
 
-      for(auto dataset : set) {
-        const string measure = set.measure;
-        const string dimension = set.dimension;
+      for(auto set : dataset) {
+        const std::string measure = set.measure;
+        const std::string dimension = set.dimension;
 
-        const string measure_value_type = schema.find(measure);
-        const string dimension_value_type = schema.find(dimension);
+        const std::string measure_value_type = schema.find(measure)->second;
+        const std::string dimension_value_type = schema.find(dimension)->second;
 
         // identify measure
         boost::optional<ptree&> measure_opt = two_dimension_chart.get_child_optional(measure_value_type);
         if (measure_opt) {
-          boost::optional<ptree&> dimension_opt = measure_opt.get_child_optional(dimension_value_type);
-            // add chart type to set
-            BOOST_FOREACH(ptree::value_type & v, boost::optional<ptree&> dimension_opt) {
-              set.chart_type = v.second.data();
-              suggestions.push_back(set);
+            ptree measure_child = two_dimension_chart.get_child(measure_value_type);
+            boost::optional<ptree&> dimension_opt = measure_child.get_child_optional(dimension_value_type);
+            if (dimension_opt) {
+                ptree dimension_child = measure_child.get_child(dimension_value_type);
+                BOOST_FOREACH(ptree::value_type & v, dimension_child) {
+                  set.chart_type = v.second.data();
+                  suggestions.push_back(set);
+                }
             }
+            // add chart type to set
         }
       }
   }
