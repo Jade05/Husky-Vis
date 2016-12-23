@@ -20,7 +20,7 @@ set(husky husky-lib husky-io husky-core husky-base)
 ### Applications
 
 # Husky-Vis
-add_executable(Husky-Vis vis.cpp)
+add_executable(Husky-Vis visualization.cpp)
 target_link_libraries(Husky-Vis ${husky})
 target_link_libraries(Husky-Vis ${EXTERNAL_LIB})
 husky_default_properties(Husky-Vis)

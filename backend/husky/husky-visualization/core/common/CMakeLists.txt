@@ -15,9 +15,7 @@
 
 include_directories(${PROJECT_SOURCE_DIR} ${EXTERNAL_INCLUDE})
 
-add_library(visualization-channel-objs OBJECT
-    aggregator_channel.cpp
-    chart_type_channel.cpp
-    generate_channel.cpp
-    statistic_channel.cpp)
-husky_default_properties(visualization-channel-objs)
+add_library(visualization-common-objs OBJECT
+    base_obj.cpp
+    constant.cpp)
+husky_default_properties(visualization-common-objs)
