@@ -5,6 +5,7 @@
 #include "../core/channel/generate_channel.hpp"
 #include "../core/channel/chart_type_channel.hpp"
 #include "../core/channel/aggregate_channel.hpp"
+#include "../core/channel/statistic_channel.hpp"
 #include "../core/common/base_obj.hpp"
 #include "../core/common/constant.hpp"
 
@@ -41,8 +42,13 @@ int main () {
     aggregate_channel_test.aggregate_suggestions(chart_suggestions, constant_test);
     std::vector<husky::visualization::BaseObj> aggregate_suggestions = aggregate_channel_test.get_aggregate_suggestions();
 
+    // statistic channel
+    husky::visualization::StatisticChannel statistic_channel_test;
+    statistic_channel_test.statistic_suggestions(aggregate_suggestions, constant_test);
+    std::vector<husky::visualization::BaseObj> statistic_suggestions = get_statistic_suggestions();
+
     // output
-    for (std::vector<husky::visualization::BaseObj>::iterator item = aggregate_suggestions.begin(); item != aggregate_suggestions.end(); item++) {
+    for (std::vector<husky::visualization::BaseObj>::iterator item = statistic_suggestions.begin(); item != statistic_suggestions.end(); item++) {
         cout << *item;
     }
 

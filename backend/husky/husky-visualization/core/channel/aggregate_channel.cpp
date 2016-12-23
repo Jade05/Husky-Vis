@@ -2,7 +2,6 @@
 #include <map>
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
-#include <boost/optional/optional.hpp>
 #include <boost/foreach.hpp>
 
 #include "aggregate_channel.hpp"

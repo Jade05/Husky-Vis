@@ -3,7 +3,7 @@
         "TWO_DIMENSION_CHART": ["BAR", "LINE", "POINT"]
     },
     "AGGREGATE": ["COUNT", "MEAN", "MAX", "MIN", "SUM"],
-    "STATISTICAL_METHOD": ["VARIANCE"],
+    "STATISTIC": ["VARIANCE"],
     "DATA_TYPE_MAP_CHART_TYPE": {
         "TWO_DIMENSION_CHART": {
             "Q": {

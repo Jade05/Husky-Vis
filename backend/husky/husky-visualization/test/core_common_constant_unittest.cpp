@@ -13,7 +13,7 @@ int main() {
 
     ptree chart_type = constant_test.get_chart_type();
     ptree aggregate = constant_test.get_aggregate();
-    ptree statistical_method = constant_test.get_statistical_method();
+    ptree statistical_method = constant_test.get_statistic();
     ptree data_type_map_chart_type = constant_test.get_data_type_map_chart_type_method();
     ptree chart_type_channel_score = constant_test.get_chart_type_channel_score();
     

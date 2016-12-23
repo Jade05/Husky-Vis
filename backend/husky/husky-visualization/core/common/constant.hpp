@@ -18,7 +18,7 @@ public:
     // get each part constant
     ptree get_chart_type();
     ptree get_aggregate();
-    ptree get_statistical_method();
+    ptree get_statistic();
     ptree get_data_type_map_chart_type_method();
     ptree get_chart_type_channel_score();
         
