@@ -16,7 +16,7 @@
 include_directories(${PROJECT_SOURCE_DIR} ${EXTERNAL_INCLUDE})
 
 add_library(visualization-channel-objs OBJECT
-    aggregator_channel.cpp
+    aggregate_channel.cpp
     chart_type_channel.cpp
     generate_channel.cpp
     statistic_channel.cpp)
