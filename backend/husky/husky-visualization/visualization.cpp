@@ -1,8 +1,23 @@
-#include <iostream>
-#include "../core/accessor.hpp"
+#include <string>
+#include <vector>
 
-using namespace std;
+#include "../core/engine.hpp"
+#include "./core/dataloader/dataloader.hpp"
 
-int main() {
-    cout << "hello world" << endl;
+void visualization() {
+    
+} 
+
+int main(int argc, char** argcv) {
+    std::vector<std::string> args({
+        "data",
+        "data_schema",
+        "distribute"
+    });
+
+    if (husky::init_with_args(argc, argv, args)) {
+        husky::run_job(visualization);
+        return 0;
+    }
+    return 1;
 }

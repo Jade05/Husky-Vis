@@ -1,0 +1,44 @@
+{
+    "CHART_TYPE": {
+        "TWO_DIMENSION_CHART": ["BAR", "LINE", "POINT"]
+    },
+    "AGGREGATE": ["COUNT", "MEAN", "MAX", "MIN", "SUM"],
+    "STATISTIC": ["VARIANCE"],
+    "DATA_TYPE_MAP_CHART_TYPE": {
+        "TWO_DIMENSION_CHART": {
+            "Q": {
+                "Q": ["Q_Q_POINT"],
+                "T": ["Q_T_LINE", "Q_T_BAR", "Q_T_POINT"],
+                "O": ["Q_O_LINE", "Q_O_BAR", "Q_O_POINT"],
+                "N": ["Q_N_BAR", "Q_N_POINT"]
+            },
+            "T": {
+                "T": [],
+                "O": [],
+                "N": ["T_N_POINT"]
+            },
+            "O": {
+                "O": [],
+                "N": ["O_N_POINT"]
+            },
+            "N": {
+                "N": []
+            }
+        }
+    },
+    "CHART_TYPE_CHANNEL_SCORE": {
+        "Q_Q_POINT": 3,
+        "Q_T_LINE": 3,
+        "Q_O_LINE": 3,
+        "Q_N_BAR": 3,
+        "T_N_POINT": 3,
+        "O_N_POINT": 3,
+
+        "Q_T_BAR": 2,
+        "Q_O_BAR": 2,
+        "Q_N_POINT": 2,
+
+        "Q_T_POINT": 1,
+        "Q_O_POINT": 1
+    }
+}

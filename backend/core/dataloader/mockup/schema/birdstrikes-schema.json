@@ -1,0 +1,62 @@
+[{
+  "key": "OPERATOR",
+  "field_name": "Aircraft__Airline_Operator",
+  "enabled": true,
+  "data_type": "N"
+}, {
+  "key": "ATYPE",
+  "field_name": "Aircraft__Make_Model",
+  "data_type": "categorical"
+}, {
+  "key": "AIRPORT",
+  "field_name": "Airport__Name",
+  "data_type": "N"
+}, {
+  "key": "Effect_Amount of damage",
+  "field_name": "Effect__Amount_of_damage",
+  "data_type": "N"
+}, {
+  "key": "INCIDENT_DATE",
+  "field_name": "Flight_Date",
+  "data_type": "T"
+}, {
+  "key": "Origin_State_Code_(copy)",
+  "field_name": "Origin_State",
+  "data_type": "N"
+}, {
+  "key": "PHASE_OF_FLT",
+  "field_name": "When__Phase_of_flight",
+  "data_type": "N"
+}, {
+  "key": "TIME_OF_DAY",
+  "field_name": "When__Time_of_day",
+  "data_type": "N"
+}, {
+  "key": "SIZE",
+  "field_name": "Wildlife__Size",
+  "data_type": "N"
+}, {
+  "key": "SPECIES",
+  "field_name": "Wildlife__Species",
+  "data_type": "N"
+}, {
+  "key": "Cost_Other_inflation adj",
+  "field_name": "Cost__Other",
+  "data_type": "Q"
+}, {
+  "key": "Cost__Repairs_(adj)",
+  "field_name": "Cost__Repair",
+  "data_type": "Q"
+}, {
+  "key": "Cost__Total_$",
+  "field_name": "Cost__Total_$",
+  "data_type": "Q"
+}, {
+  "key": "SPEED",
+  "field_name": "Speed_IAS_in_knots",
+  "data_type": "Q"
+}, {
+  "key": "Number_of_Records",
+  "field_name": "Number_of_Strikes",
+  "data_type": "Q"
+}]
