@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "../core/engine.hpp"
-#include "./core/dataloader/dataloader.hpp"
+#include "husky/core/engine.hpp"
+#include "core/dataloader/dataloader.hpp"
 
 using namespace std;
 
