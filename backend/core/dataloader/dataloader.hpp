@@ -9,8 +9,8 @@ using boost::property_tree::ptree;
 
 class DataLoader {
 public:
-    Constant() = default;
-    ~Constant() = default;
+    DataLoader() = default;
+    ~DataLoader() = default;
 
     void load_data();
     ptree get_data();

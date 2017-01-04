@@ -12,7 +12,7 @@ void visualization() {
     cout << "hello world!" << endl;    
 } 
 
-int main(int argc, char** argcv) {
+int main(int argc, char** argv) {
     std::vector<std::string> args({
         "data",
         "data_schema",
