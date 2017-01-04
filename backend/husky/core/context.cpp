@@ -14,13 +14,7 @@
 
 #include "core/context.hpp"
 
-#include <string>
-#include <vector>
-
 namespace husky {
-
-ContextGlobal Context::global_;
-thread_local ContextLocal Context::local_;
 
 void Context::create_mailbox_env() {
     global_.mailbox_event_loop.reset(new MailboxEventLoop(&global_.zmq_context_));
@@ -49,4 +43,6 @@ void Context::create_mailbox_env() {
     global_.central_recver.reset(new CentralRecver(get_zmq_context(), get_recver_bind_addr()));
 }
 
+ContextGlobal Context::global_;
+thread_local ContextLocal Context::local_;
 }  // namespace husky

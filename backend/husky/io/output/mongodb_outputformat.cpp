@@ -25,6 +25,9 @@
 namespace husky {
 namespace io {
 
+using base::log_msg;
+using base::LOG_TYPE;
+
 const int kMaxNumberOfRecord = 1024;
 
 enum MongoDBOutputFormatSetUp {
@@ -96,7 +99,7 @@ void MongoDBOutputFormat::flush_all() {
 
     error_msg_ = client.getLastError();
     if (!error_msg_.empty()) {
-        base::log_error(error_msg_);
+        log_msg(error_msg_, LOG_TYPE::LOG_ERROR);
         return;
     }
 

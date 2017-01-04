@@ -28,7 +28,7 @@
 namespace husky {
 namespace lib {
 
-thread_local std::shared_ptr<AggregatorFactoryBase> AggregatorFactoryBase::factory_ = nullptr;
+thread_local std::shared_ptr<AggregatorFactoryBase> AggregatorFactoryBase::factory_;
 
 AggregatorInfo::~AggregatorInfo() {
     if (value != nullptr)
