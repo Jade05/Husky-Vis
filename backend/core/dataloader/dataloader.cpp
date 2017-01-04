@@ -4,7 +4,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
-#include "../../../core/context.hpp"
+#include "husky/core/context.hpp"
 
 #include "dataloader.hpp"
 
@@ -30,7 +30,7 @@ ptree DataLoader::get_data() {
     return data;
 }
 
-void DataLoader::load_shema() {
+void DataLoader::load_schema() {
     std::string data_schema_path = husky::Context::get_param("data_schema");
 
     try {
