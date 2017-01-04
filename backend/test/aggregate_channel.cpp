@@ -13,7 +13,7 @@ using namespace std;
 int main () {
     // constant
     husky::visualization::Constant constant_test;
-    constant_test.init_constant("../core/common/constant.json");
+    constant_test.init_constant("/data/yuying/project/Husky-Vis/backend/core/common/constant.json");
     
     // generate_channel
     std::vector<std::string> generate_dataset;
