@@ -32,7 +32,7 @@ endif(MONGOCLIENT_FOUND)
 ### Applications
 
 # AggregateChannel
-add_executable(AggregateChannel aggregate_channel.cpp.cpp)
+add_executable(AggregateChannel aggregate_channel.cpp)
 target_link_libraries(AggregateChannel husky)
 target_link_libraries(AggregateChannel ${EXTERNAL_LIB})
 set_property(TARGET AggregateChannel PROPERTY CXX_STANDARD 14)

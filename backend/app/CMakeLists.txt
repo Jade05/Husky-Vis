@@ -13,8 +13,22 @@
 # limitations under the License.
 
 
-include_directories(${PROJECT_SOURCE_DIR} ${EXTERNAL_INCLUDE})
+include_directories(${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/husky ${Boost_INCLUDE_DIRS})
 
-add_library(visualization-app-objs OBJECT
-    visualization.cpp)
-husky_default_properties(visualization-app-objs)
+if(LIBHDFS3_FOUND)
+    include_directories(${LIBHDFS3_INCLUDE_DIR})
+    add_definitions(-DWITH_HDFS)
+endif(LIBHDFS3_FOUND)
+
+if(MONGOCLIENT_FOUND)
+    include_directories(${MONGOCLIENT_INCLUDE_DIR})
+    add_definitions(-DWITH_MONGODB)
+endif(MONGOCLIENT_FOUND)
+
+### Applications
+
+# Visualization
+add_executable(Visualization visualization.cpp)
+target_link_libraries(Visualization husky)
+target_link_libraries(Visualization ${EXTERNAL_LIB})
+set_property(TARGET Visualization PROPERTY CXX_STANDARD 14)
