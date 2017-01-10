@@ -14,6 +14,16 @@ namespace visualization {
     using boost::property_tree::ptree;
     using boost::property_tree::ptree_error;
 
+    /**
+     * [statisticalMethodChannel description]
+     * @param  {[type]} dataset [description]
+     * [{"measure": "name", "dimension": "year", "chartType": "Q_Q_POINT", "aggregateType": "SUM"}
+     * ,{"measure": "name", "dimension": "cylinder", "chartType": "Q_T_BAR", "aggregateType": "COUNT"}]
+     *
+     * @return {[type]}         [description]
+     * [{"measure": "name", "dimension": "year", "chartType": "Q_Q_POINT", "aggregateType": "SUM", "statisticalMethod": "variance"}
+     * ,{"measure": "name", "dimension": "cylinder", "chartType": "Q_T_BAR", "aggregateType": "COUNT", "statisticalMethod": "variance"}]
+     */
     void StatisticChannel::statistic_suggestions(std::vector<husky::visualization::BaseObj> dataset, husky::visualization::Constant constant) {
         ptree statistic = constant.get_statistic();
 
