@@ -2,13 +2,17 @@
 #include <vector>
 #include <map>
 
-#include "../../core/engine.hpp"
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
-#include "../core/dataloader/dataloader.hpp"
+#include "husky/core/engine.hpp"
+
+#include "core/dataloader/dataloader.hpp"
 
 using namespace std;
+using boost::property_tree::ptree;
 
-int main (int argc, char** argcv) {
+int main (int argc, char** argv) {
     std::vector<std::string> args({
         "data",
         "data_schema",
@@ -20,7 +24,7 @@ int main (int argc, char** argcv) {
     husky::visualization::DataLoader dataloader;
 
     dataloader.load_data();
-    dataloader.load_data_schema();
+    dataloader.load_schema();
 
     ptree data = dataloader.get_data();
     ptree data_schema = dataloader.get_data_schema();

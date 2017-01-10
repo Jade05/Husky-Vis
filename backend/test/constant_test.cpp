@@ -9,7 +9,7 @@ using namespace boost::property_tree;
 
 int main() {
     husky::visualization::Constant constant_test;
-    constant_test.init_constant("../core/common/constant.json");
+    constant_test.init_constant("/data/yuying/project/Husky-Vis/backend/core/common/constant.json");
 
     ptree chart_type = constant_test.get_chart_type();
     ptree aggregate = constant_test.get_aggregate();
