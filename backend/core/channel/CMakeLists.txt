@@ -9,5 +9,7 @@ add_library(visualization-channel-objs STATIC
     chart_type_channel.cpp
     generate_channel.cpp
     statistic_channel.cpp
+    process_rawdata_channel.cpp
+    process_aggregatedata_channel.cpp
 )
 set_property(TARGET visualization-channel-objs PROPERTY CXX_STANDARD 14)

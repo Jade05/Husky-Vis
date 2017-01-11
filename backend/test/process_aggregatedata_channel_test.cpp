@@ -18,8 +18,9 @@
 #include "core/common/constant.hpp"
 
 using namespace std;
+using boost::property_tree::ptree;
 
-int main () {
+int main (int argc, char** argv) {
     std::vector<std::string> args({
         "data",
         "data_schema",
@@ -76,7 +77,7 @@ int main () {
     // process aggregratedata channel
     husky::visualization::ProcessAggregateDataChannel process_aggregatedata_channel_test;
     process_aggregatedata_channel_test.process_aggregatedata_suggestions(rawdata_suggestions);
-    std::vector<husky::visualization::BaseObj> aggregatedata_suggestions = process_aggregatedata_channel_test.get_aggregate_suggestions();
+    std::vector<husky::visualization::BaseObj> aggregatedata_suggestions = process_aggregatedata_channel_test.get_aggregatedata_suggestions();
 
     // output
     for (std::vector<husky::visualization::BaseObj>::iterator item = aggregatedata_suggestions.begin(); item != aggregatedata_suggestions.end(); item++) {

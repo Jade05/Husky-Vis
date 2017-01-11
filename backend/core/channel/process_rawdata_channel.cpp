@@ -43,10 +43,10 @@ namespace visualization {
             std::string& measure = set.measure;
 
             BOOST_FOREACH(ptree::value_type & v, data) {
-                std::string& dimensionValue = v.get_child(dimension);
-                std::string& measureValue = v.get_child(measure);
+                std::string& dimensionValue = v.second.find(dimension)->second.data();
+                std::string& measureValue = v.second.find(measure)->second.data();
 
-                set.group_by_raw_data[dimensionValue].push_back(measureValue);
+                set.group_by_raw_data[dimensionValue].push_back(std::stod(measureValue));
             }
 
             suggestions.push_back(set);

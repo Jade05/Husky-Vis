@@ -4,7 +4,7 @@
 
 #include "process_aggregatedata_channel.hpp"
 #include "../common/base_obj.hpp"
-#inlcude "../common/util.hpp"
+#include "../common/utils.hpp"
 
 namespace husky{
 namespace visualization {
@@ -49,21 +49,21 @@ namespace visualization {
      *
      * */
     void ProcessAggregateDataChannel::process_aggregatedata_suggestions(std::vector<husky::visualization::BaseObj> dataset) {
-        for (const auto& set : dataset) {
+        for (auto set : dataset) {
             for (const auto& elem : set.group_by_raw_data) {
                 const std::string& key = elem.first;
                 const std::vector<double>& value = elem.second;
 
                 const std::string& statistical_method = set.statistical_method;
-                double statistical_result = (Util.map_function[statistical_method])(value);
-                set.aggregateData[key] = (result);    
+                double statistical_result = (Util::map_function[statistical_method])(value);
+                set.aggregate_data[key] = statistical_result;    
             }
 
             suggestions.push_back(set);
         }
     }
 
-    std::vector<husky::visualization::BaseObj> get_aggregatedata_suggestions() {
+    std::vector<husky::visualization::BaseObj> ProcessAggregateDataChannel::get_aggregatedata_suggestions() {
         return suggestions;
     }
 

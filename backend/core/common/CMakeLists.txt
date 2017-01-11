@@ -7,5 +7,6 @@ endif(DEP_FOUND)
 add_library(visualization-common-objs STATIC
     base_obj.cpp
     constant.cpp
+    utils.cpp
 )
 set_property(TARGET visualization-common-objs PROPERTY CXX_STANDARD 14)

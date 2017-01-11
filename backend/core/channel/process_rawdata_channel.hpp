@@ -8,7 +8,7 @@
 namespace husky {
 namespace visualization {
 
-using boost::property_tree::tree;
+using boost::property_tree::ptree;
 
 class ProcessRawDataChannel {
 public:

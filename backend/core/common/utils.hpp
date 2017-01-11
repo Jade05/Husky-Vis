@@ -11,14 +11,6 @@ namespace visualization {
 class Util {
 public:
 
-    static std::map<std::string, std::function> map_function;
-    map_function.emplace("SUM", sum);
-    map_function.emplace("COUNT", count);
-    map_function.emplace("MEAN", mean);
-    map_function.emplace("MAX", max);
-    map_function.emplace("MIN", min);
-    map_function.emplace("VARIANCE", variance);
-
     /**
      * [SUM description]
      * @param {[type]} data [1, 2, 3, 4]
@@ -32,11 +24,6 @@ public:
 
         return result;
     }
-
-    template<typename DataTye>
-    static int count(std::vector<DataTye> data) {
-        return data.size();
-    } 
 
     static double mean(std::vector<double> data) {
         return sum(data) / data.size();
@@ -67,15 +54,17 @@ public:
     }
 
     static double variance(std::vector<double> data) {
-        double mean = mean(data);
+        double mean_value = mean(data);
 
         double sum = 0;
         for (auto elem : data) {
-            sum += pow(elem, 2);
+            sum += pow(elem - mean_value, 2);
         }
 
         return sum / data.size();
     }
+
+    static std::map<std::string, std::function<double(std::vector<double>)>> map_function; 
 };
 
 }

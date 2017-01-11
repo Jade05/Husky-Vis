@@ -50,3 +50,27 @@ target_link_libraries(StatisticChannelTest husky)
 target_link_libraries(StatisticChannelTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET StatisticChannelTest PROPERTY CXX_STANDARD 14)
 
+# RawDataChannelTest 
+add_executable(RawDataChannelTest process_rawdata_channel_test.cpp)
+target_link_libraries(RawDataChannelTest visualization-channel-objs)
+target_link_libraries(RawDataChannelTest visualization-common-objs)
+target_link_libraries(RawDataChannelTest visualization-dataloader-objs)
+target_link_libraries(RawDataChannelTest husky)
+target_link_libraries(RawDataChannelTest ${HUSKY_EXTERNAL_LIB})
+set_property(TARGET RawDataChannelTest PROPERTY CXX_STANDARD 14)
+
+# AggregateDataChannelTest 
+add_executable(AggregateDataChannelTest process_aggregatedata_channel_test.cpp)
+target_link_libraries(AggregateDataChannelTest visualization-channel-objs)
+target_link_libraries(AggregateDataChannelTest visualization-common-objs)
+target_link_libraries(AggregateDataChannelTest visualization-dataloader-objs)
+target_link_libraries(AggregateDataChannelTest husky)
+target_link_libraries(AggregateDataChannelTest ${HUSKY_EXTERNAL_LIB})
+set_property(TARGET AggregateDataChannelTest PROPERTY CXX_STANDARD 14)
+
+# UtilTest 
+add_executable(UtilTest util_test.cpp)
+target_link_libraries(UtilTest husky)
+target_link_libraries(UtilTest ${HUSKY_EXTERNAL_LIB})
+set_property(TARGET UtilTest PROPERTY CXX_STANDARD 14)
+

@@ -17,15 +17,17 @@ std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj) {
         << "aggregate_type: " << base_obj.aggregate_type << std::endl
         << "statistical_method: " << base_obj.statistical_method << std::endl;
 
+    stream << "group_by_raw_data: ";
     for (auto x : base_obj.group_by_raw_data) {
-        stream << "group_by_raw_data: " << x.first;
+        stream << x.first;
         for (auto y : x.second) {
-            stream << " " << y;
+            stream << " " << y << std::endl;
         }
     }
-
+    
+    stream << "aggregate_data: ";
     for(auto z : base_obj.aggregate_data) {
-        stream << std::endl<< "aggreagate_data: " << z.first << " " << z.second;
+        stream << z.first << " " << z.second;
     }
 
     stream << "-------------------------------------------------" << ++count << std::endl;

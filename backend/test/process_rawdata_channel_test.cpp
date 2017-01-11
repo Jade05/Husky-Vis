@@ -17,8 +17,9 @@
 #include "core/common/constant.hpp"
 
 using namespace std;
+using boost::property_tree::ptree;
 
-int main () {
+int main (int argc, char** argv) {
     std::vector<std::string> args({
         "data",
         "data_schema",
