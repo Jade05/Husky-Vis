@@ -14,7 +14,7 @@ struct BaseObj {
     std::string chart_type;
     std::string aggregate_type;
     std::string statistical_method;
-    std::map<std::string, std::vector<double> > group_by_raw_data;
+    std::map<std::string, std::vector<double>> group_by_raw_data;
     std::map<std::string, double> aggregate_data;
 
 };

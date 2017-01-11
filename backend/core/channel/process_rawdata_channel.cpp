@@ -42,12 +42,19 @@ namespace visualization {
             std::string& dimension = set.dimension;
             std::string& measure = set.measure;
 
-            // BOOST_FOREACH(ptree)
+            BOOST_FOREACH(ptree::value_type & v, data) {
+                std::string& dimensionValue = v.get_child(dimension);
+                std::string& measureValue = v.get_child(measure);
+
+                set.group_by_raw_data[dimensionValue].push_back(measureValue);
+            }
+
+            suggestions.push_back(set);
         }
     }
 
     std::vector<husky::visualization::BaseObj> ProcessRawDataChannel::get_rawdata_suggestions() {
-
+        return suggestions;
     }
 }
 }
