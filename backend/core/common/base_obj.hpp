@@ -16,7 +16,7 @@ struct BaseObj {
     std::string statistical_method;
     std::map<std::string, std::vector<double>> group_by_raw_data;
     std::map<std::string, double> aggregate_data;
-
+    double score;
 };
 
 std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj);

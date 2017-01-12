@@ -16,7 +16,7 @@ using boost::property_tree::ptree_error;
 
 // may need template
 void DataLoader::load_data() {
-    std::string data_path = husky::Context::get_param("data");
+    const std::string& data_path = husky::Context::get_param("data");
 
     // default data is in ./mockup/...
     try {

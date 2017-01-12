@@ -24,11 +24,13 @@ std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj) {
             stream << " " << y << std::endl;
         }
     }
-    
+
     stream << "aggregate_data: ";
     for(auto z : base_obj.aggregate_data) {
         stream << z.first << " " << z.second;
     }
+
+    stream << "score: " << base_obj.score;
 
     stream << "-------------------------------------------------" << ++count << std::endl;
     return stream;
