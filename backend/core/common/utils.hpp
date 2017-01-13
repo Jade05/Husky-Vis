@@ -8,7 +8,7 @@
 namespace husky {
 namespace visualization {
 
-class Util {
+class Utils {
 public:
 
     /**
