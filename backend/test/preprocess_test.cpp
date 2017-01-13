@@ -31,8 +31,8 @@ int main (int argc, char** argv) {
     ptree data_schema = dataloader.get_data_schema();
 
     std::vector<std::string> attributes = husky::visualization::Preprocess::collect_attributes(data_schema);
-    cout << "attributes length: " << attributes.size() << endl;
+    std::cout << "attributes length: " << attributes.size() << std::endl;
 
-    std::vector<std::string> attributes_type = husky::visualization::Preprocess::collect_schema_type(data_schema);
-    count << "attribute length: " << attributes_type.size() << endl;
+    std::map<std::string, std::string> attributes_type = husky::visualization::Preprocess::collect_schema_type(data_schema);
+    std::cout << "attribute length: " << attributes_type.size() << std::endl;
 }

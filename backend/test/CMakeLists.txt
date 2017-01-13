@@ -78,5 +78,6 @@ set_property(TARGET UtilsTest PROPERTY CXX_STANDARD 14)
 # PreprocessTest
 add_executable(PreprocessTest preprocess_test.cpp)
 target_link_libraries(PreprocessTest husky)
+target_link_libraries(PreprocessTest visualization-dataloader_objs)
 target_link_libraries(PreprocessTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET PreprocessTest PROPERTY CXX_STANDARD 14)
