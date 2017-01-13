@@ -55,7 +55,7 @@ namespace visualization {
                 const std::vector<double>& value = elem.second;
 
                 const std::string& statistical_method = set.statistical_method;
-                double statistical_result = (Util::map_function[statistical_method])(value);
+                double statistical_result = (Utils::map_function[statistical_method])(value);
                 set.aggregate_data[key] = statistical_result;    
             }
 
