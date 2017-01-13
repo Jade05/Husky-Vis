@@ -1,0 +1,14 @@
+[{
+  "key": "OPERATOR",
+  "field_name": "Name",
+  "enabled": true,
+  "data_type": "N"
+}, {
+  "key": "ATYPE",
+  "field_name": "Cylinders",
+  "data_type": "Q"
+}, {
+  "key": "AIRPORT",
+  "field_name": "Horsepower",
+  "data_type": "Q"
+}]
