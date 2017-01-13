@@ -68,11 +68,12 @@ target_link_libraries(AggregateDataChannelTest husky)
 target_link_libraries(AggregateDataChannelTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET AggregateDataChannelTest PROPERTY CXX_STANDARD 14)
 
-# UtilTest 
-add_executable(UtilTest util_test.cpp)
-target_link_libraries(UtilTest husky)
-target_link_libraries(UtilTest ${HUSKY_EXTERNAL_LIB})
-set_property(TARGET UtilTest PROPERTY CXX_STANDARD 14)
+# UtilsTest 
+add_executable(UtilsTest utils_test.cpp)
+target_link_libraries(UtilsTest husky)
+target_link_libraries(UtilsTest visualization-common-objs)
+target_link_libraries(UtilsTest ${HUSKY_EXTERNAL_LIB})
+set_property(TARGET UtilsTest PROPERTY CXX_STANDARD 14)
 
 # PreprocessTest
 add_executable(PreprocessTest preprocess_test.cpp)

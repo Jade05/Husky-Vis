@@ -11,4 +11,8 @@
   "key": "AIRPORT",
   "field_name": "Horsepower",
   "data_type": "Q"
+}, {
+  "key": "AIRPOTY",
+  "field_name": "Year",
+  "data_type": "T"
 }]

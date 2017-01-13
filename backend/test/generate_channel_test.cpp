@@ -2,8 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "../core/channel/generate_channel.hpp"
-#include "../core/common/base_obj.hpp"
+#include "core/channel/generate_channel.hpp"
+#include "core/common/base_obj.hpp"
 
 using namespace std;
 using namespace husky::visualization;

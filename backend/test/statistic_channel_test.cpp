@@ -2,12 +2,12 @@
 #include <vector>
 #include <map>
 
-#include "../core/channel/generate_channel.hpp"
-#include "../core/channel/chart_type_channel.hpp"
-#include "../core/channel/aggregate_channel.hpp"
-#include "../core/channel/statistic_channel.hpp"
-#include "../core/common/base_obj.hpp"
-#include "../core/common/constant.hpp"
+#include "core/channel/generate_channel.hpp"
+#include "core/channel/chart_type_channel.hpp"
+#include "core/channel/aggregate_channel.hpp"
+#include "core/channel/statistic_channel.hpp"
+#include "core/common/base_obj.hpp"
+#include "core/common/constant.hpp"
 
 using namespace std;
 

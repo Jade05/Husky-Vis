@@ -2,7 +2,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <iostream>
 #include <string>
-#include "../core/common/constant.hpp"
+#include "core/common/constant.hpp"
 
 using namespace std;
 using namespace boost::property_tree;
