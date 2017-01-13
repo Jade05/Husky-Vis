@@ -97,17 +97,17 @@ void visualization() {
 
       // load balance according to thread
       int total_workers = husky::Context::get_num_workers();
-      int items_per_worker = items / total_workers;
+      int items_per_worker = items.size() / total_workers;
 
       // check if global_tid start with 0 or 1, assume start with 0
       int global_tid = husky::Context::get_global_tid();
 
       int start = items_per_worker * global_tid;
       // make sure all items will be processed
-      int end = global_tid == total_workers - 1 ? item.size() : start + items_per_worker;
+      int end = global_tid == total_workers - 1 ? items.size() : start + items_per_worker;
 
       // each thread gets its own item part
-      auto& items_part = std::copy(start, end, items.begin());
+      auto items_part = std::copy(start, end, items.begin());
       // go through process rawdata channel
       husky::visualization::ProcessRawDataChannel process_rawdata_channel;
       process_rawdata_channel.process_rawdata_suggestions(items_part, data);
@@ -120,7 +120,7 @@ void visualization() {
       std::vector<husky::visualization::BaseObj> process_a_suggestions = process_aggregatedata_channel.get_aggregatedata_suggestions();
 
       // calculate scores
-      for (int i = 0; i < process_a_suggestions.length(); i++) {
+      for (int i = 0; i < process_a_suggestions.size(); i++) {
         husky::visualization::BaseObj suggestion_with_score = husky::visualization::Preprocess::calculate_scores(process_a_suggestions[i], constant);
 
         all_calculated_suggestions.push_back(suggestion_with_score);
@@ -132,7 +132,8 @@ void visualization() {
 
   // get topk suggestions
   if (husky::Context::get_global_tid() == 0) {
-      topk_suggestions = husky::visualization::Preprocess::get_topk_suggestions(all_calculated_suggestions, 10);
+      int topk = 10;
+      topk_suggestions = husky::visualization::Preprocess::get_topk_suggestions(all_calculated_suggestions, topk);
       husky::LOG_I << "topk: " << topk_suggestions.size();
   }
 }
