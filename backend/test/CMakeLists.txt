@@ -74,3 +74,8 @@ target_link_libraries(UtilTest husky)
 target_link_libraries(UtilTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET UtilTest PROPERTY CXX_STANDARD 14)
 
+# PreprocessTest
+add_executable(PreprocessTest preprocess_test.cpp)
+target_link_libraries(PreprocessTest husky)
+target_link_libraries(PreprocessTest ${HUSKY_EXTERNAL_LIB})
+set_property(TARGET PreprocessTest PROPERTY CXX_STANDARD 14)

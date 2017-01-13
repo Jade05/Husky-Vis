@@ -140,7 +140,8 @@ int main(int argc, char** argv) {
         "data",
         "data_schema",
         "distribute",
-        "topk"
+        "topk",
+        "constant"
     });
 
     if (husky::init_with_args(argc, argv, args)) {
