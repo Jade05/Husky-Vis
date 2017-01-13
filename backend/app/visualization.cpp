@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "boost/property_tree/ptree.hpp"
 #include "husky/core/engine.hpp"
 
 #include "preprocess.hpp"
@@ -18,13 +19,14 @@
 #include "core/channel/process_aggregatedata_channel.hpp"
 
 using namespace std;
+using boost::property_tree::ptree;
 
 class SuggestionObject {
    public:
     typedef husky::visualization::BaseObj KeyT;
     KeyT key;
 
-    explicit PIObject(KeyT key) { this->key = key; }
+    explicit SuggestionObject(KeyT key) { this->key = key; }
 
     const KeyT& id() const { return key; }
 };
@@ -39,7 +41,7 @@ void visualization() {
   husky::visualization::DataLoader dataloader;
 
   dataloader.load_data();
-  dataloader.loader_schema();
+  dataloader.load_schema();
 
   ptree data = dataloader.get_data();
   ptree data_schema = dataloader.get_data_schema();
