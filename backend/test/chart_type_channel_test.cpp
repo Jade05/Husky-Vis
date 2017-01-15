@@ -13,7 +13,7 @@ int main () {
     // constant
     husky::visualization::Constant constant_test;
     constant_test.init_constant("/data/yuying/project/Husky-Vis/backend/core/common/constant.json");
-    
+
     // generate_channel
     std::vector<std::string> generate_dataset;
     generate_dataset.push_back("name");
@@ -22,8 +22,8 @@ int main () {
 
     husky::visualization::GenerateChannel generate_channel_test;
     generate_channel_test.generate_suggestions(generate_dataset, "name");
-    
-    std::vector<husky::visualization::BaseObj> suggestions = generate_channel_test.get_generated_suggestions();
+
+    std::vector<husky::visualization::SuggestionObject> suggestions = generate_channel_test.get_generated_suggestions();
 
     std::map<std::string, std::string> schema;
     schema.emplace("name", "N");
@@ -35,9 +35,9 @@ int main () {
     chart_type_channel_test.chart_type_suggestions(suggestions, schema, constant_test);
 
     // output
-    std::vector<husky::visualization::BaseObj> chart_suggestions = chart_type_channel_test.get_chart_type_suggestions();
+    std::vector<husky::visualization::SuggestionObject> chart_suggestions = chart_type_channel_test.get_chart_type_suggestions();
 
-    for (std::vector<husky::visualization::BaseObj>::iterator item = chart_suggestions.begin(); item != chart_suggestions.end(); item++) {
+    for (std::vector<husky::visualization::SuggestionObject>::iterator item = chart_suggestions.begin(); item != chart_suggestions.end(); item++) {
         cout << *item;
     }
 

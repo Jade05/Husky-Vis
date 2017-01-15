@@ -11,10 +11,10 @@ class ProcessAggregateDataChannel {
 public:
     ProcessAggregateDataChannel() = default;
     ~ProcessAggregateDataChannel() = default;
-    void process_aggregatedata_suggestions(std::vector<husky::visualization::BaseObj> dataset);
-    std::vector<husky::visualization::BaseObj> get_aggregatedata_suggestions();
+    void process_aggregatedata_suggestions(std::vector<husky::visualization::SuggestionObject> dataset);
+    std::vector<husky::visualization::SuggestionObject> get_aggregatedata_suggestions();
 private:
-    std::vector<husky::visualization::BaseObj> suggestions;
+    std::vector<husky::visualization::SuggestionObject> suggestions;
 };
 
 }

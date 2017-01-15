@@ -16,18 +16,18 @@ namespace visualization {
 
     /**
      * [AggregateChannel::aggregate_channel description]
-     * @param dataset  
+     * @param dataset
      * [{"measure": "name", "dimension": "year", "chartType": "Q_Q_POINT"}
      * ,{"measure": "name", "dimension": "cylinder", "chartType": "Q_T_BAR"}]
-     * 
+     *
      * @param constant [description]
      */
-    void AggregateChannel::aggregate_suggestions(std::vector<husky::visualization::BaseObj> dataset, husky::visualization::Constant constant) {
+    void AggregateChannel::aggregate_suggestions(std::vector<husky::visualization::SuggestionObject> dataset, husky::visualization::Constant constant) {
         ptree aggregate = constant.get_aggregate();
 
         for (auto set : dataset) {
             BOOST_FOREACH(ptree::value_type & v, aggregate) {
-                set.aggregate_type = v.second.data();
+                set.key.aggregate_type = v.second.data();
                 suggestions.push_back(set);
             }
         }
@@ -37,7 +37,7 @@ namespace visualization {
      * [{"measure": "name", "dimension": "year", "chartType": "Q_Q_POINT", "aggregateType": "SUM"}
      * ,{"measure": "name", "dimension": "cylinder", "chartType": "Q_T_BAR", "aggregateType": "COUNT"}]
      */
-    std::vector<husky::visualization::BaseObj> AggregateChannel::get_aggregate_suggestions() {
+    std::vector<husky::visualization::SuggestionObject> AggregateChannel::get_aggregate_suggestions() {
         return suggestions;
     }
 }

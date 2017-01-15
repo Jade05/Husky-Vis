@@ -37,10 +37,10 @@ namespace visualization {
      *   "groupByRawData": {"1992": [1, 2, 3], "1993": [1, 2, 3], "1994": [1, 2, 3]}
      *   }]
      */
-    void ProcessRawDataChannel::process_rawdata_suggestions(std::vector<husky::visualization::BaseObj> dataset, ptree data) {
+    void ProcessRawDataChannel::process_rawdata_suggestions(std::vector<husky::visualization::SuggestionObject> dataset, ptree data) {
         for (auto set : dataset) {
-            std::string& dimension = set.dimension;
-            std::string& measure = set.measure;
+            std::string& dimension = set.key.dimension;
+            std::string& measure = set.key.measure;
 
             BOOST_FOREACH(ptree::value_type & v, data) {
                 std::string& dimensionValue = v.second.find(dimension)->second.data();
@@ -53,7 +53,7 @@ namespace visualization {
         }
     }
 
-    std::vector<husky::visualization::BaseObj> ProcessRawDataChannel::get_rawdata_suggestions() {
+    std::vector<husky::visualization::SuggestionObject> ProcessRawDataChannel::get_rawdata_suggestions() {
         return suggestions;
     }
 }

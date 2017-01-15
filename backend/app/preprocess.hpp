@@ -91,8 +91,8 @@ public:
      * }]
      *
      */
-     static std::vector<husky::visualization::BaseObj> get_topk_suggestions(std::vector<husky::visualization::BaseObj> & suggestions, int & topk) {
-       std::vector<husky::visualization::BaseObj> result;
+     static std::vector<husky::visualization::SuggestionObject> get_topk_suggestions(std::vector<husky::visualization::SuggestionObject> & suggestions, int & topk) {
+       std::vector<husky::visualization::SuggestionObject> result;
        // we think topk is always small and there is no need to keep all  suggestions. So we don't sort all suggestions
        if (suggestions.size() <= topk) {
          result = suggestions;
@@ -100,8 +100,8 @@ public:
          double min_score = -1;
 
          int i = 0;
-         for (int i = 0; i < suggestions.size(); i++) { 
-            husky::visualization::BaseObj& suggestion = suggestions.at(i);
+         for (int i = 0; i < suggestions.size(); i++) {
+            husky::visualization::SuggestionObject& suggestion = suggestions.at(i);
             if (i < topk) {
               result.push_back(suggestion);
               // update min value
@@ -135,12 +135,12 @@ public:
        return result;
      }
 
-     static husky::visualization::BaseObj calculate_scores(husky::visualization::BaseObj& suggestion, husky::visualization::Constant constant) {
+     static husky::visualization::SuggestionObject calculate_scores(husky::visualization::SuggestionObject& suggestion, husky::visualization::Constant constant) {
       // calculate chart type score
       ptree chart_type_map_score = constant.get_chart_type_channel_score();
       double chart_type_score = -1;
 
-      const std::string & chart_type = suggestion.chart_type;
+      const std::string & chart_type = suggestion.key.chart_type;
       BOOST_FOREACH(ptree::value_type & v, chart_type_map_score) {
         const std::string& type = v.first.data();
 
@@ -153,7 +153,7 @@ public:
 
       // calculate statistic method score
       double statistic_method_score = -1;
-      const std::string& statistic_method = suggestion.statistical_method;
+      const std::string& statistic_method = suggestion.key.statistical_method;
       // collect values from map
       std::map<std::string, double> aggregate_data = suggestion.aggregate_data;
       std::vector<double> statistic_data;

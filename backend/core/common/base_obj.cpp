@@ -10,12 +10,12 @@ namespace visualization {
 
 int count = 0;
 
-std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj) {
-    stream << "measure: " << base_obj.measure << std::endl
-        << "dimension: " << base_obj.dimension << std::endl
-        << "chart_type: "<< base_obj.chart_type << std::endl
-        << "aggregate_type: " << base_obj.aggregate_type << std::endl
-        << "statistical_method: " << base_obj.statistical_method << std::endl;
+std::ostream& operator<<(std::ostream& stream, SuggestionObject& base_obj) {
+    stream << "measure: " << base_obj.key.measure << std::endl
+        << "dimension: " << base_obj.key.dimension << std::endl
+        << "chart_type: "<< base_obj.key.chart_type << std::endl
+        << "aggregate_type: " << base_obj.key.aggregate_type << std::endl
+        << "statistical_method: " << base_obj.key.statistical_method << std::endl;
 
     stream << "group_by_raw_data: size_" << base_obj.group_by_raw_data.size() << std::endl;
     /*
@@ -44,11 +44,10 @@ std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj) {
 
 namespace std {
 
-    size_t hash<husky::visualization::BaseObj>::operator()(const husky::visualization::BaseObj& obj) const {
-        return hash<std::string>()(obj.measure)^hash<std::string>()(obj.dimension)
-            ^hash<std::string>()(obj.chart_type)^hash<std::string>()(obj.aggregate_type)
-            ^hash<std::string>()(obj.statistical_method);        
+    size_t hash<husky::visualization::SuggestionObject>::operator()(const husky::visualization::SuggestionObject& obj) const {
+        return hash<std::string>()(obj.key.measure)^hash<std::string>()(obj.key.dimension)
+            ^hash<std::string>()(obj.key.chart_type)^hash<std::string>()(obj.key.aggregate_type)
+            ^hash<std::string>()(obj.key.statistical_method);
     }
 
 }
-

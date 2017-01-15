@@ -24,18 +24,18 @@ namespace visualization {
      * [{"measure": "name", "dimension": "year", "chartType": "Q_Q_POINT", "aggregateType": "SUM", "statisticalMethod": "variance"}
      * ,{"measure": "name", "dimension": "cylinder", "chartType": "Q_T_BAR", "aggregateType": "COUNT", "statisticalMethod": "variance"}]
      */
-    void StatisticChannel::statistic_suggestions(std::vector<husky::visualization::BaseObj> dataset, husky::visualization::Constant constant) {
+    void StatisticChannel::statistic_suggestions(std::vector<husky::visualization::SuggestionObject> dataset, husky::visualization::Constant constant) {
         ptree statistic = constant.get_statistic();
 
         for(auto set : dataset) {
             BOOST_FOREACH(ptree::value_type & v, statistic) {
-                set.statistical_method = v.second.data();
+                set.key.statistical_method = v.second.data();
                 suggestions.push_back(set);
             }
         }
     }
 
-    std::vector<husky::visualization::BaseObj> StatisticChannel::get_statistic_suggestions() {
+    std::vector<husky::visualization::SuggestionObject> StatisticChannel::get_statistic_suggestions() {
         return suggestions;
     }
 

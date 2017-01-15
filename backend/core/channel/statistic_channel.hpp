@@ -13,10 +13,10 @@ class StatisticChannel {
 public:
     StatisticChannel() = default;
     ~StatisticChannel() = default;
-    void statistic_suggestions(std::vector<husky::visualization::BaseObj> dataset, husky::visualization::Constant constant);
-    std::vector<husky::visualization::BaseObj> get_statistic_suggestions();
+    void statistic_suggestions(std::vector<husky::visualization::SuggestionObject> dataset, husky::visualization::Constant constant);
+    std::vector<husky::visualization::SuggestionObject> get_statistic_suggestions();
 private:
-    std::vector<husky::visualization::BaseObj> suggestions;
+    std::vector<husky::visualization::SuggestionObject> suggestions;
 };
 
 }

@@ -31,7 +31,7 @@ class SuggestionObject {
     double score;
 };
 
-std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj);
+std::ostream& operator<<(std::ostream& stream, SuggestionObject& base_obj);
 
 }
 }
@@ -39,10 +39,9 @@ std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj);
 namespace std {
 
 template <>
-class hash<husky::visualization::BaseObj> {
+class hash<husky::visualization::SuggestionObject> {
     public:
-        size_t operator()(const husky::visualization::BaseObj& obj) const; 
+        size_t operator()(const husky::visualization::SuggestionObject& obj) const;
 };
 
 }
-

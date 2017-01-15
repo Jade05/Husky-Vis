@@ -26,7 +26,7 @@ void visualization() {
   const std::string& distributed = husky::Context::get_param("distribute");
 
   // go through channels except process_rawdata_channel and process_aggregatedata_channel
-  
+
   // load data
   husky::visualization::DataLoader dataloader;
 
@@ -41,7 +41,7 @@ void visualization() {
   constant.init_constant(husky::Context::get_param("constant"));
 
   // preprocess data
-  // collect attributes 
+  // collect attributes
   std::vector<std::string> attributes = husky::visualization::Preprocess::collect_attributes(data_schema);
   // collect attributes_datatypes
   std::map<std::string, std::string> attribute_type = husky::visualization::Preprocess::collect_schema_type(data_schema);
@@ -49,41 +49,41 @@ void visualization() {
   // go through generate_channel
   husky::visualization::GenerateChannel generate_channel;
   generate_channel.generate_suggestions(attributes, "");
-  std::vector<husky::visualization::BaseObj> g_suggestions = generate_channel.get_generated_suggestions();
+  std::vector<husky::visualization::SuggestionObject> g_suggestions = generate_channel.get_generated_suggestions();
 
   // go through chart_type_channel
   husky::visualization::ChartTypeChannel chart_type_channel;
   chart_type_channel.chart_type_suggestions(g_suggestions, attribute_type, constant);
-  std::vector<husky::visualization::BaseObj> c_suggestions = chart_type_channel.get_chart_type_suggestions();
+  std::vector<husky::visualization::SuggestionObject> c_suggestions = chart_type_channel.get_chart_type_suggestions();
 
   // go through aggregate channel
   husky::visualization::AggregateChannel aggregate_channel;
   aggregate_channel.aggregate_suggestions(c_suggestions, constant);
-  std::vector<husky::visualization::BaseObj> a_suggestions = aggregate_channel.get_aggregate_suggestions();
+  std::vector<husky::visualization::SuggestionObject> a_suggestions = aggregate_channel.get_aggregate_suggestions();
 
   // go through statistic channel
   husky::visualization::StatisticChannel statistic_channel;
   statistic_channel.statistic_suggestions(a_suggestions, constant);
-  std::vector<husky::visualization::BaseObj> s_suggestions = statistic_channel.get_statistic_suggestions();
-  
+  std::vector<husky::visualization::SuggestionObject> s_suggestions = statistic_channel.get_statistic_suggestions();
+
   auto& suggestion_list = husky::ObjListStore::create_objlist<SuggestionObject>();
-  auto& suggestion_ch = husky::ChannelStore::create_push_channel<husky::visualization::BaseObj>(suggestion_list, suggestion_list);
+  auto& suggestion_ch = husky::ChannelStore::create_push_channel<husky::visualization::SuggestionObject>(suggestion_list, suggestion_list);
 
   // push into channel
   for (int i = 0; i < s_suggestions.size(); i++) {
-    husky::visualization::BaseObj& suggestion = s_suggestions[i];
+    husky::visualization::SuggestionObject& suggestion = s_suggestions[i];
     suggestion_ch.push(suggestion, suggestion);
   }
   suggestion_ch.flush();
 
-  std::vector<husky::visualization::BaseObj> all_calculated_suggestions;
-  std::vector<husky::visualization::BaseObj> topk_suggestions;
+  std::vector<husky::visualization::SuggestionObject> all_calculated_suggestions;
+  std::vector<husky::visualization::SuggestionObject> topk_suggestions;
 
   if (distributed == "suggestions") {
     // default strategy: suggestions loaded balance in each worker and each thread
     // in this situation, each machine each thread accesses the whole data
     husky::list_execute(suggestion_list, [&](SuggestionObject& obj) {
-      const std::vector<husky::visualization::BaseObj>& items = suggestion_ch.get(obj);
+      const std::vector<husky::visualization::SuggestionObject>& items = suggestion_ch.get(obj);
 
       // load balance according to thread
       int total_workers = husky::Context::get_num_workers();
@@ -97,22 +97,22 @@ void visualization() {
       int end = global_tid == total_workers - 1 ? items.size() : start + items_per_worker;
 
       // each thread gets its own item part
-      std::vector<husky::visualization::BaseObj> items_part;
+      std::vector<husky::visualization::SuggestionObject> items_part;
       std::copy(items.begin() + start, items.end() + end, items_part.begin());
       // go through process rawdata channel
       husky::visualization::ProcessRawDataChannel process_rawdata_channel;
       process_rawdata_channel.process_rawdata_suggestions(items_part, data);
-      std::vector<husky::visualization::BaseObj> process_r_suggestions = process_rawdata_channel.get_rawdata_suggestions();
-      
+      std::vector<husky::visualization::SuggestionObject> process_r_suggestions = process_rawdata_channel.get_rawdata_suggestions();
+
       // go through process aggregatedata channel
       // process aggregratedata channel
       husky::visualization::ProcessAggregateDataChannel process_aggregatedata_channel;
       process_aggregatedata_channel.process_aggregatedata_suggestions(process_r_suggestions);
-      std::vector<husky::visualization::BaseObj> process_a_suggestions = process_aggregatedata_channel.get_aggregatedata_suggestions();
+      std::vector<husky::visualization::SuggestionObject> process_a_suggestions = process_aggregatedata_channel.get_aggregatedata_suggestions();
 
       // calculate scores
       for (int i = 0; i < process_a_suggestions.size(); i++) {
-        husky::visualization::BaseObj suggestion_with_score = husky::visualization::Preprocess::calculate_scores(process_a_suggestions[i], constant);
+        husky::visualization::SuggestionObject suggestion_with_score = husky::visualization::Preprocess::calculate_scores(process_a_suggestions[i], constant);
 
         all_calculated_suggestions.push_back(suggestion_with_score);
       }

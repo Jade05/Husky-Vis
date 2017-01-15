@@ -13,11 +13,11 @@ class ChartTypeChannel {
 public:
     ChartTypeChannel() = default;
     ~ChartTypeChannel() = default;
-    void chart_type_suggestions(std::vector<husky::visualization::BaseObj> dataset, std::map<std::string, std::string> schema, husky::visualization::Constant constant);
-    std::vector<husky::visualization::BaseObj> get_chart_type_suggestions();
-        
+    void chart_type_suggestions(std::vector<husky::visualization::SuggestionObject> dataset, std::map<std::string, std::string> schema, husky::visualization::Constant constant);
+    std::vector<husky::visualization::SuggestionObject> get_chart_type_suggestions();
+
 private:
-    std::vector<husky::visualization::BaseObj> suggestions;
+    std::vector<husky::visualization::SuggestionObject> suggestions;
 };
 
 }

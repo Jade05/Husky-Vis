@@ -13,10 +13,10 @@ class AggregateChannel {
 public:
     AggregateChannel() = default;
     ~AggregateChannel() = default;
-    void aggregate_suggestions(std::vector<husky::visualization::BaseObj> dataset, husky::visualization::Constant constant);
-    std::vector<husky::visualization::BaseObj> get_aggregate_suggestions();
+    void aggregate_suggestions(std::vector<husky::visualization::SuggestionObject> dataset, husky::visualization::Constant constant);
+    std::vector<husky::visualization::SuggestionObject> get_aggregate_suggestions();
 private:
-    std::vector<husky::visualization::BaseObj> suggestions;
+    std::vector<husky::visualization::SuggestionObject> suggestions;
 };
 
 }

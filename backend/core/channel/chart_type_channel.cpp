@@ -23,15 +23,15 @@ namespace visualization {
    *
    * default: the first attribute as a measure, the second as a dimension, it may constomizable later
    */
-  void ChartTypeChannel::chart_type_suggestions(std::vector<husky::visualization::BaseObj> dataset,
+  void ChartTypeChannel::chart_type_suggestions(std::vector<husky::visualization::SuggestionObject> dataset,
     std::map<std::string, std::string> schema,
     husky::visualization::Constant constant) {
       ptree data_type_map_chart_type = constant.get_data_type_map_chart_type_method();
       ptree two_dimension_chart = data_type_map_chart_type.get_child("TWO_DIMENSION_CHART");
 
       for(auto set : dataset) {
-        const std::string measure = set.measure;
-        const std::string dimension = set.dimension;
+        const std::string measure = set.key.measure;
+        const std::string dimension = set.key.dimension;
 
         const std::string measure_value_type = schema.find(measure)->second;
         const std::string dimension_value_type = schema.find(dimension)->second;
@@ -44,7 +44,7 @@ namespace visualization {
             if (dimension_opt) {
                 ptree dimension_child = measure_child.get_child(dimension_value_type);
                 BOOST_FOREACH(ptree::value_type & v, dimension_child) {
-                  set.chart_type = v.second.data();
+                  set.key.chart_type = v.second.data();
                   suggestions.push_back(set);
                 }
             }
@@ -56,7 +56,7 @@ namespace visualization {
    * [{"measure": "name", "dimension": "year", "chartType": "Q_Q_POINT"}
    * ,{"measure": "name", "dimension": "cylinder", "chartType": "Q_T_BAR"}]
    */
-  std::vector<husky::visualization::BaseObj> ChartTypeChannel::get_chart_type_suggestions() {
+  std::vector<husky::visualization::SuggestionObject> ChartTypeChannel::get_chart_type_suggestions() {
     return suggestions;
   }
 
