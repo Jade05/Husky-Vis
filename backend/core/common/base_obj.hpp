@@ -39,9 +39,15 @@ std::ostream& operator<<(std::ostream& stream, SuggestionObject& base_obj);
 namespace std {
 
 template <>
+class hash<husky::visualization::SuggestionKey> {
+ public:
+    size_t operator()(const husky::visualization::SuggestionKey& obj) const;
+};
+
+template <>
 class hash<husky::visualization::SuggestionObject> {
-    public:
-        size_t operator()(const husky::visualization::SuggestionObject& obj) const;
+ public:
+    size_t operator()(const husky::visualization::SuggestionObject& obj) const;
 };
 
 }

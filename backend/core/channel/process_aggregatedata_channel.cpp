@@ -50,13 +50,13 @@ namespace visualization {
      * */
     void ProcessAggregateDataChannel::process_aggregatedata_suggestions(std::vector<husky::visualization::SuggestionObject> dataset) {
         for (auto set : dataset) {
-            for (const auto& elem : set.group_by_raw_data) {
+            for (const auto elem : set.group_by_raw_data) {
                 const std::string& key = elem.first;
                 const std::vector<double>& value = elem.second;
 
-                const std::string& statistical_method = set.key.statistical_method;
-                double statistical_result = (Utils::map_function[statistical_method])(value);
-                set.aggregate_data[key] = statistical_result;
+                const std::string& aggregate_method = set.key.aggregate_type;
+                double aggregate_result = (Utils::map_function[aggregate_method])(value);
+                set.aggregate_data[key] = aggregate_result;
             }
 
             suggestions.push_back(set);

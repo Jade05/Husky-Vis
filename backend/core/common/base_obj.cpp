@@ -18,21 +18,27 @@ std::ostream& operator<<(std::ostream& stream, SuggestionObject& base_obj) {
         << "statistical_method: " << base_obj.key.statistical_method << std::endl;
 
     stream << "group_by_raw_data: size_" << base_obj.group_by_raw_data.size() << std::endl;
+    
     /*
+    int raw_index = 0;
     for (auto x : base_obj.group_by_raw_data) {
-        stream << x.first;
-        for (auto y : x.second) {
-            stream << " " << y << std::endl;
+        if (raw_index < 5) {
+            stream << x.first;
+            for (auto y : x.second) {
+                stream << " " << y << " ";
+            } 
+            raw_index++;
+            stream << std::endl;
         }
     }
-    */
+    */ 
 
     stream << "aggregate_data: size_" << base_obj.aggregate_data.size() << std::endl;
-    /*
+    
     for(auto z : base_obj.aggregate_data) {
-        stream << z.first << " " << z.second;
+        stream << z.first << " " << z.second << std::endl;
     }
-    */
+    
 
     stream << "score: " << base_obj.score << std::endl;
 
@@ -44,10 +50,14 @@ std::ostream& operator<<(std::ostream& stream, SuggestionObject& base_obj) {
 
 namespace std {
 
-    size_t hash<husky::visualization::SuggestionObject>::operator()(const husky::visualization::SuggestionObject& obj) const {
-        return hash<std::string>()(obj.key.measure)^hash<std::string>()(obj.key.dimension)
-            ^hash<std::string>()(obj.key.chart_type)^hash<std::string>()(obj.key.aggregate_type)
-            ^hash<std::string>()(obj.key.statistical_method);
-    }
+size_t hash<husky::visualization::SuggestionKey>::operator()(const husky::visualization::SuggestionKey& obj) const {
+    return hash<std::string>()(obj.measure)^hash<std::string>()(obj.dimension)
+        ^hash<std::string>()(obj.chart_type)^hash<std::string>()(obj.aggregate_type)
+        ^hash<std::string>()(obj.statistical_method);
+}
+
+size_t hash<husky::visualization::SuggestionObject>::operator()(const husky::visualization::SuggestionObject& obj) const {
+    return hash<husky::visualization::SuggestionKey>()(obj.key);
+}
 
 }

@@ -3,6 +3,7 @@
 #include <vector>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/foreach.hpp>
+#include <stdexcept>
 
 #include "process_rawdata_channel.hpp"
 #include "../common/base_obj.hpp"
@@ -44,7 +45,14 @@ namespace visualization {
 
             BOOST_FOREACH(ptree::value_type & v, data) {
                 std::string& dimensionValue = v.second.find(dimension)->second.data();
-                double& measureValue = v.second.find(measure)->second.data();
+                double measureValue;
+                try {
+                    measureValue = std::stod(v.second.find(measure)->second.data());
+                } catch (const std::invalid_argument &) {
+                    // std::cerr << "Argument is invalid\n";
+                } catch (const std::out_of_range &) {
+                    // std::cerr << "Argument is out of range for a double\n";
+                }
 
                 set.group_by_raw_data[dimensionValue].push_back(measureValue);
             }
