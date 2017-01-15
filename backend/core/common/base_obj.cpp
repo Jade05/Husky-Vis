@@ -41,3 +41,14 @@ std::ostream& operator<<(std::ostream& stream, BaseObj& base_obj) {
 }
 }
 }
+
+namespace std {
+
+    size_t hash<husky::visualization::BaseObj>::operator()(const husky::visualization::BaseObj& obj) const {
+        return hash<std::string>()(obj.measure)^hash<std::string>()(obj.dimension)
+            ^hash<std::string>()(obj.chart_type)^hash<std::string>()(obj.aggregate_type)
+            ^hash<std::string>()(obj.statistical_method);        
+    }
+
+}
+

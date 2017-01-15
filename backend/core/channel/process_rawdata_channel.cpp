@@ -44,7 +44,7 @@ namespace visualization {
 
             BOOST_FOREACH(ptree::value_type & v, data) {
                 std::string& dimensionValue = v.second.find(dimension)->second.data();
-                double measureValue = std::stod(v.second.find(measure)->second.data());
+                double& measureValue = v.second.find(measure)->second.data();
 
                 set.group_by_raw_data[dimensionValue].push_back(measureValue);
             }

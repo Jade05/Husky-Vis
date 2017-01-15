@@ -21,16 +21,6 @@
 using namespace std;
 using boost::property_tree::ptree;
 
-class SuggestionObject {
-   public:
-    typedef husky::visualization::BaseObj KeyT;
-    KeyT key;
-
-    explicit SuggestionObject(KeyT key) { this->key = key; }
-
-    const KeyT& id() const { return key; }
-};
-
 void visualization() {
   // distributed suggestions
   const std::string& distributed = husky::Context::get_param("distribute");
@@ -75,14 +65,14 @@ void visualization() {
   husky::visualization::StatisticChannel statistic_channel;
   statistic_channel.statistic_suggestions(a_suggestions, constant);
   std::vector<husky::visualization::BaseObj> s_suggestions = statistic_channel.get_statistic_suggestions();
-
+  
   auto& suggestion_list = husky::ObjListStore::create_objlist<SuggestionObject>();
   auto& suggestion_ch = husky::ChannelStore::create_push_channel<husky::visualization::BaseObj>(suggestion_list, suggestion_list);
 
   // push into channel
   for (int i = 0; i < s_suggestions.size(); i++) {
     husky::visualization::BaseObj& suggestion = s_suggestions[i];
-    suggestion_ch.push(suggestion, 0);
+    suggestion_ch.push(suggestion, suggestion);
   }
   suggestion_ch.flush();
 
@@ -93,7 +83,7 @@ void visualization() {
     // default strategy: suggestions loaded balance in each worker and each thread
     // in this situation, each machine each thread accesses the whole data
     husky::list_execute(suggestion_list, [&](SuggestionObject& obj) {
-      auto& items = suggestion_ch.get(obj);
+      const std::vector<husky::visualization::BaseObj>& items = suggestion_ch.get(obj);
 
       // load balance according to thread
       int total_workers = husky::Context::get_num_workers();
@@ -107,7 +97,8 @@ void visualization() {
       int end = global_tid == total_workers - 1 ? items.size() : start + items_per_worker;
 
       // each thread gets its own item part
-      auto items_part = std::copy(start, end, items.begin());
+      std::vector<husky::visualization::BaseObj> items_part;
+      std::copy(items.begin() + start, items.end() + end, items_part.begin());
       // go through process rawdata channel
       husky::visualization::ProcessRawDataChannel process_rawdata_channel;
       process_rawdata_channel.process_rawdata_suggestions(items_part, data);
