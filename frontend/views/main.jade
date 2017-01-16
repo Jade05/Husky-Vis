@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  include test.html
+  h1 #{ title }
+  div#container
+
+    div#pane-left
+      - for (var i = 0; i < data.attributes.length; i++)
+        span#pane-left-attribute #{ data.attributes[i] }
+
+    div#pane-right
+      div#pane-right-selected
+      - for (var i = 0; i < data.selectedVis.length; i++)
+        div#pane-right-selevted-vis
+
+      div#pane-right-recommendated
+        - for (var i = 0; i < data.recommendatedVis.length; i++)
+          div#pane-right-recommendated-vis
