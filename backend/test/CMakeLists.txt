@@ -81,3 +81,10 @@ target_link_libraries(PreprocessTest husky)
 target_link_libraries(PreprocessTest visualization-dataloader-objs)
 target_link_libraries(PreprocessTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET PreprocessTest PROPERTY CXX_STANDARD 14)
+
+# ThriftServerTest
+add_executable(ThriftServerTest thift_server_test.cpp)
+target_link_libraries(ThriftServerTest husky)
+target_link_libraries(ThriftServerTest visualization-dataloader-objs)
+target_link_libraries(ThriftServerTest ${HUSKY_EXTERNAL_LIB})
+set_property(TARGET ThriftServerTest PROPERTY CXX_STANDARD 14)
