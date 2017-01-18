@@ -1,5 +1,7 @@
 include_directories(${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/husky ${HUSKY_EXTERNAL_INCLUDE})
 
+add_subdirectory(gen-cpp)
+
 # Visualization
 add_executable(Visualization visualization.cpp)
 target_link_libraries(Visualization visualization-common-objs)

@@ -1,4 +1,4 @@
-#include "Something.h"  
+#include "./gen-cpp/Something.h"  
 #include <thrift/protocol/TBinaryProtocol.h>  
 #include <thrift/server/TSimpleServer.h>  
 #include <thrift/transport/TServerSocket.h>  
