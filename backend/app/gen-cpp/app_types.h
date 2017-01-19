@@ -17,7 +17,7 @@
 #include <thrift/cxxfunctional.h>
 
 
-namespace App {
+namespace Visualization {
 
 } // namespace
 

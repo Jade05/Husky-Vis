@@ -6,7 +6,7 @@
  */
 #include "app_constants.h"
 
-namespace App {
+namespace Visualization {
 
 const appConstants g_app_constants;
 

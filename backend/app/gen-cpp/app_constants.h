@@ -9,7 +9,7 @@
 
 #include "app_types.h"
 
-namespace App {
+namespace Visualization {
 
 class appConstants {
  public:

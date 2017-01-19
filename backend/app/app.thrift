@@ -1,5 +1,6 @@
-namespace cpp App  
+namespace cpp Visualization  
   
-service Something {  
-    i32 ping()  
+service App {  
+    i32 ping(); 
+    list<string> init_run();
 } 

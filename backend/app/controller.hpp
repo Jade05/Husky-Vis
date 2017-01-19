@@ -36,6 +36,8 @@ public:
     static void init_visualization(std::vector<husky::visualization::SuggestionObject>& topk_suggestions) {
       // distributed suggestions
       const std::string& distributed = husky::Context::get_param("distribute");
+      husky::visualization::Constant constant;
+      constant.init_constant(husky::Context::get_param("constant"));
 
       std::vector<husky::visualization::SuggestionObject> suggestions;
       go_nodata_channels(suggestions);
@@ -43,22 +45,27 @@ public:
       std::vector<husky::visualization::SuggestionObject> all_calculated_suggestions;
 
       if (distributed == "suggestions") {
-       // default strategy: suggestions loaded balance in each worker and each thread
-       // in this situation, each machine each thread accesses the whole data
+         husky::visualization::DataLoader dataloader;
+
+         dataloader.load_data();
+         ptree data = dataloader.get_data();
+
+         // default strategy: suggestions loaded balance in each worker and each thread
+         // in this situation, each machine each thread accesses the whole data
          // load balance according to thread
          int total_workers = husky::Context::get_num_workers();
-         int items_per_worker = s_suggestions.size() / total_workers;
+         int items_per_worker = suggestions.size() / total_workers;
 
          // check if global_tid start with 0 or 1, assume start with 0
          int global_tid = husky::Context::get_global_tid();
 
          int start = items_per_worker * global_tid;
          // make sure all items will be processed
-         int end = global_tid == total_workers - 1 ? s_suggestions.size() : start + items_per_worker;
+         int end = global_tid == total_workers - 1 ? suggestions.size() : start + items_per_worker;
 
          // each thread gets its own item part
          std::vector<husky::visualization::SuggestionObject> items_part(end - start);
-         std::copy(s_suggestions.begin() + start, s_suggestions.begin() + end, items_part.begin());
+         std::copy(suggestions.begin() + start, suggestions.begin() + end, items_part.begin());
          // go through process rawdata channel
          husky::visualization::ProcessRawDataChannel process_rawdata_channel;
          process_rawdata_channel.process_rawdata_suggestions(items_part, data);
@@ -100,10 +107,7 @@ public:
       // load data
       husky::visualization::DataLoader dataloader;
 
-      dataloader.load_data();
       dataloader.load_schema();
-
-      ptree data = dataloader.get_data();
       ptree data_schema = dataloader.get_data_schema();
 
       // load constant values

@@ -17,8 +17,6 @@ using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 
-using boost::shared_ptr;
-
 using namespace  ::App;
 
 class SomethingHandler : virtual public SomethingIf {
@@ -27,21 +25,18 @@ class SomethingHandler : virtual public SomethingIf {
     // Your initialization goes here
   }
 
-  int32_t ping() {
-    // Your implementation goes here
-    printf("ping, server-side api is called\n");
-  }
+   int32_t ping() {
+     std::vector<husky::visualization::SuggestionObject> topk_suggestions;
 
-  void run_job() {
-    std::vector<husky::visualization::SuggestionObject> topk_suggestions;
-
-    husky::run_job(husky::visualization::Controller::init_visualization(topk_suggestions));
-  }
+     husky::run_job(std::bind(&husky::visualization::Controller::init_visualization, topk_suggestions));
+     return 66666;
+   }
 
 };
 
 int main(int argc, char **argv) {
   // init args
+  
   std::vector<std::string> args({
       "data",
       "data_schema",
@@ -49,14 +44,15 @@ int main(int argc, char **argv) {
       "topk",
       "constant"
   });
-  husky::visualization::Controller::init_with_args();
+  
+  husky::visualization::Controller::init_with_args(argc, argv, args);
 
   int port = 9090;
-  shared_ptr<SomethingHandler> handler(new SomethingHandler());
-  shared_ptr<TProcessor> processor(new SomethingProcessor(handler));
-  shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+  boost::shared_ptr<SomethingHandler> handler(new SomethingHandler());
+  boost::shared_ptr<TProcessor> processor(new SomethingProcessor(handler));
+  boost::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+  boost::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+  boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
   TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
   server.serve();
