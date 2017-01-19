@@ -101,6 +101,16 @@ public:
      }
     }
 
+    static void get_attributes(std::vector<std::string>& attributes) {
+      // load data
+      husky::visualization::DataLoader dataloader;
+
+      dataloader.load_schema();
+      ptree data_schema = dataloader.get_data_schema();
+
+      attributes = husky::visualization::Preprocess::collect_attributes(data_schema);
+    }
+
     static void go_nodata_channels(std::vector<husky::visualization::SuggestionObject>& suggestions) {
       // go through channels except process_rawdata_channel and process_aggregatedata_channel
 

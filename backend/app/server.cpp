@@ -50,6 +50,15 @@ class AppHandler : virtual public AppIf {
   void get_attributes(std::vector<Attribute> & _return) {
     // Your implementation goes here
     printf("get_attributes\n");
+
+    std::vector<std::string> attributes;
+    std::bind(&husky::visualization::Controller::get_attributes, std::ref(attributes));
+
+    for (auto attribute : attributes) {
+      Server::Attribute attr;
+      attr.name = attribute;
+      _return.push_back(attr);
+    }
   }
 
 };
