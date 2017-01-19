@@ -32,26 +32,6 @@ class AppHandler : virtual public AppIf {
     printf("get_attributes\n");
   }
 
-  void init_run(std::vector<std::string> & _return) {
-    // Your implementation goes here
-    printf("init_run\n");
-  }
-
-  void ping() {
-    // Your implementation goes here
-    printf("ping\n");
-  }
-
-  void test1(std::string& _return) {
-    // Your implementation goes here
-    printf("test1\n");
-  }
-
-  void test2(Suggestion& _return) {
-    // Your implementation goes here
-    printf("test2\n");
-  }
-
 };
 
 int main(int argc, char **argv) {

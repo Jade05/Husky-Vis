@@ -38,7 +38,6 @@ class Suggestion {
   std::string chart_type;
   std::string aggregate_type;
   std::string statistical_method;
-  std::map<std::string, std::vector<std::string> >  group_by_raw_data;
   std::map<std::string, double>  aggregate_data;
   double score;
 
@@ -51,8 +50,6 @@ class Suggestion {
   void __set_aggregate_type(const std::string& val);
 
   void __set_statistical_method(const std::string& val);
-
-  void __set_group_by_raw_data(const std::map<std::string, std::vector<std::string> > & val);
 
   void __set_aggregate_data(const std::map<std::string, double> & val);
 
@@ -69,8 +66,6 @@ class Suggestion {
     if (!(aggregate_type == rhs.aggregate_type))
       return false;
     if (!(statistical_method == rhs.statistical_method))
-      return false;
-    if (!(group_by_raw_data == rhs.group_by_raw_data))
       return false;
     if (!(aggregate_data == rhs.aggregate_data))
       return false;
@@ -104,17 +99,17 @@ class Attribute {
 
   Attribute(const Attribute&);
   Attribute& operator=(const Attribute&);
-  Attribute() : attribute() {
+  Attribute() : name() {
   }
 
   virtual ~Attribute() throw();
-  std::string attribute;
+  std::string name;
 
-  void __set_attribute(const std::string& val);
+  void __set_name(const std::string& val);
 
   bool operator == (const Attribute & rhs) const
   {
-    if (!(attribute == rhs.attribute))
+    if (!(name == rhs.name))
       return false;
     return true;
   }

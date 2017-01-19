@@ -63,19 +63,19 @@ App_get_suggestions_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.LIST) {
-        var _size28 = 0;
-        var _rtmp332;
+        var _size10 = 0;
+        var _rtmp314;
         this.success = [];
-        var _etype31 = 0;
-        _rtmp332 = input.readListBegin();
-        _etype31 = _rtmp332.etype;
-        _size28 = _rtmp332.size;
-        for (var _i33 = 0; _i33 < _size28; ++_i33)
+        var _etype13 = 0;
+        _rtmp314 = input.readListBegin();
+        _etype13 = _rtmp314.etype;
+        _size10 = _rtmp314.size;
+        for (var _i15 = 0; _i15 < _size10; ++_i15)
         {
-          var elem34 = null;
-          elem34 = new ttypes.Suggestion();
-          elem34.read(input);
-          this.success.push(elem34);
+          var elem16 = null;
+          elem16 = new ttypes.Suggestion();
+          elem16.read(input);
+          this.success.push(elem16);
         }
         input.readListEnd();
       } else {
@@ -99,12 +99,12 @@ App_get_suggestions_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter35 in this.success)
+    for (var iter17 in this.success)
     {
-      if (this.success.hasOwnProperty(iter35))
+      if (this.success.hasOwnProperty(iter17))
       {
-        iter35 = this.success[iter35];
-        iter35.write(output);
+        iter17 = this.success[iter17];
+        iter17.write(output);
       }
     }
     output.writeListEnd();
@@ -167,19 +167,19 @@ App_get_attributes_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.LIST) {
-        var _size36 = 0;
-        var _rtmp340;
+        var _size18 = 0;
+        var _rtmp322;
         this.success = [];
-        var _etype39 = 0;
-        _rtmp340 = input.readListBegin();
-        _etype39 = _rtmp340.etype;
-        _size36 = _rtmp340.size;
-        for (var _i41 = 0; _i41 < _size36; ++_i41)
+        var _etype21 = 0;
+        _rtmp322 = input.readListBegin();
+        _etype21 = _rtmp322.etype;
+        _size18 = _rtmp322.size;
+        for (var _i23 = 0; _i23 < _size18; ++_i23)
         {
-          var elem42 = null;
-          elem42 = new ttypes.Attribute();
-          elem42.read(input);
-          this.success.push(elem42);
+          var elem24 = null;
+          elem24 = new ttypes.Attribute();
+          elem24.read(input);
+          this.success.push(elem24);
         }
         input.readListEnd();
       } else {
@@ -203,12 +203,12 @@ App_get_attributes_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter43 in this.success)
+    for (var iter25 in this.success)
     {
-      if (this.success.hasOwnProperty(iter43))
+      if (this.success.hasOwnProperty(iter25))
       {
-        iter43 = this.success[iter43];
-        iter43.write(output);
+        iter25 = this.success[iter25];
+        iter25.write(output);
       }
     }
     output.writeListEnd();
@@ -271,18 +271,18 @@ App_init_run_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.LIST) {
-        var _size44 = 0;
-        var _rtmp348;
+        var _size26 = 0;
+        var _rtmp330;
         this.success = [];
-        var _etype47 = 0;
-        _rtmp348 = input.readListBegin();
-        _etype47 = _rtmp348.etype;
-        _size44 = _rtmp348.size;
-        for (var _i49 = 0; _i49 < _size44; ++_i49)
+        var _etype29 = 0;
+        _rtmp330 = input.readListBegin();
+        _etype29 = _rtmp330.etype;
+        _size26 = _rtmp330.size;
+        for (var _i31 = 0; _i31 < _size26; ++_i31)
         {
-          var elem50 = null;
-          elem50 = input.readString();
-          this.success.push(elem50);
+          var elem32 = null;
+          elem32 = input.readString();
+          this.success.push(elem32);
         }
         input.readListEnd();
       } else {
@@ -306,12 +306,12 @@ App_init_run_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRING, this.success.length);
-    for (var iter51 in this.success)
+    for (var iter33 in this.success)
     {
-      if (this.success.hasOwnProperty(iter51))
+      if (this.success.hasOwnProperty(iter33))
       {
-        iter51 = this.success[iter51];
-        output.writeString(iter51);
+        iter33 = this.success[iter33];
+        output.writeString(iter33);
       }
     }
     output.writeListEnd();

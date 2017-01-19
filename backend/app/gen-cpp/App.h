@@ -23,10 +23,6 @@ class AppIf {
   virtual ~AppIf() {}
   virtual void get_suggestions(std::vector<Suggestion> & _return) = 0;
   virtual void get_attributes(std::vector<Attribute> & _return) = 0;
-  virtual void init_run(std::vector<std::string> & _return) = 0;
-  virtual void ping() = 0;
-  virtual void test1(std::string& _return) = 0;
-  virtual void test2(Suggestion& _return) = 0;
 };
 
 class AppIfFactory {
@@ -60,18 +56,6 @@ class AppNull : virtual public AppIf {
     return;
   }
   void get_attributes(std::vector<Attribute> & /* _return */) {
-    return;
-  }
-  void init_run(std::vector<std::string> & /* _return */) {
-    return;
-  }
-  void ping() {
-    return;
-  }
-  void test1(std::string& /* _return */) {
-    return;
-  }
-  void test2(Suggestion& /* _return */) {
     return;
   }
 };
@@ -260,356 +244,6 @@ class App_get_attributes_presult {
 
 };
 
-
-class App_init_run_args {
- public:
-
-  App_init_run_args(const App_init_run_args&);
-  App_init_run_args& operator=(const App_init_run_args&);
-  App_init_run_args() {
-  }
-
-  virtual ~App_init_run_args() throw();
-
-  bool operator == (const App_init_run_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const App_init_run_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const App_init_run_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class App_init_run_pargs {
- public:
-
-
-  virtual ~App_init_run_pargs() throw();
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _App_init_run_result__isset {
-  _App_init_run_result__isset() : success(false) {}
-  bool success :1;
-} _App_init_run_result__isset;
-
-class App_init_run_result {
- public:
-
-  App_init_run_result(const App_init_run_result&);
-  App_init_run_result& operator=(const App_init_run_result&);
-  App_init_run_result() {
-  }
-
-  virtual ~App_init_run_result() throw();
-  std::vector<std::string>  success;
-
-  _App_init_run_result__isset __isset;
-
-  void __set_success(const std::vector<std::string> & val);
-
-  bool operator == (const App_init_run_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const App_init_run_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const App_init_run_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _App_init_run_presult__isset {
-  _App_init_run_presult__isset() : success(false) {}
-  bool success :1;
-} _App_init_run_presult__isset;
-
-class App_init_run_presult {
- public:
-
-
-  virtual ~App_init_run_presult() throw();
-  std::vector<std::string> * success;
-
-  _App_init_run_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-
-class App_ping_args {
- public:
-
-  App_ping_args(const App_ping_args&);
-  App_ping_args& operator=(const App_ping_args&);
-  App_ping_args() {
-  }
-
-  virtual ~App_ping_args() throw();
-
-  bool operator == (const App_ping_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const App_ping_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const App_ping_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class App_ping_pargs {
- public:
-
-
-  virtual ~App_ping_pargs() throw();
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class App_ping_result {
- public:
-
-  App_ping_result(const App_ping_result&);
-  App_ping_result& operator=(const App_ping_result&);
-  App_ping_result() {
-  }
-
-  virtual ~App_ping_result() throw();
-
-  bool operator == (const App_ping_result & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const App_ping_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const App_ping_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class App_ping_presult {
- public:
-
-
-  virtual ~App_ping_presult() throw();
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-
-class App_test1_args {
- public:
-
-  App_test1_args(const App_test1_args&);
-  App_test1_args& operator=(const App_test1_args&);
-  App_test1_args() {
-  }
-
-  virtual ~App_test1_args() throw();
-
-  bool operator == (const App_test1_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const App_test1_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const App_test1_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class App_test1_pargs {
- public:
-
-
-  virtual ~App_test1_pargs() throw();
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _App_test1_result__isset {
-  _App_test1_result__isset() : success(false) {}
-  bool success :1;
-} _App_test1_result__isset;
-
-class App_test1_result {
- public:
-
-  App_test1_result(const App_test1_result&);
-  App_test1_result& operator=(const App_test1_result&);
-  App_test1_result() : success() {
-  }
-
-  virtual ~App_test1_result() throw();
-  std::string success;
-
-  _App_test1_result__isset __isset;
-
-  void __set_success(const std::string& val);
-
-  bool operator == (const App_test1_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const App_test1_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const App_test1_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _App_test1_presult__isset {
-  _App_test1_presult__isset() : success(false) {}
-  bool success :1;
-} _App_test1_presult__isset;
-
-class App_test1_presult {
- public:
-
-
-  virtual ~App_test1_presult() throw();
-  std::string* success;
-
-  _App_test1_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
-
-class App_test2_args {
- public:
-
-  App_test2_args(const App_test2_args&);
-  App_test2_args& operator=(const App_test2_args&);
-  App_test2_args() {
-  }
-
-  virtual ~App_test2_args() throw();
-
-  bool operator == (const App_test2_args & /* rhs */) const
-  {
-    return true;
-  }
-  bool operator != (const App_test2_args &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const App_test2_args & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-
-class App_test2_pargs {
- public:
-
-
-  virtual ~App_test2_pargs() throw();
-
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _App_test2_result__isset {
-  _App_test2_result__isset() : success(false) {}
-  bool success :1;
-} _App_test2_result__isset;
-
-class App_test2_result {
- public:
-
-  App_test2_result(const App_test2_result&);
-  App_test2_result& operator=(const App_test2_result&);
-  App_test2_result() {
-  }
-
-  virtual ~App_test2_result() throw();
-  Suggestion success;
-
-  _App_test2_result__isset __isset;
-
-  void __set_success(const Suggestion& val);
-
-  bool operator == (const App_test2_result & rhs) const
-  {
-    if (!(success == rhs.success))
-      return false;
-    return true;
-  }
-  bool operator != (const App_test2_result &rhs) const {
-    return !(*this == rhs);
-  }
-
-  bool operator < (const App_test2_result & ) const;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
-
-};
-
-typedef struct _App_test2_presult__isset {
-  _App_test2_presult__isset() : success(false) {}
-  bool success :1;
-} _App_test2_presult__isset;
-
-class App_test2_presult {
- public:
-
-
-  virtual ~App_test2_presult() throw();
-  Suggestion* success;
-
-  _App_test2_presult__isset __isset;
-
-  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
-
-};
-
 class AppClient : virtual public AppIf {
  public:
   AppClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -641,18 +275,6 @@ class AppClient : virtual public AppIf {
   void get_attributes(std::vector<Attribute> & _return);
   void send_get_attributes();
   void recv_get_attributes(std::vector<Attribute> & _return);
-  void init_run(std::vector<std::string> & _return);
-  void send_init_run();
-  void recv_init_run(std::vector<std::string> & _return);
-  void ping();
-  void send_ping();
-  void recv_ping();
-  void test1(std::string& _return);
-  void send_test1();
-  void recv_test1(std::string& _return);
-  void test2(Suggestion& _return);
-  void send_test2();
-  void recv_test2(Suggestion& _return);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -670,19 +292,11 @@ class AppProcessor : public ::apache::thrift::TDispatchProcessor {
   ProcessMap processMap_;
   void process_get_suggestions(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_get_attributes(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_init_run(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_test1(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
-  void process_test2(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AppProcessor(boost::shared_ptr<AppIf> iface) :
     iface_(iface) {
     processMap_["get_suggestions"] = &AppProcessor::process_get_suggestions;
     processMap_["get_attributes"] = &AppProcessor::process_get_attributes;
-    processMap_["init_run"] = &AppProcessor::process_init_run;
-    processMap_["ping"] = &AppProcessor::process_ping;
-    processMap_["test1"] = &AppProcessor::process_test1;
-    processMap_["test2"] = &AppProcessor::process_test2;
   }
 
   virtual ~AppProcessor() {}
@@ -731,45 +345,6 @@ class AppMultiface : virtual public AppIf {
     return;
   }
 
-  void init_run(std::vector<std::string> & _return) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->init_run(_return);
-    }
-    ifaces_[i]->init_run(_return);
-    return;
-  }
-
-  void ping() {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ping();
-    }
-    ifaces_[i]->ping();
-  }
-
-  void test1(std::string& _return) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->test1(_return);
-    }
-    ifaces_[i]->test1(_return);
-    return;
-  }
-
-  void test2(Suggestion& _return) {
-    size_t sz = ifaces_.size();
-    size_t i = 0;
-    for (; i < (sz - 1); ++i) {
-      ifaces_[i]->test2(_return);
-    }
-    ifaces_[i]->test2(_return);
-    return;
-  }
-
 };
 
 // The 'concurrent' client is a thread safe client that correctly handles
@@ -806,18 +381,6 @@ class AppConcurrentClient : virtual public AppIf {
   void get_attributes(std::vector<Attribute> & _return);
   int32_t send_get_attributes();
   void recv_get_attributes(std::vector<Attribute> & _return, const int32_t seqid);
-  void init_run(std::vector<std::string> & _return);
-  int32_t send_init_run();
-  void recv_init_run(std::vector<std::string> & _return, const int32_t seqid);
-  void ping();
-  int32_t send_ping();
-  void recv_ping(const int32_t seqid);
-  void test1(std::string& _return);
-  int32_t send_test1();
-  void recv_test1(std::string& _return, const int32_t seqid);
-  void test2(Suggestion& _return);
-  int32_t send_test2();
-  void recv_test2(Suggestion& _return, const int32_t seqid);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

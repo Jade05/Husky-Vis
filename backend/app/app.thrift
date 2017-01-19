@@ -6,20 +6,15 @@ struct Suggestion {
     3:required string chart_type,
     4:required string aggregate_type,
     5:required string statistical_method,
-    6:required map<string, list<string>> group_by_raw_data,
-    7:required map<string, double> aggregate_data,
-    8:required double score        
+    6:required map<string, double> aggregate_data,
+    7:required double score        
 }
 
 struct Attribute {
-    1:required string attribute
+    1:required string name 
 }
 
 service App {  
     list<Suggestion> get_suggestions();
     list<Attribute> get_attributes();
-    list<string> init_run();
-    void ping();
-    string test1();
-    Suggestion test2();
 } 

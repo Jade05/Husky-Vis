@@ -197,12 +197,12 @@ Suggestion.prototype.write = function(output) {
 };
 
 Attribute = module.exports.Attribute = function(args) {
-  this.attribute = null;
+  this.name = null;
   if (args) {
-    if (args.attribute !== undefined && args.attribute !== null) {
-      this.attribute = args.attribute;
+    if (args.name !== undefined && args.name !== null) {
+      this.name = args.name;
     } else {
-      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field attribute is unset!');
+      throw new Thrift.TProtocolException(Thrift.TProtocolExceptionType.UNKNOWN, 'Required field name is unset!');
     }
   }
 };
@@ -222,7 +222,7 @@ Attribute.prototype.read = function(input) {
     {
       case 1:
       if (ftype == Thrift.Type.STRING) {
-        this.attribute = input.readString();
+        this.name = input.readString();
       } else {
         input.skip(ftype);
       }
@@ -241,9 +241,9 @@ Attribute.prototype.read = function(input) {
 
 Attribute.prototype.write = function(output) {
   output.writeStructBegin('Attribute');
-  if (this.attribute !== null && this.attribute !== undefined) {
-    output.writeFieldBegin('attribute', Thrift.Type.STRING, 1);
-    output.writeString(this.attribute);
+  if (this.name !== null && this.name !== undefined) {
+    output.writeFieldBegin('name', Thrift.Type.STRING, 1);
+    output.writeString(this.name);
     output.writeFieldEnd();
   }
   output.writeFieldStop();

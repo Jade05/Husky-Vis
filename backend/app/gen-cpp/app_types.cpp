@@ -38,10 +38,6 @@ void Suggestion::__set_statistical_method(const std::string& val) {
   this->statistical_method = val;
 }
 
-void Suggestion::__set_group_by_raw_data(const std::map<std::string, std::vector<std::string> > & val) {
-  this->group_by_raw_data = val;
-}
-
 void Suggestion::__set_aggregate_data(const std::map<std::string, double> & val) {
   this->aggregate_data = val;
 }
@@ -67,7 +63,6 @@ uint32_t Suggestion::read(::apache::thrift::protocol::TProtocol* iprot) {
   bool isset_chart_type = false;
   bool isset_aggregate_type = false;
   bool isset_statistical_method = false;
-  bool isset_group_by_raw_data = false;
   bool isset_aggregate_data = false;
   bool isset_score = false;
 
@@ -122,7 +117,7 @@ uint32_t Suggestion::read(::apache::thrift::protocol::TProtocol* iprot) {
       case 6:
         if (ftype == ::apache::thrift::protocol::T_MAP) {
           {
-            this->group_by_raw_data.clear();
+            this->aggregate_data.clear();
             uint32_t _size0;
             ::apache::thrift::protocol::TType _ktype1;
             ::apache::thrift::protocol::TType _vtype2;
@@ -132,43 +127,8 @@ uint32_t Suggestion::read(::apache::thrift::protocol::TProtocol* iprot) {
             {
               std::string _key5;
               xfer += iprot->readString(_key5);
-              std::vector<std::string> & _val6 = this->group_by_raw_data[_key5];
-              {
-                _val6.clear();
-                uint32_t _size7;
-                ::apache::thrift::protocol::TType _etype10;
-                xfer += iprot->readListBegin(_etype10, _size7);
-                _val6.resize(_size7);
-                uint32_t _i11;
-                for (_i11 = 0; _i11 < _size7; ++_i11)
-                {
-                  xfer += iprot->readString(_val6[_i11]);
-                }
-                xfer += iprot->readListEnd();
-              }
-            }
-            xfer += iprot->readMapEnd();
-          }
-          isset_group_by_raw_data = true;
-        } else {
-          xfer += iprot->skip(ftype);
-        }
-        break;
-      case 7:
-        if (ftype == ::apache::thrift::protocol::T_MAP) {
-          {
-            this->aggregate_data.clear();
-            uint32_t _size12;
-            ::apache::thrift::protocol::TType _ktype13;
-            ::apache::thrift::protocol::TType _vtype14;
-            xfer += iprot->readMapBegin(_ktype13, _vtype14, _size12);
-            uint32_t _i16;
-            for (_i16 = 0; _i16 < _size12; ++_i16)
-            {
-              std::string _key17;
-              xfer += iprot->readString(_key17);
-              double& _val18 = this->aggregate_data[_key17];
-              xfer += iprot->readDouble(_val18);
+              double& _val6 = this->aggregate_data[_key5];
+              xfer += iprot->readDouble(_val6);
             }
             xfer += iprot->readMapEnd();
           }
@@ -177,7 +137,7 @@ uint32_t Suggestion::read(::apache::thrift::protocol::TProtocol* iprot) {
           xfer += iprot->skip(ftype);
         }
         break;
-      case 8:
+      case 7:
         if (ftype == ::apache::thrift::protocol::T_DOUBLE) {
           xfer += iprot->readDouble(this->score);
           isset_score = true;
@@ -203,8 +163,6 @@ uint32_t Suggestion::read(::apache::thrift::protocol::TProtocol* iprot) {
   if (!isset_aggregate_type)
     throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_statistical_method)
-    throw TProtocolException(TProtocolException::INVALID_DATA);
-  if (!isset_group_by_raw_data)
     throw TProtocolException(TProtocolException::INVALID_DATA);
   if (!isset_aggregate_data)
     throw TProtocolException(TProtocolException::INVALID_DATA);
@@ -238,41 +196,20 @@ uint32_t Suggestion::write(::apache::thrift::protocol::TProtocol* oprot) const {
   xfer += oprot->writeString(this->statistical_method);
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("group_by_raw_data", ::apache::thrift::protocol::T_MAP, 6);
-  {
-    xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_LIST, static_cast<uint32_t>(this->group_by_raw_data.size()));
-    std::map<std::string, std::vector<std::string> > ::const_iterator _iter19;
-    for (_iter19 = this->group_by_raw_data.begin(); _iter19 != this->group_by_raw_data.end(); ++_iter19)
-    {
-      xfer += oprot->writeString(_iter19->first);
-      {
-        xfer += oprot->writeListBegin(::apache::thrift::protocol::T_STRING, static_cast<uint32_t>(_iter19->second.size()));
-        std::vector<std::string> ::const_iterator _iter20;
-        for (_iter20 = _iter19->second.begin(); _iter20 != _iter19->second.end(); ++_iter20)
-        {
-          xfer += oprot->writeString((*_iter20));
-        }
-        xfer += oprot->writeListEnd();
-      }
-    }
-    xfer += oprot->writeMapEnd();
-  }
-  xfer += oprot->writeFieldEnd();
-
-  xfer += oprot->writeFieldBegin("aggregate_data", ::apache::thrift::protocol::T_MAP, 7);
+  xfer += oprot->writeFieldBegin("aggregate_data", ::apache::thrift::protocol::T_MAP, 6);
   {
     xfer += oprot->writeMapBegin(::apache::thrift::protocol::T_STRING, ::apache::thrift::protocol::T_DOUBLE, static_cast<uint32_t>(this->aggregate_data.size()));
-    std::map<std::string, double> ::const_iterator _iter21;
-    for (_iter21 = this->aggregate_data.begin(); _iter21 != this->aggregate_data.end(); ++_iter21)
+    std::map<std::string, double> ::const_iterator _iter7;
+    for (_iter7 = this->aggregate_data.begin(); _iter7 != this->aggregate_data.end(); ++_iter7)
     {
-      xfer += oprot->writeString(_iter21->first);
-      xfer += oprot->writeDouble(_iter21->second);
+      xfer += oprot->writeString(_iter7->first);
+      xfer += oprot->writeDouble(_iter7->second);
     }
     xfer += oprot->writeMapEnd();
   }
   xfer += oprot->writeFieldEnd();
 
-  xfer += oprot->writeFieldBegin("score", ::apache::thrift::protocol::T_DOUBLE, 8);
+  xfer += oprot->writeFieldBegin("score", ::apache::thrift::protocol::T_DOUBLE, 7);
   xfer += oprot->writeDouble(this->score);
   xfer += oprot->writeFieldEnd();
 
@@ -288,30 +225,27 @@ void swap(Suggestion &a, Suggestion &b) {
   swap(a.chart_type, b.chart_type);
   swap(a.aggregate_type, b.aggregate_type);
   swap(a.statistical_method, b.statistical_method);
-  swap(a.group_by_raw_data, b.group_by_raw_data);
   swap(a.aggregate_data, b.aggregate_data);
   swap(a.score, b.score);
 }
 
-Suggestion::Suggestion(const Suggestion& other22) {
-  measure = other22.measure;
-  dimension = other22.dimension;
-  chart_type = other22.chart_type;
-  aggregate_type = other22.aggregate_type;
-  statistical_method = other22.statistical_method;
-  group_by_raw_data = other22.group_by_raw_data;
-  aggregate_data = other22.aggregate_data;
-  score = other22.score;
+Suggestion::Suggestion(const Suggestion& other8) {
+  measure = other8.measure;
+  dimension = other8.dimension;
+  chart_type = other8.chart_type;
+  aggregate_type = other8.aggregate_type;
+  statistical_method = other8.statistical_method;
+  aggregate_data = other8.aggregate_data;
+  score = other8.score;
 }
-Suggestion& Suggestion::operator=(const Suggestion& other23) {
-  measure = other23.measure;
-  dimension = other23.dimension;
-  chart_type = other23.chart_type;
-  aggregate_type = other23.aggregate_type;
-  statistical_method = other23.statistical_method;
-  group_by_raw_data = other23.group_by_raw_data;
-  aggregate_data = other23.aggregate_data;
-  score = other23.score;
+Suggestion& Suggestion::operator=(const Suggestion& other9) {
+  measure = other9.measure;
+  dimension = other9.dimension;
+  chart_type = other9.chart_type;
+  aggregate_type = other9.aggregate_type;
+  statistical_method = other9.statistical_method;
+  aggregate_data = other9.aggregate_data;
+  score = other9.score;
   return *this;
 }
 void Suggestion::printTo(std::ostream& out) const {
@@ -322,7 +256,6 @@ void Suggestion::printTo(std::ostream& out) const {
   out << ", " << "chart_type=" << to_string(chart_type);
   out << ", " << "aggregate_type=" << to_string(aggregate_type);
   out << ", " << "statistical_method=" << to_string(statistical_method);
-  out << ", " << "group_by_raw_data=" << to_string(group_by_raw_data);
   out << ", " << "aggregate_data=" << to_string(aggregate_data);
   out << ", " << "score=" << to_string(score);
   out << ")";
@@ -333,8 +266,8 @@ Attribute::~Attribute() throw() {
 }
 
 
-void Attribute::__set_attribute(const std::string& val) {
-  this->attribute = val;
+void Attribute::__set_name(const std::string& val) {
+  this->name = val;
 }
 
 uint32_t Attribute::read(::apache::thrift::protocol::TProtocol* iprot) {
@@ -349,7 +282,7 @@ uint32_t Attribute::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   using ::apache::thrift::protocol::TProtocolException;
 
-  bool isset_attribute = false;
+  bool isset_name = false;
 
   while (true)
   {
@@ -361,8 +294,8 @@ uint32_t Attribute::read(::apache::thrift::protocol::TProtocol* iprot) {
     {
       case 1:
         if (ftype == ::apache::thrift::protocol::T_STRING) {
-          xfer += iprot->readString(this->attribute);
-          isset_attribute = true;
+          xfer += iprot->readString(this->name);
+          isset_name = true;
         } else {
           xfer += iprot->skip(ftype);
         }
@@ -376,7 +309,7 @@ uint32_t Attribute::read(::apache::thrift::protocol::TProtocol* iprot) {
 
   xfer += iprot->readStructEnd();
 
-  if (!isset_attribute)
+  if (!isset_name)
     throw TProtocolException(TProtocolException::INVALID_DATA);
   return xfer;
 }
@@ -386,8 +319,8 @@ uint32_t Attribute::write(::apache::thrift::protocol::TProtocol* oprot) const {
   apache::thrift::protocol::TOutputRecursionTracker tracker(*oprot);
   xfer += oprot->writeStructBegin("Attribute");
 
-  xfer += oprot->writeFieldBegin("attribute", ::apache::thrift::protocol::T_STRING, 1);
-  xfer += oprot->writeString(this->attribute);
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_STRING, 1);
+  xfer += oprot->writeString(this->name);
   xfer += oprot->writeFieldEnd();
 
   xfer += oprot->writeFieldStop();
@@ -397,20 +330,20 @@ uint32_t Attribute::write(::apache::thrift::protocol::TProtocol* oprot) const {
 
 void swap(Attribute &a, Attribute &b) {
   using ::std::swap;
-  swap(a.attribute, b.attribute);
+  swap(a.name, b.name);
 }
 
-Attribute::Attribute(const Attribute& other24) {
-  attribute = other24.attribute;
+Attribute::Attribute(const Attribute& other10) {
+  name = other10.name;
 }
-Attribute& Attribute::operator=(const Attribute& other25) {
-  attribute = other25.attribute;
+Attribute& Attribute::operator=(const Attribute& other11) {
+  name = other11.name;
   return *this;
 }
 void Attribute::printTo(std::ostream& out) const {
   using ::apache::thrift::to_string;
   out << "Attribute(";
-  out << "attribute=" << to_string(attribute);
+  out << "name=" << to_string(name);
   out << ")";
 }
 
