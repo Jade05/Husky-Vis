@@ -14,7 +14,7 @@ using namespace ::apache::thrift::server;
 
 using boost::shared_ptr;
 
-using namespace  ::Visualization;
+using namespace  ::Server;
 
 class AppHandler : virtual public AppIf {
  public:
@@ -22,14 +22,24 @@ class AppHandler : virtual public AppIf {
     // Your initialization goes here
   }
 
-  int32_t ping() {
+  void get_suggestions(std::vector<Suggestion> & _return) {
     // Your implementation goes here
-    printf("ping\n");
+    printf("get_suggestions\n");
+  }
+
+  void get_attributes(std::vector<Attribute> & _return) {
+    // Your implementation goes here
+    printf("get_attributes\n");
   }
 
   void init_run(std::vector<std::string> & _return) {
     // Your implementation goes here
     printf("init_run\n");
+  }
+
+  void ping() {
+    // Your implementation goes here
+    printf("ping\n");
   }
 
 };

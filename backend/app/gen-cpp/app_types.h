@@ -17,7 +17,126 @@
 #include <thrift/cxxfunctional.h>
 
 
-namespace Visualization {
+namespace Server {
+
+class Suggestion;
+
+class Attribute;
+
+
+class Suggestion {
+ public:
+
+  Suggestion(const Suggestion&);
+  Suggestion& operator=(const Suggestion&);
+  Suggestion() : measure(), dimension(), chart_type(), aggregate_type(), statistical_method(), score(0) {
+  }
+
+  virtual ~Suggestion() throw();
+  std::string measure;
+  std::string dimension;
+  std::string chart_type;
+  std::string aggregate_type;
+  std::string statistical_method;
+  std::map<std::string, std::vector<std::string> >  group_by_raw_data;
+  std::map<std::string, double>  aggregate_data;
+  double score;
+
+  void __set_measure(const std::string& val);
+
+  void __set_dimension(const std::string& val);
+
+  void __set_chart_type(const std::string& val);
+
+  void __set_aggregate_type(const std::string& val);
+
+  void __set_statistical_method(const std::string& val);
+
+  void __set_group_by_raw_data(const std::map<std::string, std::vector<std::string> > & val);
+
+  void __set_aggregate_data(const std::map<std::string, double> & val);
+
+  void __set_score(const double val);
+
+  bool operator == (const Suggestion & rhs) const
+  {
+    if (!(measure == rhs.measure))
+      return false;
+    if (!(dimension == rhs.dimension))
+      return false;
+    if (!(chart_type == rhs.chart_type))
+      return false;
+    if (!(aggregate_type == rhs.aggregate_type))
+      return false;
+    if (!(statistical_method == rhs.statistical_method))
+      return false;
+    if (!(group_by_raw_data == rhs.group_by_raw_data))
+      return false;
+    if (!(aggregate_data == rhs.aggregate_data))
+      return false;
+    if (!(score == rhs.score))
+      return false;
+    return true;
+  }
+  bool operator != (const Suggestion &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Suggestion & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(Suggestion &a, Suggestion &b);
+
+inline std::ostream& operator<<(std::ostream& out, const Suggestion& obj)
+{
+  obj.printTo(out);
+  return out;
+}
+
+
+class Attribute {
+ public:
+
+  Attribute(const Attribute&);
+  Attribute& operator=(const Attribute&);
+  Attribute() : attribute() {
+  }
+
+  virtual ~Attribute() throw();
+  std::string attribute;
+
+  void __set_attribute(const std::string& val);
+
+  bool operator == (const Attribute & rhs) const
+  {
+    if (!(attribute == rhs.attribute))
+      return false;
+    return true;
+  }
+  bool operator != (const Attribute &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const Attribute & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+  virtual void printTo(std::ostream& out) const;
+};
+
+void swap(Attribute &a, Attribute &b);
+
+inline std::ostream& operator<<(std::ostream& out, const Attribute& obj)
+{
+  obj.printTo(out);
+  return out;
+}
 
 } // namespace
 

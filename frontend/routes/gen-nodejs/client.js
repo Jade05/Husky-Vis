@@ -18,7 +18,6 @@ connection.on("error", function(err) {
 var client = thrift.createClient(service, connection);  
   
 client.ping(function (err, response) {
-    console.log(response);
     console.log('ping()');
     connection.end();
 });  

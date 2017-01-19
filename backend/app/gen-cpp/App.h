@@ -11,7 +11,7 @@
 #include <thrift/async/TConcurrentClientSyncInfo.h>
 #include "app_types.h"
 
-namespace Visualization {
+namespace Server {
 
 #ifdef _WIN32
   #pragma warning( push )
@@ -21,8 +21,10 @@ namespace Visualization {
 class AppIf {
  public:
   virtual ~AppIf() {}
-  virtual int32_t ping() = 0;
+  virtual void get_suggestions(std::vector<Suggestion> & _return) = 0;
+  virtual void get_attributes(std::vector<Attribute> & _return) = 0;
   virtual void init_run(std::vector<std::string> & _return) = 0;
+  virtual void ping() = 0;
 };
 
 class AppIfFactory {
@@ -52,35 +54,40 @@ class AppIfSingletonFactory : virtual public AppIfFactory {
 class AppNull : virtual public AppIf {
  public:
   virtual ~AppNull() {}
-  int32_t ping() {
-    int32_t _return = 0;
-    return _return;
+  void get_suggestions(std::vector<Suggestion> & /* _return */) {
+    return;
+  }
+  void get_attributes(std::vector<Attribute> & /* _return */) {
+    return;
   }
   void init_run(std::vector<std::string> & /* _return */) {
+    return;
+  }
+  void ping() {
     return;
   }
 };
 
 
-class App_ping_args {
+class App_get_suggestions_args {
  public:
 
-  App_ping_args(const App_ping_args&);
-  App_ping_args& operator=(const App_ping_args&);
-  App_ping_args() {
+  App_get_suggestions_args(const App_get_suggestions_args&);
+  App_get_suggestions_args& operator=(const App_get_suggestions_args&);
+  App_get_suggestions_args() {
   }
 
-  virtual ~App_ping_args() throw();
+  virtual ~App_get_suggestions_args() throw();
 
-  bool operator == (const App_ping_args & /* rhs */) const
+  bool operator == (const App_get_suggestions_args & /* rhs */) const
   {
     return true;
   }
-  bool operator != (const App_ping_args &rhs) const {
+  bool operator != (const App_get_suggestions_args &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const App_ping_args & ) const;
+  bool operator < (const App_get_suggestions_args & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
@@ -88,66 +95,158 @@ class App_ping_args {
 };
 
 
-class App_ping_pargs {
+class App_get_suggestions_pargs {
  public:
 
 
-  virtual ~App_ping_pargs() throw();
+  virtual ~App_get_suggestions_pargs() throw();
 
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _App_ping_result__isset {
-  _App_ping_result__isset() : success(false) {}
+typedef struct _App_get_suggestions_result__isset {
+  _App_get_suggestions_result__isset() : success(false) {}
   bool success :1;
-} _App_ping_result__isset;
+} _App_get_suggestions_result__isset;
 
-class App_ping_result {
+class App_get_suggestions_result {
  public:
 
-  App_ping_result(const App_ping_result&);
-  App_ping_result& operator=(const App_ping_result&);
-  App_ping_result() : success(0) {
+  App_get_suggestions_result(const App_get_suggestions_result&);
+  App_get_suggestions_result& operator=(const App_get_suggestions_result&);
+  App_get_suggestions_result() {
   }
 
-  virtual ~App_ping_result() throw();
-  int32_t success;
+  virtual ~App_get_suggestions_result() throw();
+  std::vector<Suggestion>  success;
 
-  _App_ping_result__isset __isset;
+  _App_get_suggestions_result__isset __isset;
 
-  void __set_success(const int32_t val);
+  void __set_success(const std::vector<Suggestion> & val);
 
-  bool operator == (const App_ping_result & rhs) const
+  bool operator == (const App_get_suggestions_result & rhs) const
   {
     if (!(success == rhs.success))
       return false;
     return true;
   }
-  bool operator != (const App_ping_result &rhs) const {
+  bool operator != (const App_get_suggestions_result &rhs) const {
     return !(*this == rhs);
   }
 
-  bool operator < (const App_ping_result & ) const;
+  bool operator < (const App_get_suggestions_result & ) const;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
   uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
 
 };
 
-typedef struct _App_ping_presult__isset {
-  _App_ping_presult__isset() : success(false) {}
+typedef struct _App_get_suggestions_presult__isset {
+  _App_get_suggestions_presult__isset() : success(false) {}
   bool success :1;
-} _App_ping_presult__isset;
+} _App_get_suggestions_presult__isset;
 
-class App_ping_presult {
+class App_get_suggestions_presult {
  public:
 
 
-  virtual ~App_ping_presult() throw();
-  int32_t* success;
+  virtual ~App_get_suggestions_presult() throw();
+  std::vector<Suggestion> * success;
 
-  _App_ping_presult__isset __isset;
+  _App_get_suggestions_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+
+class App_get_attributes_args {
+ public:
+
+  App_get_attributes_args(const App_get_attributes_args&);
+  App_get_attributes_args& operator=(const App_get_attributes_args&);
+  App_get_attributes_args() {
+  }
+
+  virtual ~App_get_attributes_args() throw();
+
+  bool operator == (const App_get_attributes_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const App_get_attributes_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const App_get_attributes_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class App_get_attributes_pargs {
+ public:
+
+
+  virtual ~App_get_attributes_pargs() throw();
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _App_get_attributes_result__isset {
+  _App_get_attributes_result__isset() : success(false) {}
+  bool success :1;
+} _App_get_attributes_result__isset;
+
+class App_get_attributes_result {
+ public:
+
+  App_get_attributes_result(const App_get_attributes_result&);
+  App_get_attributes_result& operator=(const App_get_attributes_result&);
+  App_get_attributes_result() {
+  }
+
+  virtual ~App_get_attributes_result() throw();
+  std::vector<Attribute>  success;
+
+  _App_get_attributes_result__isset __isset;
+
+  void __set_success(const std::vector<Attribute> & val);
+
+  bool operator == (const App_get_attributes_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const App_get_attributes_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const App_get_attributes_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _App_get_attributes_presult__isset {
+  _App_get_attributes_presult__isset() : success(false) {}
+  bool success :1;
+} _App_get_attributes_presult__isset;
+
+class App_get_attributes_presult {
+ public:
+
+
+  virtual ~App_get_attributes_presult() throw();
+  std::vector<Attribute> * success;
+
+  _App_get_attributes_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -245,6 +344,80 @@ class App_init_run_presult {
 
 };
 
+
+class App_ping_args {
+ public:
+
+  App_ping_args(const App_ping_args&);
+  App_ping_args& operator=(const App_ping_args&);
+  App_ping_args() {
+  }
+
+  virtual ~App_ping_args() throw();
+
+  bool operator == (const App_ping_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const App_ping_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const App_ping_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class App_ping_pargs {
+ public:
+
+
+  virtual ~App_ping_pargs() throw();
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class App_ping_result {
+ public:
+
+  App_ping_result(const App_ping_result&);
+  App_ping_result& operator=(const App_ping_result&);
+  App_ping_result() {
+  }
+
+  virtual ~App_ping_result() throw();
+
+  bool operator == (const App_ping_result & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const App_ping_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const App_ping_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class App_ping_presult {
+ public:
+
+
+  virtual ~App_ping_presult() throw();
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class AppClient : virtual public AppIf {
  public:
   AppClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) {
@@ -270,12 +443,18 @@ class AppClient : virtual public AppIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t ping();
-  void send_ping();
-  int32_t recv_ping();
+  void get_suggestions(std::vector<Suggestion> & _return);
+  void send_get_suggestions();
+  void recv_get_suggestions(std::vector<Suggestion> & _return);
+  void get_attributes(std::vector<Attribute> & _return);
+  void send_get_attributes();
+  void recv_get_attributes(std::vector<Attribute> & _return);
   void init_run(std::vector<std::string> & _return);
   void send_init_run();
   void recv_init_run(std::vector<std::string> & _return);
+  void ping();
+  void send_ping();
+  void recv_ping();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -291,13 +470,17 @@ class AppProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef  void (AppProcessor::*ProcessFunction)(int32_t, ::apache::thrift::protocol::TProtocol*, ::apache::thrift::protocol::TProtocol*, void*);
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
-  void process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_suggestions(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_get_attributes(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_init_run(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ping(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AppProcessor(boost::shared_ptr<AppIf> iface) :
     iface_(iface) {
-    processMap_["ping"] = &AppProcessor::process_ping;
+    processMap_["get_suggestions"] = &AppProcessor::process_get_suggestions;
+    processMap_["get_attributes"] = &AppProcessor::process_get_attributes;
     processMap_["init_run"] = &AppProcessor::process_init_run;
+    processMap_["ping"] = &AppProcessor::process_ping;
   }
 
   virtual ~AppProcessor() {}
@@ -326,13 +509,24 @@ class AppMultiface : virtual public AppIf {
     ifaces_.push_back(iface);
   }
  public:
-  int32_t ping() {
+  void get_suggestions(std::vector<Suggestion> & _return) {
     size_t sz = ifaces_.size();
     size_t i = 0;
     for (; i < (sz - 1); ++i) {
-      ifaces_[i]->ping();
+      ifaces_[i]->get_suggestions(_return);
     }
-    return ifaces_[i]->ping();
+    ifaces_[i]->get_suggestions(_return);
+    return;
+  }
+
+  void get_attributes(std::vector<Attribute> & _return) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->get_attributes(_return);
+    }
+    ifaces_[i]->get_attributes(_return);
+    return;
   }
 
   void init_run(std::vector<std::string> & _return) {
@@ -343,6 +537,15 @@ class AppMultiface : virtual public AppIf {
     }
     ifaces_[i]->init_run(_return);
     return;
+  }
+
+  void ping() {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ping();
+    }
+    ifaces_[i]->ping();
   }
 
 };
@@ -375,12 +578,18 @@ class AppConcurrentClient : virtual public AppIf {
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> getOutputProtocol() {
     return poprot_;
   }
-  int32_t ping();
-  int32_t send_ping();
-  int32_t recv_ping(const int32_t seqid);
+  void get_suggestions(std::vector<Suggestion> & _return);
+  int32_t send_get_suggestions();
+  void recv_get_suggestions(std::vector<Suggestion> & _return, const int32_t seqid);
+  void get_attributes(std::vector<Attribute> & _return);
+  int32_t send_get_attributes();
+  void recv_get_attributes(std::vector<Attribute> & _return, const int32_t seqid);
   void init_run(std::vector<std::string> & _return);
   int32_t send_init_run();
   void recv_init_run(std::vector<std::string> & _return, const int32_t seqid);
+  void ping();
+  int32_t send_ping();
+  void recv_ping(const int32_t seqid);
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;

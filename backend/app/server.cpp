@@ -1,4 +1,4 @@
-#include "./gen-cpp/Something.h"
+#include "./gen-cpp/App.h"
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
@@ -17,20 +17,36 @@ using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 
-using namespace  ::App;
+using namespace  ::Server;
 
-class SomethingHandler : virtual public SomethingIf {
+class AppHandler : virtual public AppIf {
  public:
-  SomethingHandler() {
+  AppHandler() {
     // Your initialization goes here
   }
 
-   int32_t ping() {
-     std::vector<husky::visualization::SuggestionObject> topk_suggestions;
+  void get_suggestions(std::vector<Suggestion> & _return) {
+    // Your implementation goes here
+    printf("get_suggestions\n");
+  }
 
-     husky::run_job(std::bind(&husky::visualization::Controller::init_visualization, topk_suggestions));
-     return 66666;
-   }
+  void get_attributes(std::vector<Attribute> & _return) {
+    // Your implementation goes here
+    printf("get_attributes\n");
+  }
+
+  void init_run(std::vector<std::string> & _return) {
+    // Your implementation goes here
+    printf("init_run\n");
+    std::vector<husky::visualization::SuggestionObject> topk_suggestions;
+
+    husky::run_job(std::bind(&husky::visualization::Controller::init_visualization, topk_suggestions));
+  }
+
+  void ping() {
+    std::cout << "hhhhhhhhh" << std::endl;
+    printf("Hello world");
+  }
 
 };
 
@@ -48,8 +64,8 @@ int main(int argc, char **argv) {
   husky::visualization::Controller::init_with_args(argc, argv, args);
 
   int port = 9090;
-  boost::shared_ptr<SomethingHandler> handler(new SomethingHandler());
-  boost::shared_ptr<TProcessor> processor(new SomethingProcessor(handler));
+  boost::shared_ptr<AppHandler> handler(new AppHandler());
+  boost::shared_ptr<TProcessor> processor(new AppProcessor(handler));
   boost::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
   boost::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
   boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
