@@ -18,11 +18,12 @@ connection.on("error", function(err) {
 var client = thrift.createClient(service, connection);  
   
 var test = [];
-var a;
-
-client.get_suggestions(function (err, response) {
+client.init_run(test);
+/*
+client.init_run(test, function (err, response) {
     console.log(response);
+    console.log('ping()');
     connection.end();
 });  
-
+*/
 

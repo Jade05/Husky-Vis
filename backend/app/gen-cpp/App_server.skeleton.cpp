@@ -42,6 +42,16 @@ class AppHandler : virtual public AppIf {
     printf("ping\n");
   }
 
+  void test1(std::string& _return) {
+    // Your implementation goes here
+    printf("test1\n");
+  }
+
+  void test2(Suggestion& _return) {
+    // Your implementation goes here
+    printf("test2\n");
+  }
+
 };
 
 int main(int argc, char **argv) {

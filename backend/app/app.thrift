@@ -20,4 +20,6 @@ service App {
     list<Attribute> get_attributes();
     list<string> init_run();
     void ping();
+    string test1();
+    Suggestion test2();
 } 
