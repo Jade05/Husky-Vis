@@ -17,9 +17,14 @@ connection.on("error", function(err) {
   
 var client = thrift.createClient(service, connection);  
 
-client.get_suggestions(function (err, response) {
+/*
+client.get_suggestions(function(err, response) {
     console.log(response);
     connection.end();
-});  
+});
+*/
 
-
+client.get_attributes(function(err, response) {
+    console.log(response);
+    connection.end();
+});

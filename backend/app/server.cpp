@@ -52,13 +52,14 @@ class AppHandler : virtual public AppIf {
     printf("get_attributes\n");
 
     std::vector<std::string> attributes;
-    std::bind(&husky::visualization::Controller::get_attributes, std::ref(attributes));
+    husky::visualization::Controller::get_attributes(attributes);
 
     for (auto attribute : attributes) {
       Server::Attribute attr;
       attr.name = attribute;
       _return.push_back(attr);
     }
+    
   }
 
 };
