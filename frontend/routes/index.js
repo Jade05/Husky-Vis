@@ -1,5 +1,8 @@
+var promise = require("bluebird");
 var express = require('express');
 var router = express.Router();
+
+var connect = require('./connect/connect');
 
 var dataSchema = require('../mock/schema/birdstrikes-schema.json');
 var dataDetail = require('../mock/data/birdstrikes.json');
@@ -84,11 +87,21 @@ function handleRecommendatedVis() {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  result.data.attributes = handleAttributes();
-  result.data.selectedVis = handleSelectedVis();
-  result.data.recommendatedVis = handleRecommendatedVis();
+  // result.data.attributes = handleAttributes();
+  // result.data.selectedVis = handleSelectedVis();
+  // result.data.recommendatedVis = handleRecommendatedVis();
 
-  res.render('main', result);
+  // res.render('main', result);
+  
+  promise.promisifyAll(connect);
+  connect.init();
+
+  connect.get_attributesAsync().then(function(response) {
+      console.log(response);
+  }).catch(function(err) {
+    console.log(err);
+  });
+
 });
 
 module.exports = router;
