@@ -48,8 +48,8 @@ point.pointFormat = function (data) {
     },
     "mark": "point",
     "encoding": {
-      "x": {"field": null, "type": null, "axis": {"title": null},
-      "y": {"field": null, "type": null, "axis": {"title": null}
+      "x": {"field": null, "type": null, "axis": {"title": null}},
+      "y": {"field": null, "type": null, "axis": {"title": null}}
     }
   };
 
@@ -62,7 +62,7 @@ point.pointFormat = function (data) {
   var yAgg = data.y.aggregate;
 
   // process values
-  for (var i = 0; i < xData.length() && i < yData.length(); i++) {
+  for (var i = 0; i < xData.length && i < yData.length; i++) {
       var value = {};
 
       value[xName] = xData[i];
@@ -71,14 +71,14 @@ point.pointFormat = function (data) {
       format.data.values.push(value);
   }
 
-  format.data.encoding.x.field = xName;
-  format.data.encoding.y.field = yName;
+  format.encoding.x.field = xName;
+  format.encoding.y.field = yName;
 
-  format.data.encoding.x.type = xType;
-  format.data.encoding.y.type = yType;
+  format.encoding.x.type = xType;
+  format.encoding.y.type = yType;
 
-  format.data.encoding.x.axis.title = xName;
-  format.data.encoding.y.axis.title = yAgg + ' of ' + yName;
+  format.encoding.x.axis.title = xName;
+  format.encoding.y.axis.title = yAgg + ' of ' + yName;
 
   return format;
 };

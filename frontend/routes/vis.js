@@ -1,7 +1,7 @@
 var dataSchema = require('../mock/schema/birdstrikes-schema.json');
 var dataDetail = require('../mock/data/birdstrikes.json');
 
-var encoding = require('../routes/util/encoding');
+// var encoding = require('../routes/util/encoding');
 
 var result = {
   "title": "demo",
@@ -85,12 +85,12 @@ function handleRecommendatedVis() {
 var vis = {};
 
 vis.init = function (req, res, next) {
-  result.data.attributes = handleAttributes();
-  result.data.selectedVis = handleSelectedVis();
-  result.data.recommendatedVis = handleRecommendatedVis();
+  // result.data.attributes = handleAttributes();
+  // result.data.selectedVis = handleSelectedVis();
+  // result.data.recommendatedVis = handleRecommendatedVis();
 
-  var encodingResult = encoding.encoding(dataSchema, dataDetail, '');
-  res.send(encodingResult);
+  // var encodingResult = encoding.encoding(dataSchema, dataDetail, '');
+  // res.send(encodingResult);
 };
 
 module.exports = vis;

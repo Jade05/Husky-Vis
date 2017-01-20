@@ -1,6 +1,6 @@
-var bar = require('./bar');
-var line = require('./line');
-var point = require('./point');
+var bar = require('./charts/bar');
+var line = require('./charts/line');
+var point = require('./charts/point');
 
 var chartMap = {
   'bar': bar.barFormat,
