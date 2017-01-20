@@ -5,6 +5,15 @@ var router = express.Router();
 var connect = require('./connect/connect');
 var encoding = require('./encoding/encoding');
 
+function colloctAttributes(attributes) {
+  var result = [];
+
+  for (var i = 0; i < attributes.length; i++) {
+    result.push(attributes[i].attribute);
+  }
+
+  return result;
+}
 // handle suggestions
 function handleSuggestions(suggestions) {
   var result = [];
@@ -37,20 +46,24 @@ router.get('/', function(req, res, next) {
 
   connect.get_attributesAsync().then(function(response) {
       // get the attributes
-      result.data.attributes = response;
+      result.data.attributes = colloctAttributes(response);
       
       connect.get_suggestionsAsync().then(function(response) {
         // get topksuggestions visualization result
         result.data.recommendatedVis = handleSuggestions(response);
         // response frontend
         res.render('main', result);
+
+        connect.end();
       }).catch(function(err) {
         console.log(err);
-      })
+      });
+
   }).catch(function(err) {
     console.log(err);
   });
 
 });
+
 
 module.exports = router;
