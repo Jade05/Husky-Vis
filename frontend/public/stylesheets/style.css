@@ -1,8 +1,25 @@
 body {
-  padding: 50px;
+  padding: 10px 0 0 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.title {
+    height: 40px;
+    line-height: 40px;
+}
+
+#pane-left {
+  /*position: absolute;
+  top: 60px;
+  bottom: 0;*/
+  background-color: #428bca;
+  padding: 15px 0 15px 25px;
+}
+
+.attribute-name {
+  margin-left: 10px;
 }

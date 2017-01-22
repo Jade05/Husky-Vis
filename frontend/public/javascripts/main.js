@@ -1,8 +1,7 @@
-$(function() {
-	var start = new Date();
-
-	$.post('/vis', {}, function(data) {
-		console.log(data);
-		console.log(((new Date()).getTime() - start.getTime()) / 1000 + ' s');
-	})
+requirejs.config({
+    //By default load any module IDs from js/lib
+    baseUrl: 'javascripts/lib',
+    paths: {
+        app: '../javascripts'
+    }
 });

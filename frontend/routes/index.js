@@ -29,13 +29,13 @@ function handleSuggestions(suggestions) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  
+
   var result = {
     "title": "Husky-Visualization",
     "data": {
       "attributes": [],
       "selectedVis": [],
-      "recommendatedVis": []
+      "recommendedVis": []
     }
   };
 
@@ -47,10 +47,10 @@ router.get('/', function(req, res, next) {
   connect.get_attributesAsync().then(function(response) {
       // get the attributes
       result.data.attributes = colloctAttributes(response);
-      
+
       connect.get_suggestionsAsync().then(function(response) {
         // get topksuggestions visualization result
-        result.data.recommendatedVis = handleSuggestions(response);
+        result.data.recommendedVis = handleSuggestions(response);
         // response frontend
         res.render('main', result);
 

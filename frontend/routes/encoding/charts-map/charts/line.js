@@ -49,7 +49,8 @@ line.lineFormat = function (data) {
     "mark": "line",
     "encoding": {
       "x": {"field": null, "type": null, "axis": {"title": null}},
-      "y": {"field": null, "type": null, "axis": {"title": null}}
+      "y": {"field": null, "type": null, "axis": {"title": null}},
+      "color": {"value": "#5cb85c"}
     }
   };
 
