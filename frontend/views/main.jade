@@ -8,7 +8,7 @@ block content
       - for (var i = 0; i < data.attributes.length; i++)
         div.checkbox
           label
-            input#pane-left-attribute(type="checkbox")
+            input(class="pane-left-attribute" type="checkbox" name=data.attributes[i])
             span.attribute-name #{ data.attributes[i] }
 
     div#pane-right.col-xs-10
@@ -22,6 +22,7 @@ block content
 
   script(type='text/javascript').
     var suggestions =  !{JSON.stringify(data)}
-    require(["visualization"], function(visualization) {
+    require(["visualization", "leftPanel"], function(visualization, leftPanel) {
       visualization(suggestions)
+      leftPanel()
     })
