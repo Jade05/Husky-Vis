@@ -27,6 +27,11 @@ class AppHandler : virtual public AppIf {
     printf("get_suggestions\n");
   }
 
+  void select_attribute(std::vector<Suggestion> & _return, const std::string& selectAttribute) {
+    // Your implementation goes here
+    printf("select_attribute\n");
+  }
+
   void get_attributes(std::vector<Attribute> & _return) {
     // Your implementation goes here
     printf("get_attributes\n");

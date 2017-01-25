@@ -22,6 +22,7 @@ class AppIf {
  public:
   virtual ~AppIf() {}
   virtual void get_suggestions(std::vector<Suggestion> & _return) = 0;
+  virtual void select_attribute(std::vector<Suggestion> & _return, const std::string& selectAttribute) = 0;
   virtual void get_attributes(std::vector<Attribute> & _return) = 0;
 };
 
@@ -53,6 +54,9 @@ class AppNull : virtual public AppIf {
  public:
   virtual ~AppNull() {}
   void get_suggestions(std::vector<Suggestion> & /* _return */) {
+    return;
+  }
+  void select_attribute(std::vector<Suggestion> & /* _return */, const std::string& /* selectAttribute */) {
     return;
   }
   void get_attributes(std::vector<Attribute> & /* _return */) {
@@ -147,6 +151,110 @@ class App_get_suggestions_presult {
   std::vector<Suggestion> * success;
 
   _App_get_suggestions_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _App_select_attribute_args__isset {
+  _App_select_attribute_args__isset() : selectAttribute(false) {}
+  bool selectAttribute :1;
+} _App_select_attribute_args__isset;
+
+class App_select_attribute_args {
+ public:
+
+  App_select_attribute_args(const App_select_attribute_args&);
+  App_select_attribute_args& operator=(const App_select_attribute_args&);
+  App_select_attribute_args() : selectAttribute() {
+  }
+
+  virtual ~App_select_attribute_args() throw();
+  std::string selectAttribute;
+
+  _App_select_attribute_args__isset __isset;
+
+  void __set_selectAttribute(const std::string& val);
+
+  bool operator == (const App_select_attribute_args & rhs) const
+  {
+    if (!(selectAttribute == rhs.selectAttribute))
+      return false;
+    return true;
+  }
+  bool operator != (const App_select_attribute_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const App_select_attribute_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class App_select_attribute_pargs {
+ public:
+
+
+  virtual ~App_select_attribute_pargs() throw();
+  const std::string* selectAttribute;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _App_select_attribute_result__isset {
+  _App_select_attribute_result__isset() : success(false) {}
+  bool success :1;
+} _App_select_attribute_result__isset;
+
+class App_select_attribute_result {
+ public:
+
+  App_select_attribute_result(const App_select_attribute_result&);
+  App_select_attribute_result& operator=(const App_select_attribute_result&);
+  App_select_attribute_result() {
+  }
+
+  virtual ~App_select_attribute_result() throw();
+  std::vector<Suggestion>  success;
+
+  _App_select_attribute_result__isset __isset;
+
+  void __set_success(const std::vector<Suggestion> & val);
+
+  bool operator == (const App_select_attribute_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const App_select_attribute_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const App_select_attribute_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _App_select_attribute_presult__isset {
+  _App_select_attribute_presult__isset() : success(false) {}
+  bool success :1;
+} _App_select_attribute_presult__isset;
+
+class App_select_attribute_presult {
+ public:
+
+
+  virtual ~App_select_attribute_presult() throw();
+  std::vector<Suggestion> * success;
+
+  _App_select_attribute_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -272,6 +380,9 @@ class AppClient : virtual public AppIf {
   void get_suggestions(std::vector<Suggestion> & _return);
   void send_get_suggestions();
   void recv_get_suggestions(std::vector<Suggestion> & _return);
+  void select_attribute(std::vector<Suggestion> & _return, const std::string& selectAttribute);
+  void send_select_attribute(const std::string& selectAttribute);
+  void recv_select_attribute(std::vector<Suggestion> & _return);
   void get_attributes(std::vector<Attribute> & _return);
   void send_get_attributes();
   void recv_get_attributes(std::vector<Attribute> & _return);
@@ -291,11 +402,13 @@ class AppProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_get_suggestions(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_select_attribute(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_get_attributes(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   AppProcessor(boost::shared_ptr<AppIf> iface) :
     iface_(iface) {
     processMap_["get_suggestions"] = &AppProcessor::process_get_suggestions;
+    processMap_["select_attribute"] = &AppProcessor::process_select_attribute;
     processMap_["get_attributes"] = &AppProcessor::process_get_attributes;
   }
 
@@ -332,6 +445,16 @@ class AppMultiface : virtual public AppIf {
       ifaces_[i]->get_suggestions(_return);
     }
     ifaces_[i]->get_suggestions(_return);
+    return;
+  }
+
+  void select_attribute(std::vector<Suggestion> & _return, const std::string& selectAttribute) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->select_attribute(_return, selectAttribute);
+    }
+    ifaces_[i]->select_attribute(_return, selectAttribute);
     return;
   }
 
@@ -378,6 +501,9 @@ class AppConcurrentClient : virtual public AppIf {
   void get_suggestions(std::vector<Suggestion> & _return);
   int32_t send_get_suggestions();
   void recv_get_suggestions(std::vector<Suggestion> & _return, const int32_t seqid);
+  void select_attribute(std::vector<Suggestion> & _return, const std::string& selectAttribute);
+  int32_t send_select_attribute(const std::string& selectAttribute);
+  void recv_select_attribute(std::vector<Suggestion> & _return, const int32_t seqid);
   void get_attributes(std::vector<Attribute> & _return);
   int32_t send_get_attributes();
   void recv_get_attributes(std::vector<Attribute> & _return, const int32_t seqid);

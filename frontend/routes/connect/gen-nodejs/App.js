@@ -115,6 +115,135 @@ App_get_suggestions_result.prototype.write = function(output) {
   return;
 };
 
+App_select_attribute_args = function(args) {
+  this.selectAttribute = null;
+  if (args) {
+    if (args.selectAttribute !== undefined && args.selectAttribute !== null) {
+      this.selectAttribute = args.selectAttribute;
+    }
+  }
+};
+App_select_attribute_args.prototype = {};
+App_select_attribute_args.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.STRING) {
+        this.selectAttribute = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+App_select_attribute_args.prototype.write = function(output) {
+  output.writeStructBegin('App_select_attribute_args');
+  if (this.selectAttribute !== null && this.selectAttribute !== undefined) {
+    output.writeFieldBegin('selectAttribute', Thrift.Type.STRING, 1);
+    output.writeString(this.selectAttribute);
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+App_select_attribute_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = Thrift.copyList(args.success, [ttypes.Suggestion]);
+    }
+  }
+};
+App_select_attribute_result.prototype = {};
+App_select_attribute_result.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.LIST) {
+        var _size18 = 0;
+        var _rtmp322;
+        this.success = [];
+        var _etype21 = 0;
+        _rtmp322 = input.readListBegin();
+        _etype21 = _rtmp322.etype;
+        _size18 = _rtmp322.size;
+        for (var _i23 = 0; _i23 < _size18; ++_i23)
+        {
+          var elem24 = null;
+          elem24 = new ttypes.Suggestion();
+          elem24.read(input);
+          this.success.push(elem24);
+        }
+        input.readListEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+App_select_attribute_result.prototype.write = function(output) {
+  output.writeStructBegin('App_select_attribute_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
+    output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
+    for (var iter25 in this.success)
+    {
+      if (this.success.hasOwnProperty(iter25))
+      {
+        iter25 = this.success[iter25];
+        iter25.write(output);
+      }
+    }
+    output.writeListEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
 App_get_attributes_args = function(args) {
 };
 App_get_attributes_args.prototype = {};
@@ -167,19 +296,19 @@ App_get_attributes_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.LIST) {
-        var _size18 = 0;
-        var _rtmp322;
+        var _size26 = 0;
+        var _rtmp330;
         this.success = [];
-        var _etype21 = 0;
-        _rtmp322 = input.readListBegin();
-        _etype21 = _rtmp322.etype;
-        _size18 = _rtmp322.size;
-        for (var _i23 = 0; _i23 < _size18; ++_i23)
+        var _etype29 = 0;
+        _rtmp330 = input.readListBegin();
+        _etype29 = _rtmp330.etype;
+        _size26 = _rtmp330.size;
+        for (var _i31 = 0; _i31 < _size26; ++_i31)
         {
-          var elem24 = null;
-          elem24 = new ttypes.Attribute();
-          elem24.read(input);
-          this.success.push(elem24);
+          var elem32 = null;
+          elem32 = new ttypes.Attribute();
+          elem32.read(input);
+          this.success.push(elem32);
         }
         input.readListEnd();
       } else {
@@ -203,337 +332,15 @@ App_get_attributes_result.prototype.write = function(output) {
   if (this.success !== null && this.success !== undefined) {
     output.writeFieldBegin('success', Thrift.Type.LIST, 0);
     output.writeListBegin(Thrift.Type.STRUCT, this.success.length);
-    for (var iter25 in this.success)
-    {
-      if (this.success.hasOwnProperty(iter25))
-      {
-        iter25 = this.success[iter25];
-        iter25.write(output);
-      }
-    }
-    output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-App_init_run_args = function(args) {
-};
-App_init_run_args.prototype = {};
-App_init_run_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-App_init_run_args.prototype.write = function(output) {
-  output.writeStructBegin('App_init_run_args');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-App_init_run_result = function(args) {
-  this.success = null;
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = Thrift.copyList(args.success, [null]);
-    }
-  }
-};
-App_init_run_result.prototype = {};
-App_init_run_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-      if (ftype == Thrift.Type.LIST) {
-        var _size26 = 0;
-        var _rtmp330;
-        this.success = [];
-        var _etype29 = 0;
-        _rtmp330 = input.readListBegin();
-        _etype29 = _rtmp330.etype;
-        _size26 = _rtmp330.size;
-        for (var _i31 = 0; _i31 < _size26; ++_i31)
-        {
-          var elem32 = null;
-          elem32 = input.readString();
-          this.success.push(elem32);
-        }
-        input.readListEnd();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-App_init_run_result.prototype.write = function(output) {
-  output.writeStructBegin('App_init_run_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.LIST, 0);
-    output.writeListBegin(Thrift.Type.STRING, this.success.length);
     for (var iter33 in this.success)
     {
       if (this.success.hasOwnProperty(iter33))
       {
         iter33 = this.success[iter33];
-        output.writeString(iter33);
+        iter33.write(output);
       }
     }
     output.writeListEnd();
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-App_ping_args = function(args) {
-};
-App_ping_args.prototype = {};
-App_ping_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-App_ping_args.prototype.write = function(output) {
-  output.writeStructBegin('App_ping_args');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-App_ping_result = function(args) {
-};
-App_ping_result.prototype = {};
-App_ping_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-App_ping_result.prototype.write = function(output) {
-  output.writeStructBegin('App_ping_result');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-App_test1_args = function(args) {
-};
-App_test1_args.prototype = {};
-App_test1_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-App_test1_args.prototype.write = function(output) {
-  output.writeStructBegin('App_test1_args');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-App_test1_result = function(args) {
-  this.success = null;
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = args.success;
-    }
-  }
-};
-App_test1_result.prototype = {};
-App_test1_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-      if (ftype == Thrift.Type.STRING) {
-        this.success = input.readString();
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-App_test1_result.prototype.write = function(output) {
-  output.writeStructBegin('App_test1_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
-    output.writeString(this.success);
-    output.writeFieldEnd();
-  }
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-App_test2_args = function(args) {
-};
-App_test2_args.prototype = {};
-App_test2_args.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    input.skip(ftype);
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-App_test2_args.prototype.write = function(output) {
-  output.writeStructBegin('App_test2_args');
-  output.writeFieldStop();
-  output.writeStructEnd();
-  return;
-};
-
-App_test2_result = function(args) {
-  this.success = null;
-  if (args) {
-    if (args.success !== undefined && args.success !== null) {
-      this.success = new ttypes.Suggestion(args.success);
-    }
-  }
-};
-App_test2_result.prototype = {};
-App_test2_result.prototype.read = function(input) {
-  input.readStructBegin();
-  while (true)
-  {
-    var ret = input.readFieldBegin();
-    var fname = ret.fname;
-    var ftype = ret.ftype;
-    var fid = ret.fid;
-    if (ftype == Thrift.Type.STOP) {
-      break;
-    }
-    switch (fid)
-    {
-      case 0:
-      if (ftype == Thrift.Type.STRUCT) {
-        this.success = new ttypes.Suggestion();
-        this.success.read(input);
-      } else {
-        input.skip(ftype);
-      }
-      break;
-      case 0:
-        input.skip(ftype);
-        break;
-      default:
-        input.skip(ftype);
-    }
-    input.readFieldEnd();
-  }
-  input.readStructEnd();
-  return;
-};
-
-App_test2_result.prototype.write = function(output) {
-  output.writeStructBegin('App_test2_result');
-  if (this.success !== null && this.success !== undefined) {
-    output.writeFieldBegin('success', Thrift.Type.STRUCT, 0);
-    this.success.write(output);
     output.writeFieldEnd();
   }
   output.writeFieldStop();
@@ -596,6 +403,53 @@ AppClient.prototype.recv_get_suggestions = function(input,mtype,rseqid) {
   }
   return callback('get_suggestions failed: unknown result');
 };
+AppClient.prototype.select_attribute = function(selectAttribute, callback) {
+  this._seqid = this.new_seqid();
+  if (callback === undefined) {
+    var _defer = Q.defer();
+    this._reqs[this.seqid()] = function(error, result) {
+      if (error) {
+        _defer.reject(error);
+      } else {
+        _defer.resolve(result);
+      }
+    };
+    this.send_select_attribute(selectAttribute);
+    return _defer.promise;
+  } else {
+    this._reqs[this.seqid()] = callback;
+    this.send_select_attribute(selectAttribute);
+  }
+};
+
+AppClient.prototype.send_select_attribute = function(selectAttribute) {
+  var output = new this.pClass(this.output);
+  output.writeMessageBegin('select_attribute', Thrift.MessageType.CALL, this.seqid());
+  var args = new App_select_attribute_args();
+  args.selectAttribute = selectAttribute;
+  args.write(output);
+  output.writeMessageEnd();
+  return this.output.flush();
+};
+
+AppClient.prototype.recv_select_attribute = function(input,mtype,rseqid) {
+  var callback = this._reqs[rseqid] || function() {};
+  delete this._reqs[rseqid];
+  if (mtype == Thrift.MessageType.EXCEPTION) {
+    var x = new Thrift.TApplicationException();
+    x.read(input);
+    input.readMessageEnd();
+    return callback(x);
+  }
+  var result = new App_select_attribute_result();
+  result.read(input);
+  input.readMessageEnd();
+
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('select_attribute failed: unknown result');
+};
 AppClient.prototype.get_attributes = function(callback) {
   this._seqid = this.new_seqid();
   if (callback === undefined) {
@@ -641,187 +495,6 @@ AppClient.prototype.recv_get_attributes = function(input,mtype,rseqid) {
     return callback(null, result.success);
   }
   return callback('get_attributes failed: unknown result');
-};
-AppClient.prototype.init_run = function(callback) {
-  this._seqid = this.new_seqid();
-  if (callback === undefined) {
-    var _defer = Q.defer();
-    this._reqs[this.seqid()] = function(error, result) {
-      if (error) {
-        _defer.reject(error);
-      } else {
-        _defer.resolve(result);
-      }
-    };
-    this.send_init_run();
-    return _defer.promise;
-  } else {
-    this._reqs[this.seqid()] = callback;
-    this.send_init_run();
-  }
-};
-
-AppClient.prototype.send_init_run = function() {
-  var output = new this.pClass(this.output);
-  output.writeMessageBegin('init_run', Thrift.MessageType.CALL, this.seqid());
-  var args = new App_init_run_args();
-  args.write(output);
-  output.writeMessageEnd();
-  return this.output.flush();
-};
-
-AppClient.prototype.recv_init_run = function(input,mtype,rseqid) {
-  var callback = this._reqs[rseqid] || function() {};
-  delete this._reqs[rseqid];
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(input);
-    input.readMessageEnd();
-    return callback(x);
-  }
-  var result = new App_init_run_result();
-  result.read(input);
-  input.readMessageEnd();
-
-  if (null !== result.success) {
-    return callback(null, result.success);
-  }
-  return callback('init_run failed: unknown result');
-};
-AppClient.prototype.ping = function(callback) {
-  this._seqid = this.new_seqid();
-  if (callback === undefined) {
-    var _defer = Q.defer();
-    this._reqs[this.seqid()] = function(error, result) {
-      if (error) {
-        _defer.reject(error);
-      } else {
-        _defer.resolve(result);
-      }
-    };
-    this.send_ping();
-    return _defer.promise;
-  } else {
-    this._reqs[this.seqid()] = callback;
-    this.send_ping();
-  }
-};
-
-AppClient.prototype.send_ping = function() {
-  var output = new this.pClass(this.output);
-  output.writeMessageBegin('ping', Thrift.MessageType.CALL, this.seqid());
-  var args = new App_ping_args();
-  args.write(output);
-  output.writeMessageEnd();
-  return this.output.flush();
-};
-
-AppClient.prototype.recv_ping = function(input,mtype,rseqid) {
-  var callback = this._reqs[rseqid] || function() {};
-  delete this._reqs[rseqid];
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(input);
-    input.readMessageEnd();
-    return callback(x);
-  }
-  var result = new App_ping_result();
-  result.read(input);
-  input.readMessageEnd();
-
-  callback(null)
-};
-AppClient.prototype.test1 = function(callback) {
-  this._seqid = this.new_seqid();
-  if (callback === undefined) {
-    var _defer = Q.defer();
-    this._reqs[this.seqid()] = function(error, result) {
-      if (error) {
-        _defer.reject(error);
-      } else {
-        _defer.resolve(result);
-      }
-    };
-    this.send_test1();
-    return _defer.promise;
-  } else {
-    this._reqs[this.seqid()] = callback;
-    this.send_test1();
-  }
-};
-
-AppClient.prototype.send_test1 = function() {
-  var output = new this.pClass(this.output);
-  output.writeMessageBegin('test1', Thrift.MessageType.CALL, this.seqid());
-  var args = new App_test1_args();
-  args.write(output);
-  output.writeMessageEnd();
-  return this.output.flush();
-};
-
-AppClient.prototype.recv_test1 = function(input,mtype,rseqid) {
-  var callback = this._reqs[rseqid] || function() {};
-  delete this._reqs[rseqid];
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(input);
-    input.readMessageEnd();
-    return callback(x);
-  }
-  var result = new App_test1_result();
-  result.read(input);
-  input.readMessageEnd();
-
-  if (null !== result.success) {
-    return callback(null, result.success);
-  }
-  return callback('test1 failed: unknown result');
-};
-AppClient.prototype.test2 = function(callback) {
-  this._seqid = this.new_seqid();
-  if (callback === undefined) {
-    var _defer = Q.defer();
-    this._reqs[this.seqid()] = function(error, result) {
-      if (error) {
-        _defer.reject(error);
-      } else {
-        _defer.resolve(result);
-      }
-    };
-    this.send_test2();
-    return _defer.promise;
-  } else {
-    this._reqs[this.seqid()] = callback;
-    this.send_test2();
-  }
-};
-
-AppClient.prototype.send_test2 = function() {
-  var output = new this.pClass(this.output);
-  output.writeMessageBegin('test2', Thrift.MessageType.CALL, this.seqid());
-  var args = new App_test2_args();
-  args.write(output);
-  output.writeMessageEnd();
-  return this.output.flush();
-};
-
-AppClient.prototype.recv_test2 = function(input,mtype,rseqid) {
-  var callback = this._reqs[rseqid] || function() {};
-  delete this._reqs[rseqid];
-  if (mtype == Thrift.MessageType.EXCEPTION) {
-    var x = new Thrift.TApplicationException();
-    x.read(input);
-    input.readMessageEnd();
-    return callback(x);
-  }
-  var result = new App_test2_result();
-  result.read(input);
-  input.readMessageEnd();
-
-  if (null !== result.success) {
-    return callback(null, result.success);
-  }
-  return callback('test2 failed: unknown result');
 };
 AppProcessor = exports.Processor = function(handler) {
   this._handler = handler
@@ -876,6 +549,41 @@ AppProcessor.prototype.process_get_suggestions = function(seqid, input, output) 
   }
 }
 
+AppProcessor.prototype.process_select_attribute = function(seqid, input, output) {
+  var args = new App_select_attribute_args();
+  args.read(input);
+  input.readMessageEnd();
+  if (this._handler.select_attribute.length === 1) {
+    Q.fcall(this._handler.select_attribute, args.selectAttribute)
+      .then(function(result) {
+        var result = new App_select_attribute_result({success: result});
+        output.writeMessageBegin("select_attribute", Thrift.MessageType.REPLY, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      }, function (err) {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("select_attribute", Thrift.MessageType.EXCEPTION, seqid);
+        result.write(output);
+        output.writeMessageEnd();
+        output.flush();
+      });
+  } else {
+    this._handler.select_attribute(args.selectAttribute, function (err, result) {
+      if (err == null) {
+        var result = new App_select_attribute_result((err != null ? err : {success: result}));
+        output.writeMessageBegin("select_attribute", Thrift.MessageType.REPLY, seqid);
+      } else {
+        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
+        output.writeMessageBegin("select_attribute", Thrift.MessageType.EXCEPTION, seqid);
+      }
+      result.write(output);
+      output.writeMessageEnd();
+      output.flush();
+    });
+  }
+}
+
 AppProcessor.prototype.process_get_attributes = function(seqid, input, output) {
   var args = new App_get_attributes_args();
   args.read(input);
@@ -903,146 +611,6 @@ AppProcessor.prototype.process_get_attributes = function(seqid, input, output) {
       } else {
         var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
         output.writeMessageBegin("get_attributes", Thrift.MessageType.EXCEPTION, seqid);
-      }
-      result.write(output);
-      output.writeMessageEnd();
-      output.flush();
-    });
-  }
-}
-
-AppProcessor.prototype.process_init_run = function(seqid, input, output) {
-  var args = new App_init_run_args();
-  args.read(input);
-  input.readMessageEnd();
-  if (this._handler.init_run.length === 0) {
-    Q.fcall(this._handler.init_run)
-      .then(function(result) {
-        var result = new App_init_run_result({success: result});
-        output.writeMessageBegin("init_run", Thrift.MessageType.REPLY, seqid);
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      }, function (err) {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("init_run", Thrift.MessageType.EXCEPTION, seqid);
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      });
-  } else {
-    this._handler.init_run(function (err, result) {
-      if (err == null) {
-        var result = new App_init_run_result((err != null ? err : {success: result}));
-        output.writeMessageBegin("init_run", Thrift.MessageType.REPLY, seqid);
-      } else {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("init_run", Thrift.MessageType.EXCEPTION, seqid);
-      }
-      result.write(output);
-      output.writeMessageEnd();
-      output.flush();
-    });
-  }
-}
-
-AppProcessor.prototype.process_ping = function(seqid, input, output) {
-  var args = new App_ping_args();
-  args.read(input);
-  input.readMessageEnd();
-  if (this._handler.ping.length === 0) {
-    Q.fcall(this._handler.ping)
-      .then(function(result) {
-        var result = new App_ping_result({success: result});
-        output.writeMessageBegin("ping", Thrift.MessageType.REPLY, seqid);
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      }, function (err) {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("ping", Thrift.MessageType.EXCEPTION, seqid);
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      });
-  } else {
-    this._handler.ping(function (err, result) {
-      if (err == null) {
-        var result = new App_ping_result((err != null ? err : {success: result}));
-        output.writeMessageBegin("ping", Thrift.MessageType.REPLY, seqid);
-      } else {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("ping", Thrift.MessageType.EXCEPTION, seqid);
-      }
-      result.write(output);
-      output.writeMessageEnd();
-      output.flush();
-    });
-  }
-}
-
-AppProcessor.prototype.process_test1 = function(seqid, input, output) {
-  var args = new App_test1_args();
-  args.read(input);
-  input.readMessageEnd();
-  if (this._handler.test1.length === 0) {
-    Q.fcall(this._handler.test1)
-      .then(function(result) {
-        var result = new App_test1_result({success: result});
-        output.writeMessageBegin("test1", Thrift.MessageType.REPLY, seqid);
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      }, function (err) {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("test1", Thrift.MessageType.EXCEPTION, seqid);
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      });
-  } else {
-    this._handler.test1(function (err, result) {
-      if (err == null) {
-        var result = new App_test1_result((err != null ? err : {success: result}));
-        output.writeMessageBegin("test1", Thrift.MessageType.REPLY, seqid);
-      } else {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("test1", Thrift.MessageType.EXCEPTION, seqid);
-      }
-      result.write(output);
-      output.writeMessageEnd();
-      output.flush();
-    });
-  }
-}
-
-AppProcessor.prototype.process_test2 = function(seqid, input, output) {
-  var args = new App_test2_args();
-  args.read(input);
-  input.readMessageEnd();
-  if (this._handler.test2.length === 0) {
-    Q.fcall(this._handler.test2)
-      .then(function(result) {
-        var result = new App_test2_result({success: result});
-        output.writeMessageBegin("test2", Thrift.MessageType.REPLY, seqid);
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      }, function (err) {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("test2", Thrift.MessageType.EXCEPTION, seqid);
-        result.write(output);
-        output.writeMessageEnd();
-        output.flush();
-      });
-  } else {
-    this._handler.test2(function (err, result) {
-      if (err == null) {
-        var result = new App_test2_result((err != null ? err : {success: result}));
-        output.writeMessageBegin("test2", Thrift.MessageType.REPLY, seqid);
-      } else {
-        var result = new Thrift.TApplicationException(Thrift.TApplicationExceptionType.UNKNOWN, err.message);
-        output.writeMessageBegin("test2", Thrift.MessageType.EXCEPTION, seqid);
       }
       result.write(output);
       output.writeMessageEnd();

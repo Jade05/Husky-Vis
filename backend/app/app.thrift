@@ -16,5 +16,6 @@ struct Attribute {
 
 service App {  
     list<Suggestion> get_suggestions();
+    list<Suggestion> select_attribute(1: string selectAttribute);
     list<Attribute> get_attributes();
 } 
