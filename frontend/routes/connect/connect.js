@@ -18,7 +18,7 @@ connect.get_attributes = function (callback) {
     client.api.get_attributes(callback);
 };
 
-connect.select_attribute = function(callback, attribute) {
+connect.select_attribute = function(attribute, callback) {
 	client.api.select_attribute(attribute, callback);
 }
 

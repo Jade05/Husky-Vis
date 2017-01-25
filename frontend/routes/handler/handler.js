@@ -6,7 +6,7 @@ handler.handlerAttributes = function (attributes) {
   var result = [];
 
   for (var i = 0; i < attributes.length; i++) {
-    result.push(attributes[i].attribute);
+    result.push(attributes[i].name);
   }
 
   return result;

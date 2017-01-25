@@ -7,13 +7,14 @@ var selectAttribute = {};
 
 selectAttribute.selectAttribute = function (req, res, next) {
 	var attribute = req.body.selectAttribute;
-	console.log(req.body.selectAttribute);
-	res.send({"name": "helloworld"});
-	connect.select_attributeAsync().then(function(response, attribute) {
+
+	connect.select_attributeAsync(attribute).then(function(response) {
+		console.log("1234566");
 		console.log(response);
-		console.log(attribute);
+		res.send({"name": "helloworld"});
 	}).catch(function(err) {
-    console.log(err);
+		console.log("dhfjdhfjfdgh");
+    	console.log(err);
   });
 };
 
