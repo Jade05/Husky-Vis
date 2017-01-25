@@ -33,14 +33,14 @@ public:
       husky::init_with_args(argc, argv, args);
     }
 
-    static void init_visualization(std::vector<husky::visualization::SuggestionObject>& topk_suggestions) {
+    static void init_visualization(std::vector<husky::visualization::SuggestionObject>& topk_suggestions, const std::string& select_attribute = "") {
       // distributed suggestions
       const std::string& distributed = husky::Context::get_param("distribute");
       husky::visualization::Constant constant;
       constant.init_constant(husky::Context::get_param("constant"));
 
       std::vector<husky::visualization::SuggestionObject> suggestions;
-      go_nodata_channels(suggestions);
+      go_nodata_channels(suggestions, select_attribute);
 
       std::vector<husky::visualization::SuggestionObject> all_calculated_suggestions;
 
@@ -111,7 +111,7 @@ public:
       attributes = husky::visualization::Preprocess::collect_attributes(data_schema);
     }
 
-    static void go_nodata_channels(std::vector<husky::visualization::SuggestionObject>& suggestions) {
+    static void go_nodata_channels(std::vector<husky::visualization::SuggestionObject>& suggestions, const std::string& select_attribute) {
       // go through channels except process_rawdata_channel and process_aggregatedata_channel
 
       // load data
@@ -132,7 +132,7 @@ public:
 
       // go through generate_channel
       husky::visualization::GenerateChannel generate_channel;
-      generate_channel.generate_suggestions(attributes, "");
+      generate_channel.generate_suggestions(attributes, select_attribute);
       std::vector<husky::visualization::SuggestionObject> g_suggestions = generate_channel.get_generated_suggestions();
 
       // go through chart_type_channel

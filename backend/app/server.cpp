@@ -19,6 +19,20 @@ using namespace ::apache::thrift::server;
 
 using namespace  ::Server;
 
+Server::Suggestion& set_suggestion(husky::visualization::SuggestionObject suggestion) {
+  Server:::Suggestion s;
+
+  s.measure = suggestion.key.measure;
+  s.dimension = suggestion.key.dimension;
+  s.chart_type = suggestion.key.chart_type;
+  s.aggregate_type = suggestion.key.aggregate_type;
+  s.statistical_method = suggestion.key.statistical_method;
+  s.aggregate_data.insert(suggestion.aggregate_data.begin(), suggestion.aggregate_data.end());
+  s.score = suggestion.score;
+
+  return s;
+}
+
 class AppHandler : virtual public AppIf {
  public:
   AppHandler() {
@@ -34,22 +48,23 @@ class AppHandler : virtual public AppIf {
     husky::run_job(std::bind(&husky::visualization::Controller::init_visualization, std::ref(topk_suggestions)));
     
     for (auto topk_suggestion : topk_suggestions) {
-        Server::Suggestion s;
-        s.measure = topk_suggestion.key.measure;
-        s.dimension = topk_suggestion.key.dimension;
-        s.chart_type = topk_suggestion.key.chart_type;
-        s.aggregate_type = topk_suggestion.key.aggregate_type;
-        s.statistical_method = topk_suggestion.key.statistical_method;
-        s.aggregate_data.insert(topk_suggestion.aggregate_data.begin(), topk_suggestion.aggregate_data.end());
-        s.score = topk_suggestion.score;
-        
-        _return.push_back(s);
+        _return.push_back(set_suggestion(topk_suggestion));
     }
   }
 
   void select_attribute(std::vector<Suggestion> & _return, const std::string& selectAttribute) {
     // Your implementation goes here
     printf("select_attribute\n");
+
+    std::vector<husky::visualization::SuggestionObject> topk_suggestions;
+
+    husky::visualization::Controller::init_visualization(topk_suggestions, selectAttribute);
+    
+    std::cout << "size:     " + std::to_string(topk_suggestions.size());
+
+    for (auto topk_suggestion : topk_suggestions) {
+        _return.push_back(set_suggestion(topk_suggestion));
+    }
   }
 
   void get_attributes(std::vector<Attribute> & _return) {

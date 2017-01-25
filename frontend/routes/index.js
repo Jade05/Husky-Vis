@@ -32,7 +32,7 @@ router.get('/', function(req, res, next) {
         // response frontend
         res.render('main', result);
 
-        connect.end();
+        // connect.end();
       }).catch(function(err) {
         console.log(err);
       });
