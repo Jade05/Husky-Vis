@@ -1,19 +1,31 @@
 var promise = require("bluebird");
 var connect = require('./connect/connect');
-var encoding = require('./encoding/encoding');
+var handler = require('./handler/handler');
 
 /* POST home page. */
 var selectAttribute = {};
+
+var result = {
+	"title": "Husky-Visualization",
+	"data": {
+ 		"attributes": [],
+  		"selectedVis": [],
+  		"recommendedVis": []
+	}
+};
 
 selectAttribute.selectAttribute = function (req, res, next) {
 	var attribute = req.body.selectAttribute;
 
 	connect.select_attributeAsync(attribute).then(function(response) {
-		console.log("1234566");
-		console.log(response);
-		res.send({"name": "helloworld"});
+		result.data.selectedVis = handler.handlerSuggestions(response);
+		res.render('chartFrame', result, function (err, html) {
+			res.send({
+				"html": html,
+				"data": JSON.parse(JSON.stringify(result))
+			});
+		});
 	}).catch(function(err) {
-		console.log("dhfjdhfjfdgh");
     	console.log(err);
   });
 };

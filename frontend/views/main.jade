@@ -11,14 +11,8 @@ block content
             input(class="pane-left-attribute" type="checkbox" name=data.attributes[i])
             span.attribute-name #{ data.attributes[i] }
 
-    div#pane-right.col-xs-10
-      div#pane-right-selected.row
-      - for (var i = 0; i < data.selectedVis.length; i++)
-        div(id = "pane-right-selevted-vis-" + i class="col-xs-3")
-
-      div#pane-right-recommended.row
-        - for (var i = 0; i < data.recommendedVis.length; i++)
-          div(id = "pane-right-recommended-vis-" + i class="col-xs-3")
+    div(id = "pane-right" class="col-xs-10")
+      include chartFrame
 
   script(type='text/javascript').
     var suggestions =  !{JSON.stringify(data)}

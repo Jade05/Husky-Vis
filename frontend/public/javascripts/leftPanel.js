@@ -1,4 +1,6 @@
 define(function(require, exports, module) {
+        var visualization = require('visualization');
+
         //Return the module value
         return function () {
           // binding events
@@ -8,7 +10,14 @@ define(function(require, exports, module) {
             $.post("/selectAttribute"
               , {selectAttribute: selectAttribute}
               , function(result) {
-                console.log(result);
+                // reset the right panel
+                if (result) {
+                    $('#pane-right').html(result.html);
+                    // visualize the right panel
+                    visualization(result.data.data);
+                } else {
+                  console.log('selectAttribute failed!');
+                }
             });
           });
         };

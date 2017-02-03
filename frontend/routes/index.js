@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
         // get topksuggestions visualization result
         result.data.recommendedVis = handler.handlerSuggestions(response);
         // response frontend
-        res.render('main', result);
+        res.render('main', JSON.parse(JSON.stringify(result)));
 
         // connect.end();
       }).catch(function(err) {
