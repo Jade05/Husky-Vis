@@ -9,7 +9,7 @@ target_link_libraries(AggregateChannelTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET AggregateChannelTest PROPERTY CXX_STANDARD 14)
 
 
-# ChartTypeChannelTest 
+# ChartTypeChannelTest
 add_executable(ChartTypeChannelTest chart_type_channel_test.cpp)
 target_link_libraries(ChartTypeChannelTest visualization-channel-objs)
 target_link_libraries(ChartTypeChannelTest visualization-common-objs)
@@ -18,7 +18,7 @@ target_link_libraries(ChartTypeChannelTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET ChartTypeChannelTest PROPERTY CXX_STANDARD 14)
 
 
-# ConstantTest 
+# ConstantTest
 add_executable(ConstantTest constant_test.cpp)
 target_link_libraries(ConstantTest visualization-channel-objs)
 target_link_libraries(ConstantTest visualization-common-objs)
@@ -26,7 +26,7 @@ target_link_libraries(ConstantTest husky)
 target_link_libraries(ConstantTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET ConstantTest PROPERTY CXX_STANDARD 14)
 
-# DataloaderTest 
+# DataloaderTest
 add_executable(DataloaderTest dataloader_test.cpp)
 target_link_libraries(DataloaderTest visualization-dataloader-objs)
 target_link_libraries(DataloaderTest visualization-common-objs)
@@ -34,7 +34,7 @@ target_link_libraries(DataloaderTest husky)
 target_link_libraries(DataloaderTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET DataloaderTest PROPERTY CXX_STANDARD 14)
 
-# GenerateChannelTest 
+# GenerateChannelTest
 add_executable(GenerateChannelTest generate_channel_test.cpp)
 target_link_libraries(GenerateChannelTest visualization-channel-objs)
 target_link_libraries(GenerateChannelTest visualization-common-objs)
@@ -42,7 +42,7 @@ target_link_libraries(GenerateChannelTest husky)
 target_link_libraries(GenerateChannelTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET GenerateChannelTest PROPERTY CXX_STANDARD 14)
 
-# StatisticChannelTest 
+# StatisticChannelTest
 add_executable(StatisticChannelTest statistic_channel_test.cpp)
 target_link_libraries(StatisticChannelTest visualization-channel-objs)
 target_link_libraries(StatisticChannelTest visualization-common-objs)
@@ -50,7 +50,7 @@ target_link_libraries(StatisticChannelTest husky)
 target_link_libraries(StatisticChannelTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET StatisticChannelTest PROPERTY CXX_STANDARD 14)
 
-# RawDataChannelTest 
+# RawDataChannelTest
 add_executable(RawDataChannelTest process_rawdata_channel_test.cpp)
 target_link_libraries(RawDataChannelTest visualization-channel-objs)
 target_link_libraries(RawDataChannelTest visualization-common-objs)
@@ -59,7 +59,7 @@ target_link_libraries(RawDataChannelTest husky)
 target_link_libraries(RawDataChannelTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET RawDataChannelTest PROPERTY CXX_STANDARD 14)
 
-# AggregateDataChannelTest 
+# AggregateDataChannelTest
 add_executable(AggregateDataChannelTest process_aggregatedata_channel_test.cpp)
 target_link_libraries(AggregateDataChannelTest visualization-channel-objs)
 target_link_libraries(AggregateDataChannelTest visualization-common-objs)
@@ -68,7 +68,7 @@ target_link_libraries(AggregateDataChannelTest husky)
 target_link_libraries(AggregateDataChannelTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET AggregateDataChannelTest PROPERTY CXX_STANDARD 14)
 
-# UtilsTest 
+# UtilsTest
 add_executable(UtilsTest utils_test.cpp)
 target_link_libraries(UtilsTest husky)
 target_link_libraries(UtilsTest visualization-common-objs)
@@ -88,3 +88,10 @@ target_link_libraries(ThriftServerTest husky)
 target_link_libraries(ThriftServerTest visualization-dataloader-objs)
 target_link_libraries(ThriftServerTest ${HUSKY_EXTERNAL_LIB})
 set_property(TARGET ThriftServerTest PROPERTY CXX_STANDARD 14)
+
+# MongoTest
+add_executable(MongoTest mongo_test.cpp)
+target_link_libraries(MongoTest husky)
+target_link_libraries(MongoTest ${HUSKY_EXTERNAL_LIB})
+set_property(TARGET MongoTest PROPERTY CXX_STANDARD 14)
+add_definitions(-DWITH_MONGODB)
