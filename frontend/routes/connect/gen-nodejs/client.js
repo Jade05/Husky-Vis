@@ -15,7 +15,7 @@ client.init = function () {
     //     protocol: protocol
     // });
 
-    connection = thrift.createConnection('proj99', 9090, {
+    connection = thrift.createConnection('137.189.90.147', 9090, {
         transport: transport,
         protocol: protocol
     });
