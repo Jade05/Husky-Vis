@@ -49,7 +49,7 @@ class AppHandler : virtual public AppIf {
     std::vector<husky::visualization::SuggestionObject> topk_suggestions;
 
     husky::run_job(std::bind(&husky::visualization::Controller::init_visualization, std::ref(topk_suggestions), ""));
-    
+
     set_suggestions(_return, topk_suggestions);
   }
 
@@ -60,14 +60,14 @@ class AppHandler : virtual public AppIf {
     std::cout << "selectAttributes:  " << selectAttribute << std::endl;
 
     std::vector<husky::visualization::SuggestionObject> topk_suggestions;
-    
+
     std::cout << "running job!" << std::endl;
     husky::run_job(std::bind(&husky::visualization::Controller::init_visualization, std::ref(topk_suggestions), selectAttribute));
-    
-    
+
+
     std::cout << "size:     " + std::to_string(topk_suggestions.size()) << std::endl;
     set_suggestions(_return, topk_suggestions);
-    
+
   }
 
   void get_attributes(std::vector<Attribute> & _return) {
@@ -82,22 +82,25 @@ class AppHandler : virtual public AppIf {
       attr.name = attribute;
       _return.push_back(attr);
     }
-    
+
   }
 
 };
 
 int main(int argc, char **argv) {
   // init args
-  
+
   std::vector<std::string> args({
       "data",
       "data_schema",
       "distribute",
       "topk",
-      "constant"
+      "constant",
+      "mongo_server",
+      "mongo_db",
+      "mongo_collection"
   });
-  
+
   husky::visualization::Controller::init_with_args(argc, argv, args);
 
   int port = 9090;

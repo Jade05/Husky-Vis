@@ -59,7 +59,7 @@ public:
      *   "groupByRawData": {"1992": [1, 2, 3], "1993": [1, 2, 3], "1994": [1, 2, 3]},
      *   "aggregateData": {"1992": 6, "1993": 6, "1994": 6}
      *   }
-     * ,{"measure": "name",
+     * ,{"measure": "year",
      *   "dimension": "cylinder",
      *   "chartType": "Q_T_BAR",
      *   "aggregateType": "COUNT",

@@ -6,8 +6,13 @@
 #include <vector>
 #include <algorithm>
 
+#include "mongo/bson/bson.h"
+#include "mongo/client/dbclient.h"
+
 #include "boost/property_tree/ptree.hpp"
 #include "husky/core/engine.hpp"
+#include "husky/io/input/inputformat_store.hpp"
+#include "husky/lib/aggregator_factory.hpp"
 
 #include "preprocess.hpp"
 #include "core/common/base_obj.hpp"
@@ -26,6 +31,17 @@ using boost::property_tree::ptree;
 
 namespace husky {
 namespace visualization {
+
+class JsonItem {
+   public:
+    using KeyT = std::string;
+
+    JsonItem() = default;
+    explicit JsonItem(const KeyT& w) : json_item(w) {}
+    const KeyT& id() const { return json_item; }
+
+    KeyT json_item;
+};
 
 class Controller {
 public:
@@ -85,6 +101,73 @@ public:
          }
      } else if (distributed == "data") {
        // override
+       auto& infmt = husky::io::InputFormatStore::create_mongodb_inputformat();
+       infmt.set_server(husky::Context::get_param("mongo_server"));
+       infmt.set_ns(husky::Context::get_param("mongo_db"), husky::Context::get_param("mongo_collection"));
+       infmt.set_query("");
+
+       auto& json_item_list = husky::ObjListStore::create_objlist<JsonItem>();
+       auto& ch = husky::ChannelStore::create_push_combined_channel<int, husky::SumCombiner<int>>(infmt, json_item_list);
+
+       auto parse_item = [&](std::string& chunk) {
+           mongo::BSONObj o = mongo::fromjson(chunk);
+           ch.push(1, chunk);
+       };
+
+       husky::load(infmt, parse_item);
+
+       husky::lib::Aggregate<std::map<std::string, double>> sum(0,
+         [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
+           for (std::map<std::string, double>::iterator a_it = a.begin(); a_it != a.end(); ++a_it) {
+             for (std::map<std::string, double>::iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+               if (b_it->first == a_it->first) {
+                 a_it->second += b_it->second;
+               }
+             }
+           }
+       });
+
+       for (int i = 0; i < suggestions.size(); i++) {
+         husky::list_execute(json_item_list, [&ch, &suggestions[i]](JsonItem& item) {
+           ptree pt;
+           std::stringstream ss(item.id());
+           try {
+             read_json(ss, pt);
+           } catch (ptree_error & e) {
+             console.log("controller.hpp ptree error");
+           }
+
+           // aggregate
+           string& aggregateType = suggestions[i].aggregateType;
+           string& measure = suggestions[i].measure;
+           string& dimension = suggestions[i].dimension;
+           string& measure_value = pt.get(measure);
+           string& dimension_value = pt.get(dimension);
+           switch(aggregateType) {
+             case "SUM":
+              std::pair<std::string, double> current_item;
+              current_item = std::make_pair(measure_value, std::stod(dimension_value));
+              sum.update([&](std::map<std::string, double>& x, std::pair<std::string, double> y){
+                x[y.first] += y.second;
+              }, current_item);
+              break;
+            case "MEAN":
+              // override
+              break;
+            case "MAX":
+              // override
+              break;
+            case "MIN":
+              // override
+              break;
+            case "VARIANCE":
+              // override
+              break;
+           }
+         });
+
+         husky::lib::AggregatorFactory::sync();
+       }
 
      }
 
