@@ -54,39 +54,14 @@ void wc() {
     auto parse_wc = [&](std::string& chunk) {
         mongo::BSONObj o = mongo::fromjson(chunk);
         ch.push(1, chunk);
-        // std::string content = o.getStringField("content");
-        // if (chunk.size() == 0)
-        //     return;
-        // boost::char_separator<char> sep(" \t");
-        // boost::tokenizer<boost::char_separator<char>> tok(content, sep);
-        // for (auto& w : tok) {
-        //     ch.push(1, w);
-        // }
     };
 
     husky::load(infmt, parse_wc);
 
-    // Show topk words.
-    // const int kMaxNum = 100;
-    // typedef std::set<std::pair<int, std::string>> TopKPairs;
-    // auto add_to_topk = [](TopKPairs& pairs, const std::pair<int, std::string>& p) {
-    //     if (pairs.size() == kMaxNum && *pairs.begin() < p)
-    //         pairs.erase(pairs.begin());
-    //     if (pairs.size() < kMaxNum)
-    //         pairs.insert(p);
-    // };
-
     husky::list_execute(word_list, [&ch](Word& word) {
-        std::cout << word.id() << std::endl;
-        // unique_topk.update(add_to_topk, std::make_pair(ch.get(word), word.id()));
+         husky::LOG_I << word.id();
     });
 
-    // husky::lib::AggregatorFactory::sync();
-
-    if (husky::Context::get_global_tid() == 0) {
-        // for (auto& i : unique_topk.get_value())
-        //     husky::LOG_I << i.second << " " << i.first;
-    }
 }
 
 int main(int argc, char** argv) {
@@ -95,6 +70,7 @@ int main(int argc, char** argv) {
     args.push_back("mongo_db");
     args.push_back("mongo_collection");
     if (husky::init_with_args(argc, argv, args)) {
+        husky::LOG_I << "before run job";
         husky::run_job(wc);
         return 0;
     }
