@@ -219,7 +219,7 @@ public:
               x[y.first] += y.second;
             }, current_item);
           }
-	});
+	      });
 
         husky::lib::AggregatorFactory::sync();
 
@@ -244,14 +244,15 @@ public:
            }
         }  
 
-      // calculated score
-      husky::visualization::SuggestionObject suggestion_with_score = husky::visualization::Preprocess::calculate_scores(suggestions[i], constant);
+        // calculated score
+        husky::visualization::SuggestionObject suggestion_with_score = husky::visualization::Preprocess::calculate_scores(suggestions[i], constant);
 
-      all_calculated_suggestions.push_back(suggestion_with_score);
+        all_calculated_suggestions.push_back(suggestion_with_score);
+      }
     }
 
-      // get topk suggestions
-      if (husky::Context::get_global_tid() == 0) {
+    // get topk suggestions
+    if (husky::Context::get_global_tid() == 0) {
         int topk = std::stoi(husky::Context::get_param("topk"));
         topk_suggestions = husky::visualization::Preprocess::get_topk_suggestions(all_calculated_suggestions, topk);
         husky::LOG_I << "topk: " << topk_suggestions.size();
@@ -261,10 +262,10 @@ public:
              item != topk_suggestions.end(); item++) {
           cout << *item;
         }
-      }
     }
+  }
 
-    static void get_attributes(std::vector<std::string>& attributes) {
+  static void get_attributes(std::vector<std::string>& attributes) {
       // load data
       husky::visualization::DataLoader dataloader;
 
@@ -272,9 +273,9 @@ public:
       ptree data_schema = dataloader.get_data_schema();
 
       attributes = husky::visualization::Preprocess::collect_attributes(data_schema);
-    }
+  }
 
-    static void go_nodata_channels(std::vector<husky::visualization::SuggestionObject>& suggestions, const std::string & select_attribute) {
+  static void go_nodata_channels(std::vector<husky::visualization::SuggestionObject>& suggestions, const std::string & select_attribute) {
       // go through channels except process_rawdata_channel and process_aggregatedata_channel
 
       // load data
@@ -315,8 +316,8 @@ public:
 
       // set
       suggestions = s_suggestions;
-    }
-  };
+  }
+};
 
 }
 }
