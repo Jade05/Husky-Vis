@@ -35,246 +35,233 @@ namespace husky {
 namespace visualization {
 
 class JsonItem {
-   public:
-    using KeyT = std::string;
+public:
+  using KeyT = std::string;
 
-    JsonItem() = default;
-    explicit JsonItem(const KeyT& w) : json_item(w) {}
-    const KeyT& id() const { return json_item; }
+  JsonItem() = default;
+  explicit JsonItem(const KeyT& w) : json_item(w) {}
+  const KeyT& id() const { return json_item; }
 
-    KeyT json_item;
+  KeyT json_item;
 };
 
 class Controller {
 public:
-    static void init_with_args(int argc, char** argv, std::vector<std::string> args) {
-      husky::init_with_args(argc, argv, args);
-    }
+  static void init_with_args(int argc, char** argv, std::vector<std::string> args) {
+    husky::init_with_args(argc, argv, args);
+  }
 
-    static void init_visualization(std::vector<husky::visualization::SuggestionObject>& topk_suggestions, const std::string& select_attribute = "") {
-      // distributed suggestions
-      const std::string& distributed = husky::Context::get_param("distribute");
-      husky::visualization::Constant constant;
-      constant.init_constant(husky::Context::get_param("constant"));
+  static void init_visualization(std::vector<husky::visualization::SuggestionObject>& topk_suggestions, const std::string& select_attribute = "") {
+    // distributed suggestions
+    const std::string& distributed = husky::Context::get_param("distribute");
+    husky::visualization::Constant constant;
+    constant.init_constant(husky::Context::get_param("constant"));
 
-      std::vector<husky::visualization::SuggestionObject> suggestions;
-      go_nodata_channels(suggestions, select_attribute);
+    std::vector<husky::visualization::SuggestionObject> suggestions;
+    go_nodata_channels(suggestions, select_attribute);
 
-      std::vector<husky::visualization::SuggestionObject> all_calculated_suggestions;
+    std::vector<husky::visualization::SuggestionObject> all_calculated_suggestions;
 
-      if (distributed == "suggestions") {
-         husky::visualization::DataLoader dataloader;
+    if (distributed == "suggestions") {
+      husky::visualization::DataLoader dataloader;
 
-         dataloader.load_data();
-         ptree data = dataloader.get_data();
+      dataloader.load_data();
+      ptree data = dataloader.get_data();
 
-         // default strategy: suggestions loaded balance in each worker and each thread
-         // in this situation, each machine each thread accesses the whole data
-         // load balance according to thread
-         int total_workers = husky::Context::get_num_workers();
-         int items_per_worker = suggestions.size() / total_workers;
+      // default strategy: suggestions loaded balance in each worker and each thread
+      // in this situation, each machine each thread accesses the whole data
+      // load balance according to thread
+      int total_workers = husky::Context::get_num_workers();
+      int items_per_worker = suggestions.size() / total_workers;
 
-         // check if global_tid start with 0 or 1, assume start with 0
-         int global_tid = husky::Context::get_global_tid();
+      // check if global_tid start with 0 or 1, assume start with 0
+      int global_tid = husky::Context::get_global_tid();
 
-         int start = items_per_worker * global_tid;
-         // make sure all items will be processed
-         int end = global_tid == total_workers - 1 ? suggestions.size() : start + items_per_worker;
+      int start = items_per_worker * global_tid;
+      // make sure all items will be processed
+      int end = global_tid == total_workers - 1 ? suggestions.size() : start + items_per_worker;
 
-         // each thread gets its own item part
-         std::vector<husky::visualization::SuggestionObject> items_part(end - start);
-         std::copy(suggestions.begin() + start, suggestions.begin() + end, items_part.begin());
-         // go through process rawdata channel
-         husky::visualization::ProcessRawDataChannel process_rawdata_channel;
-         process_rawdata_channel.process_rawdata_suggestions(items_part, data);
-         std::vector<husky::visualization::SuggestionObject> process_r_suggestions = process_rawdata_channel.get_rawdata_suggestions();
+      // each thread gets its own item part
+      std::vector<husky::visualization::SuggestionObject> items_part(end - start);
+      std::copy(suggestions.begin() + start, suggestions.begin() + end, items_part.begin());
+      // go through process rawdata channel
+      husky::visualization::ProcessRawDataChannel process_rawdata_channel;
+      process_rawdata_channel.process_rawdata_suggestions(items_part, data);
+      std::vector<husky::visualization::SuggestionObject> process_r_suggestions = process_rawdata_channel.get_rawdata_suggestions();
 
-         // go through process aggregatedata channel
-         // process aggregratedata channel
-         husky::visualization::ProcessAggregateDataChannel process_aggregatedata_channel;
-         process_aggregatedata_channel.process_aggregatedata_suggestions(process_r_suggestions);
-         std::vector<husky::visualization::SuggestionObject> process_a_suggestions = process_aggregatedata_channel.get_aggregatedata_suggestions();
+      // go through process aggregatedata channel
+      // process aggregratedata channel
+      husky::visualization::ProcessAggregateDataChannel process_aggregatedata_channel;
+      process_aggregatedata_channel.process_aggregatedata_suggestions(process_r_suggestions);
+      std::vector<husky::visualization::SuggestionObject> process_a_suggestions = process_aggregatedata_channel.get_aggregatedata_suggestions();
 
-         // calculate scores
-         for (int i = 0; i < process_a_suggestions.size(); i++) {
-           husky::visualization::SuggestionObject suggestion_with_score = husky::visualization::Preprocess::calculate_scores(process_a_suggestions[i], constant);
+      // calculate scores
+      for (int i = 0; i < process_a_suggestions.size(); i++) {
+        husky::visualization::SuggestionObject suggestion_with_score = husky::visualization::Preprocess::calculate_scores(process_a_suggestions[i], constant);
 
-           all_calculated_suggestions.push_back(suggestion_with_score);
-         }
-     } else if (distributed == "data") {
-       // override
-       auto& infmt = husky::io::InputFormatStore::create_mongodb_inputformat();
-       infmt.set_server(husky::Context::get_param("mongo_server"));
-       infmt.set_ns(husky::Context::get_param("mongo_db"), husky::Context::get_param("mongo_collection"));
-       infmt.set_query("");
+        all_calculated_suggestions.push_back(suggestion_with_score);
+      }
+    } else if (distributed == "data") {
+      // override
+      auto& infmt = husky::io::InputFormatStore::create_mongodb_inputformat();
+      infmt.set_server(husky::Context::get_param("mongo_server"));
+      infmt.set_ns(husky::Context::get_param("mongo_db"), husky::Context::get_param("mongo_collection"));
+      infmt.set_query("");
 
-       auto& json_item_list = husky::ObjListStore::create_objlist<JsonItem>();
-       auto& ch = husky::ChannelStore::create_push_combined_channel<int, husky::SumCombiner<int>>(infmt, json_item_list);
+      auto& json_item_list = husky::ObjListStore::create_objlist<JsonItem>();
+      auto& ch = husky::ChannelStore::create_push_combined_channel<int, husky::SumCombiner<int>>(infmt, json_item_list);
 
-       auto parse_item = [&](std::string& chunk) {
-           mongo::BSONObj o = mongo::fromjson(chunk);
-           ch.push(1, chunk);
-       };
+      auto parse_item = [&](std::string & chunk) {
+        mongo::BSONObj o = mongo::fromjson(chunk);
+        ch.push(1, chunk);
+      };
 
-       husky::load(infmt, parse_item);
+      husky::load(infmt, parse_item);
 
-       // aggregate sum
-       husky::lib::Aggregator<std::map<std::string, double>> sum(std::map<std::string, double>(),
-         [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
-           for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
-             auto it = a.find(b_it->first);
-             if (it != a.end()) {
-                a[b_it->first] += b_it->second;
-             } else {
-                a.insert(*b_it);
-             }
-           }
-       });
+      // aggregate sum
+      husky::lib::Aggregator<std::map<std::string, double>> sum(std::map<std::string, double>(),
+      [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
+        for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+          auto it = a.find(b_it->first);
+          if (it != a.end()) {
+            a[b_it->first] += b_it->second;
+          } else {
+            a.insert(*b_it);
+          }
+        }
+      });
 
-       // aggregate variance_mean_num
-       husky::lib::Aggregator<std::map<std::string, husky::VarianceMeanNum>> variance_mean_num(
-         std::map<std::string, husky::VarianceMeanNum>(),
-         [](std::map<std::string, husky::VarianceMeanNum>& a,
-            const std::map<std::string, husky::VarianceMeanNum>& b) {
-            for (std::map<std::string, husky::VarianceMeanNum>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
-              auto it = a.find(b_it->first);
-              if (it != a.end()) {
-                a[b_it->first] += b_it->second;
+      // aggregate variance_mean_num
+      husky::lib::Aggregator<std::map<std::string, husky::VarianceMeanNum>> variance_mean_num(
+            std::map<std::string, husky::VarianceMeanNum>(),
+            [](std::map<std::string, husky::VarianceMeanNum>& a,
+      const std::map<std::string, husky::VarianceMeanNum>& b) {
+        for (std::map<std::string, husky::VarianceMeanNum>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+          auto it = a.find(b_it->first);
+          if (it != a.end()) {
+            a[b_it->first] += b_it->second;
+          } else {
+            a.insert(*b_it);
+          }
+        }
+      });
+
+      // aggregate max
+      husky::lib::Aggregator<std::map<std::string, double>> max(
+            std::map<std::string, double>(),
+      [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
+        for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+          auto it = a.find(b_it->first);
+          if (it != a.end()) {
+            a[b_it->first] = a[b_it->first] > b_it->second ? a[b_it->first] : b_it->second;
+          } else {
+            a.insert(*b_it);
+          }
+        }
+      });
+
+      // aggregate min
+      husky::lib::Aggregator<std::map<std::string, double>> min(
+            std::map<std::string, double>(),
+      [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
+        for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+          auto it = a.find(b_it->first);
+          if (it != a.end()) {
+            a[b_it->first] = a[b_it->first] < b_it->second ? a[b_it->first] : b_it->second;
+          } else {
+            a.insert(*b_it);
+          }
+        }
+      });
+
+      for (int i = 0; i < suggestions.size(); i++) {
+        string& aggregate_type = suggestions[i].key.aggregate_type;
+        husky::list_execute(json_item_list, [&ch, &suggestions, &i, &aggregate_type](JsonItem & item) {
+          mongo::BSONObj o = mongo::fromjson(item.id());
+
+          // aggregate
+          std::string& measure = suggestions[i].key.measure;
+          std::string& dimension = suggestions[i].key.dimension;
+          std::string measure_value = o.getStringField(measure);
+          std::string dimension_value = o.getStringField(dimension);
+          std::pair<std::string, double> current_item;
+          current_item = std::make_pair(measure_value, std::stod(dimension_value));
+          if (aggregate_type == "SUM") {
+            sum.update([&](std::map<std::string, double>& x, std::pair<std::string, double>& y) {
+              x[y.first] += y.second;
+            }, current_item);
+          } else if (aggregate_type == "MEAN") {
+            variance_mean_num.update([&](std::map<std::string, husky::VarianceMeanNum>& x,
+            std::pair<std::string, double>& y) {
+              x[y.first] += y.second;
+            }, current_item);
+          } else if (aggregate_type == "MAX") {
+            max.update([&](std: map<std::string, double>& x, std::pair<std::string, double>& y) {
+              auto it = x.find(y.first);
+              if (it != x.end()) {
+                x[y.first] = x[y.first] > y.second ? x[y.first] : y.second;
               } else {
-                a.insert(*b_it);
+                x.insert(y);
               }
-            }
-       });
-
-       // aggregate max
-       husky::lib::Aggregator<std::map<std::string, double>> max(
-         std::map<std::string, double>(),
-         [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
-            for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
-              auto it = a.find(b_it->first);
-              if (it != a.end()) {
-                a[b_it->first] = a[b_it->first] > b_it->second ? a[b_it->first] : b_it->second;
+            }, current_item);
+          } else if (aggregate_type == "MIN") {
+            min.update([&](std: map<std::string, double>& x, std::pair<std::string, double>& y) {
+              auto it = x.find(y.first);
+              if (it != x.end()) {
+                x[y.first] = x[y.first] < y.second ? x[y.first] : y.second;
               } else {
-                a.insert(*b_it);
+                x.insert(y);
               }
+            }, current_item);
+          } else if (aggregate_type == "VARIANCE") {
+            variance_mean_num.update([&](std::map<std::string, husky::VarianceMeanNum>& x,
+            std::pair<std::string, double>& y) {
+              x[y.first] += y.second;
+            }, current_item);
+          }
+
+          husky::lib::AggregatorFactory::sync();
+
+          // get the aggregate result
+          if (aggregate_type == "SUM") {
+            suggestions[i].aggregate_data = sum.get_value();
+          } else if (aggregate_type == "MEAN") {
+            std::map<std::string, husky::VarianceMeanNum>& variance_data = variance_mean_num.get_value();
+            for (std::map<std::string, husky::VarianceMeanNum>::iterator it = variance_data.begin();
+                 it != variance_data.end(); it++) {
+              suggestions[i].aggregate_data.emplace(it->first, it->second.get_mean());
             }
-       });
-
-       // aggregate min
-       husky::lib::Aggregator<std::map<std::string, double>> min(
-         std::map<std::string, double>(),
-         [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
-            for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
-              auto it = a.find(b_it->first);
-              if (it != a.end()) {
-                a[b_it->first] = a[b_it->first] < b_it->second ? a[b_it->first] : b_it->second;
-              } else {
-                a.insert(*b_it);
-              }
+          } else if (aggregate_type == "MAX") {
+            suggestions[i].aggregate_data = max.get_value();
+          } else if (aggregate_type == "MIN") {
+            suggestions[i].aggregate_data = max.get_value();
+          } else if (aggregate_type == "VARIANCE") {
+            std::map<std::string, husky::VarianceMeanNum>& variance_data = variance_mean_num.get_value();
+            for (std::map<std::string, husky::VarianceMeanNum>::iterator it = variance_data.begin();
+                 it != variance_data.end(); it++) {
+              suggestions[i].aggregate_data.emplace(it->first, it->second.get_variance());
             }
-       });
+          }
+        }
 
-       for (int i = 0; i < suggestions.size(); i++) {
-         string& aggregate_type = suggestions[i].key.aggregate_type;
-         husky::list_execute(json_item_list, [&ch, &suggestions, &i, &aggregate_type](JsonItem& item) {
-	   mongo::BSONObj o = mongo::fromjson(item.id());
+        // calculated score
+        husky::visualization::SuggestionObject suggestion_with_score = husky::visualization::Preprocess::calculate_scores(suggestions[i], constant);
 
-           // aggregate
-           std::string& measure = suggestions[i].key.measure;
-           std::string& dimension = suggestions[i].key.dimension;
-           std::string measure_value = o.getStringField(measure);
-           std::string dimension_value = o.getStringField(dimension);
-           std::pair<std::string, double> current_item;
-           current_item = std::make_pair(measure_value, std::stod(dimension_value));
-           switch(aggregate_type) {
-              case "SUM":
-              sum.update([&](std::map<std::string, double>& x, std::pair<std::string, double>& y) {
-                x[y.first] += y.second;
-              }, current_item);
-              break;
-            case "MEAN":
-              variance_mean_num.update([&](std::map<std::string, husky::VarianceMeanNum>& x,
-                std::pair<std::string, double>& y) {
-                  x[y.first] += y.second;
-              }, current_item);
-              break;
-            case "MAX":
-              max.update([&](std:map<std::string, double>& x, std::pair<std::string, double>& y) {
-                auto it = x.find(y.first);
-                if (it != x.end()) {
-                  x[y.first] = x[y.first] > y.second ? x[y.first] : y.second;
-                } else {
-                  x.insert(y);
-                }
-              }, current_item);
-              break;
-            case "MIN":
-              min.update([&](std:map<std::string, double>& x, std::pair<std::string, double>& y) {
-                auto it = x.find(y.first);
-                if (it != x.end()) {
-                  x[y.first] = x[y.first] < y.second ? x[y.first] : y.second;
-                } else {
-                  x.insert(y);
-                }
-              }, current_item);
-              break;
-            case "VARIANCE":
-              variance_mean_num.update([&](std::map<std::string, husky::VarianceMeanNum>& x,
-                std::pair<std::string, double>& y) {
-                  x[y.first] += y.second;
-              }, current_item);
-              break;
-           }
-         });
+        all_calculated_suggestions.push_back(suggestion_with_score);
+      }
 
-         husky::lib::AggregatorFactory::sync();
+      // get topk suggestions
+      if (husky::Context::get_global_tid() == 0) {
+        int topk = std::stoi(husky::Context::get_param("topk"));
+        topk_suggestions = husky::visualization::Preprocess::get_topk_suggestions(all_calculated_suggestions, topk);
+        husky::LOG_I << "topk: " << topk_suggestions.size();
 
-         // get the aggregate result
-         switch(aggregate_type) {
-              case "SUM":
-              suggestions[i].aggregate_data = sum.get_value();
-              break;
-            case "MEAN":
-              std::map<std::string, husky::VarianceMeanNum>& variance_data = variance_mean_num.get_value();
-              for (std::map<std::string, husky::VarianceMeanNum>::iterator it = variance_data.begin();
-                it != variance_data.end(); it++) {
-                suggestions[i].aggregate_data.emplace(it->first, it->second.get_mean());
-              }
-              break;
-            case "MAX":
-              suggestions[i].aggregate_data = max.get_value();
-              break;
-            case "MIN":
-              suggestions[i].aggregate_data = max.get_value();
-              break;
-            case "VARIANCE":
-              std::map<std::string, husky::VarianceMeanNum>& variance_data = variance_mean_num.get_value();
-              for (std::map<std::string, husky::VarianceMeanNum>::iterator it = variance_data.begin();
-                it != variance_data.end(); it++) {
-                suggestions[i].aggregate_data.emplace(it->first, it->second.get_variance());
-              }
-              break;
-           }
-       }
-
-       // calculated score
-       husky::visualization::SuggestionObject suggestion_with_score = husky::visualization::Preprocess::calculate_scores(suggestions[i], constant);
-
-       all_calculated_suggestions.push_back(suggestion_with_score);
-     }
-
-     // get topk suggestions
-     if (husky::Context::get_global_tid() == 0) {
-         int topk = std::stoi(husky::Context::get_param("topk"));
-         topk_suggestions = husky::visualization::Preprocess::get_topk_suggestions(all_calculated_suggestions, topk);
-         husky::LOG_I << "topk: " << topk_suggestions.size();
-
-         // output to check
-         for (std::vector<husky::visualization::SuggestionObject>::iterator item = topk_suggestions.begin();
-                 item != topk_suggestions.end(); item++) {
-             cout << *item;
-         }
-     }
+        // output to check
+        for (std::vector<husky::visualization::SuggestionObject>::iterator item = topk_suggestions.begin();
+             item != topk_suggestions.end(); item++) {
+          cout << *item;
+        }
+      }
     }
 
     static void get_attributes(std::vector<std::string>& attributes) {
@@ -287,7 +274,7 @@ public:
       attributes = husky::visualization::Preprocess::collect_attributes(data_schema);
     }
 
-    static void go_nodata_channels(std::vector<husky::visualization::SuggestionObject>& suggestions, const std::string& select_attribute) {
+    static void go_nodata_channels(std::vector<husky::visualization::SuggestionObject>& suggestions, const std::string & select_attribute) {
       // go through channels except process_rawdata_channel and process_aggregatedata_channel
 
       // load data
@@ -329,7 +316,7 @@ public:
       // set
       suggestions = s_suggestions;
     }
-};
+  };
 
 }
 }
