@@ -187,16 +187,16 @@ public:
           std::pair<std::string, double> current_item;
           current_item = std::make_pair(measure_value, std::stod(dimension_value));
           if (aggregate_type == "SUM") {
-            sum.update([&](std::map<std::string, double>& x, std::pair<std::string, double>& y) {
+            sum.update([&](std::map<std::string, double>& x, const std::pair<std::string, double>& y) {
               x[y.first] += y.second;
             }, current_item);
           } else if (aggregate_type == "MEAN") {
             variance_mean_num.update([&](std::map<std::string, husky::VarianceMeanNum>& x,
-            std::pair<std::string, double>& y) {
+            const std::pair<std::string, double>& y) {
               x[y.first] += y.second;
             }, current_item);
           } else if (aggregate_type == "MAX") {
-            max.update([&](std::map<std::string, double>& x, std::pair<std::string, double>& y) {
+            max.update([&](std::map<std::string, double>& x, const std::pair<std::string, double>& y) {
               auto it = x.find(y.first);
               if (it != x.end()) {
                 x[y.first] = x[y.first] > y.second ? x[y.first] : y.second;
@@ -205,7 +205,7 @@ public:
               }
             }, current_item);
           } else if (aggregate_type == "MIN") {
-            min.update([&](std::map<std::string, double>& x, std::pair<std::string, double>& y) {
+            min.update([&](std::map<std::string, double>& x, const std::pair<std::string, double>& y) {
               auto it = x.find(y.first);
               if (it != x.end()) {
                 x[y.first] = x[y.first] < y.second ? x[y.first] : y.second;
@@ -215,11 +215,11 @@ public:
             }, current_item);
           } else if (aggregate_type == "VARIANCE") {
             variance_mean_num.update([&](std::map<std::string, husky::VarianceMeanNum>& x,
-            std::pair<std::string, double>& y) {
+            const std::pair<std::string, double>& y) {
               x[y.first] += y.second;
             }, current_item);
           }
-	      });
+	});
 
         husky::lib::AggregatorFactory::sync();
 
