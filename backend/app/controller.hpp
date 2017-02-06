@@ -29,6 +29,7 @@
 
 using namespace std;
 using boost::property_tree::ptree;
+using boost::property_tree::ptree_error;
 
 namespace husky {
 namespace visualization {
@@ -118,77 +119,74 @@ public:
        husky::load(infmt, parse_item);
 
        // aggregate sum
-       husky::lib::Aggregate<std::map<std::string, double>> sum(0,
+       husky::lib::Aggregator<std::map<std::string, double>> sum(std::map<std::string, double>(),
          [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
-           for (std::map<std::string, double>::iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+           for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
              auto it = a.find(b_it->first);
              if (it != a.end()) {
                 a[b_it->first] += b_it->second;
              } else {
-                a.insert(b_it);
+                a.insert(*b_it);
              }
            }
        });
 
        // aggregate variance_mean_num
-       husky::lib::Aggregate<std::map<std::string, husky::VarianceMeanNum>> variance_mean_num(0,
+       husky::lib::Aggregator<std::map<std::string, husky::VarianceMeanNum>> variance_mean_num(
+         std::map<std::string, husky::VarianceMeanNum>(),
          [](std::map<std::string, husky::VarianceMeanNum>& a,
             const std::map<std::string, husky::VarianceMeanNum>& b) {
-            for (std::map<std::string, husky::VarianceMeanNum>::iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+            for (std::map<std::string, husky::VarianceMeanNum>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
               auto it = a.find(b_it->first);
               if (it != a.end()) {
                 a[b_it->first] += b_it->second;
               } else {
-                a.insert(b_it);
+                a.insert(*b_it);
               }
             }
        });
 
        // aggregate max
-       husky::lib::Aggregate<std::map<std::string, double>> max(0,
+       husky::lib::Aggregator<std::map<std::string, double>> max(
+         std::map<std::string, double>(),
          [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
-            for (std::map<std::string, double>::iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+            for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
               auto it = a.find(b_it->first);
               if (it != a.end()) {
                 a[b_it->first] = a[b_it->first] > b_it->second ? a[b_it->first] : b_it->second;
               } else {
-                a.insert(b_it);
+                a.insert(*b_it);
               }
             }
        });
 
        // aggregate min
-       husky::lib::Aggregate<std::map<std::string, double>> min(0,
+       husky::lib::Aggregator<std::map<std::string, double>> min(
+         std::map<std::string, double>(),
          [](std::map<std::string, double>& a, const std::map<std::string, double>& b) {
-            for (std::map<std::string, double>::iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
+            for (std::map<std::string, double>::const_iterator b_it = b.begin(); b_it != b.end(); ++b_it) {
               auto it = a.find(b_it->first);
               if (it != a.end()) {
                 a[b_it->first] = a[b_it->first] < b_it->second ? a[b_it->first] : b_it->second;
               } else {
-                a.insert(b_it);
+                a.insert(*b_it);
               }
             }
        });
 
        for (int i = 0; i < suggestions.size(); i++) {
-         string& aggregateType = suggestions[i].aggregateType;
-         husky::list_execute(json_item_list, [&ch, &suggestions[i], &aggregateType](JsonItem& item) {
-           ptree pt;
-           std::stringstream ss(item.id());
-           try {
-             read_json(ss, pt);
-           } catch (ptree_error & e) {
-             console.log("controller.hpp ptree error");
-           }
+         string& aggregate_type = suggestions[i].key.aggregate_type;
+         husky::list_execute(json_item_list, [&ch, &suggestions, &i, &aggregate_type](JsonItem& item) {
+	   mongo::BSONObj o = mongo::fromjson(item.id());
 
            // aggregate
-           string& measure = suggestions[i].measure;
-           string& dimension = suggestions[i].dimension;
-           string& measure_value = pt.get(measure);
-           string& dimension_value = pt.get(dimension);
+           std::string& measure = suggestions[i].key.measure;
+           std::string& dimension = suggestions[i].key.dimension;
+           std::string measure_value = o.getStringField(measure);
+           std::string dimension_value = o.getStringField(dimension);
            std::pair<std::string, double> current_item;
            current_item = std::make_pair(measure_value, std::stod(dimension_value));
-           switch(aggregateType) {
+           switch(aggregate_type) {
               case "SUM":
               sum.update([&](std::map<std::string, double>& x, std::pair<std::string, double>& y) {
                 x[y.first] += y.second;
@@ -232,7 +230,7 @@ public:
          husky::lib::AggregatorFactory::sync();
 
          // get the aggregate result
-         switch(aggregateType) {
+         switch(aggregate_type) {
               case "SUM":
               suggestions[i].aggregate_data = sum.get_value();
               break;
