@@ -133,8 +133,10 @@ public:
                     } else {
                         a.insert(*b_it);
                     }
+                    // husky::LOG_I << "global sum: " + std::to_string(a[b_it->first]);
                 }   
             });
+            sum.to_reset_each_iter();
 
             // aggregate variance_mean_num
             husky::lib::Aggregator<std::map<std::string, husky::VarianceMeanNum>> variance_mean_num(
@@ -149,6 +151,7 @@ public:
                     }
                 }
             });
+            variance_mean_num.to_reset_each_iter();
 
             // aggregate max
             husky::lib::Aggregator<std::map<std::string, double>> max(
@@ -163,6 +166,7 @@ public:
                     }
                 }
             });
+            max.to_reset_each_iter();
 
             // aggregate min
             husky::lib::Aggregator<std::map<std::string, double>> min(
@@ -177,6 +181,7 @@ public:
                     }
                 }
             });
+            min.to_reset_each_iter();
 
             for (int i = 0; i < suggestions.size(); i++) {
                 string& aggregate_type = suggestions[i].key.aggregate_type;
@@ -190,10 +195,8 @@ public:
                     std::string& dimension = suggestions[i].key.dimension;
                     double measure_value;
                     try {
-                        measure_value = std::stod(o.getStringField(measure));
-                    } catch (const std::invalid_argument&) {
-                        measure_value = 0;
-                    } catch (const std::out_of_range&) {
+                        measure_value = o.getField(measure).Number();
+                    } catch (mongo::MsgAssertionException&) {
                         measure_value = 0;
                     }
                     std::string dimension_value = o.getStringField(dimension);
@@ -241,14 +244,6 @@ public:
                 // get the aggregate result
                 if (aggregate_type == "SUM") {
                     suggestions[i].aggregate_data = sum.get_value();
-                    if (suggestions[i].key.measure == "Horsepower"
-                            && suggestions[i].key.dimension == "Cylinders"
-                            && suggestions[i].key.chart_type == "Q_Q_POINT"
-                            && suggestions[i].key.aggregate_type == "SUM"
-                            && suggestions[i].key.statistical_method == "VARIANCE") {
-                        cout << suggestions[i];      
-                        husky::LOG_I << "************************";
-                    }
                 } else if (aggregate_type == "MEAN") {
                     std::map<std::string, husky::VarianceMeanNum>& variance_data = variance_mean_num.get_value();
                     for (std::map<std::string, husky::VarianceMeanNum>::iterator it = variance_data.begin();
@@ -258,7 +253,7 @@ public:
                 } else if (aggregate_type == "MAX") {
                     suggestions[i].aggregate_data = max.get_value();
                 } else if (aggregate_type == "MIN") {
-                    suggestions[i].aggregate_data = max.get_value();
+                    suggestions[i].aggregate_data = min.get_value();
                 } else if (aggregate_type == "VARIANCE") {
                     std::map<std::string, husky::VarianceMeanNum>& variance_data = variance_mean_num.get_value();
                     for (std::map<std::string, husky::VarianceMeanNum>::iterator it = variance_data.begin();
@@ -282,11 +277,10 @@ public:
             husky::LOG_I << "topk: " << topk_suggestions.size();
 
             // output to check
-            /*
             for (std::vector<husky::visualization::SuggestionObject>::iterator item = topk_suggestions.begin();
                 item != topk_suggestions.end(); item++) {
                 cout << *item;
-            }*/
+            }
         }
     }
 
