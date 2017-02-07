@@ -52,6 +52,7 @@ public:
   }
 
   static void init_visualization(std::vector<husky::visualization::SuggestionObject>& topk_suggestions, const std::string& select_attribute = "") {
+    husky::LOG_I << "init_visualization";
     // distributed suggestions
     const std::string& distributed = husky::Context::get_param("distribute");
     husky::visualization::Constant constant;
@@ -102,6 +103,7 @@ public:
         all_calculated_suggestions.push_back(suggestion_with_score);
       }
     } else if (distributed == "data") {
+      husky::LOG_I << "init_visualization distributed data";
       // override
       auto& infmt = husky::io::InputFormatStore::create_mongodb_inputformat();
       infmt.set_server(husky::Context::get_param("mongo_server"));
@@ -110,9 +112,9 @@ public:
 
       auto& json_item_list = husky::ObjListStore::create_objlist<JsonItem>();
       auto& ch = husky::ChannelStore::create_push_combined_channel<int, husky::SumCombiner<int>>(infmt, json_item_list);
-
+      
       auto parse_item = [&](std::string & chunk) {
-        mongo::BSONObj o = mongo::fromjson(chunk);
+        // mongo::BSONObj o = mongo::fromjson(chunk);
         ch.push(1, chunk);
       };
 
@@ -180,12 +182,20 @@ public:
           mongo::BSONObj o = mongo::fromjson(item.id());
 
           // aggregate
+          // measure is Q, dimension is N
           std::string& measure = suggestions[i].key.measure;
           std::string& dimension = suggestions[i].key.dimension;
-          std::string measure_value = o.getStringField(measure);
+          double measure_value;
+          try {
+            measure_value = std::stod(o.getStringField(measure));
+          } catch (const std::invalid_argument&) {
+            
+          } catch (const std::out_of_range&) {
+          
+          }
           std::string dimension_value = o.getStringField(dimension);
           std::pair<std::string, double> current_item;
-          current_item = std::make_pair(measure_value, std::stod(dimension_value));
+          current_item = std::make_pair(dimension_value, measure_value);
           if (aggregate_type == "SUM") {
             sum.update([&](std::map<std::string, double>& x, const std::pair<std::string, double>& y) {
               x[y.first] += y.second;
