@@ -3,16 +3,37 @@
   "field_name": "Name",
   "enabled": true,
   "data_type": "N"
+},{
+  "key": "OPERATOR",
+  "field_name": "Miles_per_Gallon",
+  "enabled": true,
+  "data_type": "Q"
 }, {
   "key": "ATYPE",
   "field_name": "Cylinders",
+  "data_type": "Q"
+}, {
+  "key": "ATYPE",
+  "field_name": "Displacement",
   "data_type": "Q"
 }, {
   "key": "AIRPORT",
   "field_name": "Horsepower",
   "data_type": "Q"
 }, {
+  "key": "AIRPORT",
+  "field_name": "Weight_in_lbs",
+  "data_type": "Q"
+}, {
+  "key": "AIRPORT",
+  "field_name": "Acceleration",
+  "data_type": "Q"
+}, {
   "key": "AIRPOTY",
   "field_name": "Year",
   "data_type": "T"
+}, {
+  "key": "AIRPOTY",
+  "field_name": "Origin",
+  "data_type": "N"
 }]

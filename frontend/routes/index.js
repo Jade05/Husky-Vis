@@ -29,6 +29,7 @@ router.get('/', function(req, res, next) {
       connect.get_suggestionsAsync().then(function(response) {
         // get topksuggestions visualization result
         result.data.recommendedVis = handler.handlerSuggestions(response);
+        
         // response frontend
         res.render('main', JSON.parse(JSON.stringify(result)));
 

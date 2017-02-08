@@ -1,7 +1,6 @@
 define(function(require, exports, module) {
         //Return the module value
         return function (suggestions) {
-          console.log(suggestions);
           // visualize selectedVis
           for (var i = 0; i < suggestions.selectedVis.length; i++) {
             var embedSpec = {
