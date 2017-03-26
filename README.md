@@ -5,6 +5,7 @@ Build
 Download the source code with submodule Husky.
 
 git clone --recursive https://github.com/Gyingguo/Husky-Vis.git
+
 Go to the project root and do an out-of-source build using CMake:
 
 Build Server
