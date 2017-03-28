@@ -1,22 +1,19 @@
 <template>
-  <div v-for="attribute in attributes" class="checkbox">
-      <label>
-          <input class="pane-left-attribute" type="checkbox" name="{{attribute}}" value="{{attribute}}">
-          <span class="attribute-name">{{attribute}}</span>
-      </label>
-  </div>
+<div id="selected-list">
+    <div v-for="attribute in attributes" class="checkbox">
+        <label>
+            <input class="pane-left-attribute" type="checkbox" :name="attribute" :value="attribute">
+            <span class="attribute-name">{{attribute}}</span>
+        </label>
+    </div>
+ </div>
 </template>
 
 <script>
 export default {
   name: 'SelectedList',
-  data： {
-     attributes: [
-         "Name",
-         "Year",
-         "Month",
-         "Day"
-     ]
+  data () {
+      return {attributes: ["Name", "Year", "Month", "Day"]}
   }
 }
 </script>
