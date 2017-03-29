@@ -1,11 +1,14 @@
 <template>
-    <div id="app">
-        <h2 class="title">{{title}}</h2>
-        <div id="container" class="row">
-            <div id="pane-left" class="col-xs-2">
-                <router-view></router-view>
-            </div>
-        </div>
+  <div id="app" class="main">
+    <h2 class="title">{{title}}</h2>
+    <div id="container" class="row">
+      <div id="pane-left" class="col-xs-2">
+        <router-view name="SelectedList"></router-view>
+      </div>
+      <div id="pane-right" class="col-xs-10">
+        <router-view name="ChartFrame"></router-view>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,13 +21,30 @@ export default {
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="less">
+.main {
+  font-size: 14px;
+
+  .title {
+    font-size: 20px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 10px
+  }
+
+  #container {
+    #pane-left {
+      position: absolute;
+      top: 40px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #428bca;
+      padding: 15px 0 15px 25px;
+    }
+    #pane-right {
+      margin-left: 17%;
+    }
+  }
 }
 </style>
