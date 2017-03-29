@@ -1,13 +1,20 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <div id="app">
+        <h2 class="title">{{title}}</h2>
+        <div id="container" class="row">
+            <div id="pane-left" class="col-xs-2">
+                <router-view></router-view>
+            </div>
+        </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+      return {title: "Husky-Visualization"}
+  }
 }
 </script>
 
