@@ -1,4 +1,5 @@
 {
+  "data": {
     "title": "Husky-Visualization",
     "data": {
         "attributes": [
@@ -1284,4 +1285,5 @@
             }
         ]
     }
+  }
 }

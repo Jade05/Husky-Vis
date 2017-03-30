@@ -1,4 +1,5 @@
-[
+{
+  "data": [
     {
         "measure": "Weight_in_lbs",
         "dimension": "Acceleration",
@@ -352,3 +353,4 @@
         "score": 102810039568
     }
 ]
+}

@@ -14,5 +14,25 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  data: {
+    title: '',
+    attributes: [],
+    recommendedVis: [],
+    selectedVis: []
+  },
+  created: function () {
+    this.fetchSuggestions();
+  },
+  methods: {
+    fetchSuggestions: function () {
+      $.get("http://localhost:3005/data", {}, function(result) {
+        console.log(result);
+        this.title = result.title;
+        this.attributes = result.data.attributes;
+        this.recommendedVis = result.data.recommendedVis;
+        this.selectedVis = result.data.selectedVis;
+      });
+    }
+  }
 })

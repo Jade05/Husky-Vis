@@ -15,8 +15,9 @@
 <script>
 export default {
   name: 'app',
+  props: ['title'],
   data () {
-      return {title: "Husky-Visualization"}
+       return {}
   }
 }
 </script>
