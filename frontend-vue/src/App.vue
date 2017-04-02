@@ -3,10 +3,10 @@
     <h2 class="title">{{title}}</h2>
     <div id="container" class="row">
       <div id="pane-left" class="col-xs-2">
-        <router-view name="SelectedList"></router-view>
+        <router-view :attributes="attributes" name="SelectedList"></router-view>
       </div>
       <div id="pane-right" class="col-xs-10">
-        <router-view name="ChartFrame"></router-view>
+        <router-view :selectedVis="selectedVis" :recommendedVis="recommendedVis" name="ChartFrame"></router-view>
       </div>
     </div>
   </div>
@@ -15,9 +15,29 @@
 <script>
 export default {
   name: 'app',
-  props: ['title'],
   data () {
-       return {}
+    return {
+      title: '',
+      attributes: [],
+      selectedVis: [],
+      recommendedVis: []
+    }
+  },
+  created: function () {
+    console.log("app.created");
+    this.fetchSuggestions();
+  },
+  methods: {
+    fetchSuggestions: function () {
+      let vm = this;
+      $.get("http://localhost:3000/data", {}, function(result) {
+        vm.title = result.title;
+        // vm.$set('attributes', result.data.attributes);
+        vm.attributes = result.data.attributes;
+        vm.recommendedVis = result.data.recommendedVis;
+        vm.selectedVis = result.data.selectedVis;
+      });
+    }
   }
 }
 </script>

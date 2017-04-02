@@ -12,9 +12,7 @@
 <script>
 export default {
   name: 'SelectedList',
-  data () {
-    return {attributes: ["Name", "Year", "Month", "Day"]}
-  }
+  props: ['attributes']
 }
 </script>
 

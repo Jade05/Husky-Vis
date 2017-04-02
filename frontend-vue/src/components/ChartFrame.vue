@@ -20,12 +20,7 @@
 <script>
 export default {
   name: 'ChartFrame',
-  data () {
-    return {
-      selectedVis: ["Name", "Year", "Month", "Day"],
-      recommendedVis: ["Name", "Year", "Month", "Day"]
-    }
-  }
+  props: ['selectedVis', 'recommendedVis']
 }
 </script>
 
