@@ -23,19 +23,25 @@ export default {
       recommendedVis: []
     }
   },
-  created: function () {
-    console.log("app.created");
-    this.fetchSuggestions();
+  created () {
+    this.fetchSuggestions()
   },
   methods: {
-    fetchSuggestions: function () {
+    fetchSuggestions () {
       let vm = this;
-      $.get("http://localhost:3000/data", {}, function(result) {
-        vm.title = result.title;
-        // vm.$set('attributes', result.data.attributes);
-        vm.attributes = result.data.attributes;
-        vm.recommendedVis = result.data.recommendedVis;
-        vm.selectedVis = result.data.selectedVis;
+      $.get("http://localhost:3000/data", {}, (result) => {
+        // object destruction
+        [
+          vm.title,
+          vm.attributes,
+          vm.recommendedVis,
+          vm.selectedVis
+        ] = [
+          result.title,
+          result.data.attributes,
+          result.data.recommendedVis,
+          result.data.selectedVis
+        ];
       });
     }
   }

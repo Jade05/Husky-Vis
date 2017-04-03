@@ -10,7 +10,7 @@ define(function(require, exports, module) {
             // Embed the visualization in the container with id `vis`
             var visId = "#pane-right-selevted-vis-" + i;
             vg.embed(visId, embedSpec, function(error, result) {
-
+              
             });
           }
           // visualize recommendeddVis
