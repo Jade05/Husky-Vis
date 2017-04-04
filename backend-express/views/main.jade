@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h2.title #{ title }
+  div#container.row
+
+    div#pane-left.col-xs-2
+      - for (var i = 0; i < data.attributes.length; i++)
+        div.checkbox
+          label
+            input(class="pane-left-attribute" type="checkbox" name=data.attributes[i])
+            span.attribute-name #{ data.attributes[i] }
+
+    div(id = "pane-right" class="col-xs-10")
+      include chartFrame
+
+  script(type='text/javascript').
+    var suggestions =  !{JSON.stringify(data)}
+    require(["visualization", "leftPanel"], function(visualization, leftPanel) {
+      visualization(suggestions)
+      leftPanel()
+    })

@@ -1,0 +1,7 @@
+div#pane-right-selected.row
+  - for (var i = 0; i < data.selectedVis.length; i++)
+    div(id = "pane-right-selevted-vis-" + i class="col-xs-4 chart-item")
+
+div#pane-right-recommended.row
+  - for (var i = 0; i < data.recommendedVis.length; i++)
+    div(id = "pane-right-recommended-vis-" + i class="col-xs-4 chart-item")

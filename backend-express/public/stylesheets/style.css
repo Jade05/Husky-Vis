@@ -1,0 +1,39 @@
+body {
+  padding: 10px 0 0 10px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#container {
+  position: relative;
+}
+
+.title {
+    height: 40px;
+    line-height: 40px;
+}
+
+#pane-left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #428bca;
+  padding: 15px 0 15px 25px;
+}
+
+#pane-right {
+  margin-left: 17%;
+}
+
+.attribute-name {
+  margin-left: 10px;
+}
+
+.chart-item {
+  overflow: scroll;
+}

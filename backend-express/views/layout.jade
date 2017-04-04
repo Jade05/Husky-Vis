@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/lib/bootstrap.min.css')
+    script(src="/javascripts/lib/jquery-3.1.1.min.js")
+    script(src="/javascripts/lib/d3.v3.min.js")
+    script(src="/javascripts/lib/vega.js")
+    script(src="/javascripts/lib/vega-lite.js")
+    script(src="/javascripts/lib/vega-embed.js")
+    script(data-main="/javascripts/main.js" src="/javascripts/lib/require.js")
+  body
+    block content

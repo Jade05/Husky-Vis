@@ -26,7 +26,7 @@ export default {
     }
   },
   created () {
-    this.fetchSuggestions({}, 'http://localhost:3000/data');
+    this.fetchSuggestions({}, 'http://localhost:3000/');
   },
   mounted () {
   },
@@ -34,23 +34,24 @@ export default {
     fetchSuggestions (params, url) {
       let vm = this;
       $.get(url, params, (result) => {
+        console.log(result);
         // object destruction
-        [
-          vm.title,
-          vm.attributes,
-          vm.recommendedVis,
-          vm.selectedVis
-        ] = [
-          result.title,
-          result.data.attributes,
-          result.data.recommendedVis,
-          result.data.selectedVis
-        ];
-
-        // renderCharts
-        vm.$nextTick(function() {
-          vm.renderCharts();
-        });
+        // [
+        //   vm.title,
+        //   vm.attributes,
+        //   vm.recommendedVis,
+        //   vm.selectedVis
+        // ] = [
+        //   result.title,
+        //   result.data.attributes,
+        //   result.data.recommendedVis,
+        //   result.data.selectedVis
+        // ];
+        //
+        // // renderCharts
+        // vm.$nextTick(function() {
+        //   vm.renderCharts();
+        // });
       });
     },
     renderCharts () {
@@ -68,13 +69,13 @@ export default {
         };
 
         vg.embed(idPrefix.toString() + index, embedSpec, (error, result) => {if (error) console.log(error)});
-        index++
+        index++;
       }
     },
     selectedList (pickedItem) {
       let params = {
         picked: pickedItem
-      }
+      };
       this.fetchSuggestions(params, 'http://localhost:3000/data');
     }
   }
