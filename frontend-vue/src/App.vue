@@ -6,13 +6,15 @@
         <router-view :attributes="attributes" name="SelectedList"></router-view>
       </div>
       <div id="pane-right" class="col-xs-10">
-        <router-view :selectedVis="selectedVis" :recommendedVis="recommendedVis" name="ChartFrame"></router-view>
+        <router-view :selectedVis="selectedVis" :recommendedVis="recommendedVis" @renderChartsEvent="renderCharts" name="ChartFrame"></router-view>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
+
 export default {
   name: 'app',
   data () {
@@ -24,7 +26,9 @@ export default {
     }
   },
   created () {
-    this.fetchSuggestions()
+    this.fetchSuggestions();
+  },
+  mounted () {
   },
   methods: {
     fetchSuggestions () {
@@ -42,7 +46,27 @@ export default {
           result.data.recommendedVis,
           result.data.selectedVis
         ];
+
+        // renderCharts
+        vm.$nextTick(function() {
+          vm.renderCharts();
+          // console.log($('#pane-right-recommended-vis-0'))
+        });
       });
+    },
+    renderCharts (msgVisItem) {
+      let recommendedVisIndex  = 0;
+      for (let vis of this.recommendedVis) {
+        console.log(vis);
+        // let embedSpec = {
+        //   mode: 'vega-lite',
+        //   spec: vis
+        // };
+
+        let visId = '#pane-right-recommended-vis-' + recommendedVisIndex;
+        vega.embed(visId, vis, (error, result) => {console.log(error)});
+        recommendedVisIndex++;
+      }
     }
   }
 }
