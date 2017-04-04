@@ -26,7 +26,8 @@ export default {
     }
   },
   created () {
-    this.fetchSuggestions({}, 'http://localhost:3000/data');
+    this.fetchSuggestions({}, '/');
+    // this.fetchSuggestions({}, 'http://localhost:3000/data');
   },
   mounted () {
   },
