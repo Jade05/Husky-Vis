@@ -55,19 +55,23 @@ export default {
       });
     },
     renderCharts (msgVisItem) {
-      let recommendedVisIndex  = 0;
-      for (let vis of this.recommendedVis) {
-        console.log(vis);
-        // let embedSpec = {
-        //   mode: 'vega-lite',
-        //   spec: vis
-        // };
+      // rencer selectedCharts
+      this.render(this.selectedVis, '#pane-right-selected-vis-');
+      // render recommendedChart
+      this.render(this.recommendedVis, '#pane-right-recommended-vis-');
+    },
+    render (data, idPrefix) {
+        let index = 0;
+        for (let item of data) {
+          let embedSpec = {
+            mode: 'vega-lite',
+            spec: item
+          };
 
-        let visId = '#pane-right-recommended-vis-' + recommendedVisIndex;
-        vega.embed(visId, vis, (error, result) => {console.log(error)});
-        recommendedVisIndex++;
+          vg.embed(idPrefix.toString() + index, embedSpec, (error, result) => {if (error) console.log(error)});
+          index++
+        }
       }
-    }
   }
 }
 </script>
