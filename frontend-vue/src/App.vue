@@ -3,10 +3,10 @@
     <h2 class="title">{{title}}</h2>
     <div id="container" class="row">
       <div id="pane-left" class="col-xs-2">
-        <router-view :attributes="attributes" name="SelectedList"></router-view>
+        <router-view :attributes="attributes" name="SelectedList" @selectedListEvent="selectedList"></router-view>
       </div>
       <div id="pane-right" class="col-xs-10">
-        <router-view :selectedVis="selectedVis" :recommendedVis="recommendedVis" @renderChartsEvent="renderCharts" name="ChartFrame"></router-view>
+        <router-view :selectedVis="selectedVis" :recommendedVis="recommendedVis" name="ChartFrame"></router-view>
       </div>
     </div>
   </div>
@@ -26,14 +26,14 @@ export default {
     }
   },
   created () {
-    this.fetchSuggestions();
+    this.fetchSuggestions({}, 'http://localhost:3000/data');
   },
   mounted () {
   },
   methods: {
-    fetchSuggestions () {
+    fetchSuggestions (params, url) {
       let vm = this;
-      $.get("http://localhost:3000/data", {}, (result) => {
+      $.get(url, params, (result) => {
         // object destruction
         [
           vm.title,
@@ -50,28 +50,33 @@ export default {
         // renderCharts
         vm.$nextTick(function() {
           vm.renderCharts();
-          // console.log($('#pane-right-recommended-vis-0'))
         });
       });
     },
-    renderCharts (msgVisItem) {
+    renderCharts () {
       // rencer selectedCharts
       this.render(this.selectedVis, '#pane-right-selected-vis-');
       // render recommendedChart
       this.render(this.recommendedVis, '#pane-right-recommended-vis-');
     },
     render (data, idPrefix) {
-        let index = 0;
-        for (let item of data) {
-          let embedSpec = {
-            mode: 'vega-lite',
-            spec: item
-          };
+      let index = 0;
+      for (let item of data) {
+        let embedSpec = {
+          mode: 'vega-lite',
+          spec: item
+        };
 
-          vg.embed(idPrefix.toString() + index, embedSpec, (error, result) => {if (error) console.log(error)});
-          index++
-        }
+        vg.embed(idPrefix.toString() + index, embedSpec, (error, result) => {if (error) console.log(error)});
+        index++
       }
+    },
+    selectedList (pickedItem) {
+      let params = {
+        picked: pickedItem
+      }
+      this.fetchSuggestions(params, 'http://localhost:3000/data');
+    }
   }
 }
 </script>
@@ -98,7 +103,7 @@ export default {
       padding: 15px 0 15px 25px;
     }
     #pane-right {
-      margin-left: 17%;
+      margin-left: 18%;
     }
   }
 }

@@ -18,27 +18,7 @@ import Vue from 'vue'
 
 export default {
   name: 'ChartFrame',
-  props: ['selectedVis', 'recommendedVis'],
-  mounted () {
-    this.triggerRenderCharts();
-  },
-  methods: {
-    triggerRenderCharts () {
-      // this.$nextTick(function() {
-      //   console.log($('#pane-right-recommended .chart-item'))
-      //   console.log("hahahah")
-      // })
-      // this.$nextTick(() => {
-      //   // console.log($("#pane-right-recommended-vis-0"))
-      //   // emit
-      //   this.$emit('renderChartsEvent', {
-      //     $selectedVisItem: $("#pane-right-selected"),
-      //     $recommendedVisItem: $('pane-right-recommended .chart-item'),
-      //     $test: $('#pane-right')
-      //   });
-      // });
-    }
-  }
+  props: ['selectedVis', 'recommendedVis']
 }
 </script>
 
