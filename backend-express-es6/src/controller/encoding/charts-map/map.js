@@ -1,11 +1,12 @@
-var bar = require('./charts/bar');
-var line = require('./charts/line');
-var point = require('./charts/point');
+import {barFormat} from './charts/bar'
+import {lineFormat} from './charts/line'
+import {pointFormat} from './charts/point'
+// var point = require('./charts/point');
 
-var chartMap = {
-  'bar': bar.barFormat,
-  'line': line.lineFormat,
-  'point': point.pointFormat
+let chartMap = {
+  'bar': barFormat,
+  'line': lineFormat,
+  'point': pointFormat
 };
 
-module.exports = chartMap;
+export {chartMap};

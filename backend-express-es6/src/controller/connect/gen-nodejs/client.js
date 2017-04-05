@@ -19,7 +19,7 @@ client.init = function () {
         transport: transport,
         protocol: protocol
     });
-    
+
     // connection = thrift.createConnection('proj99', 9090, {
     //     transport: transport,
     //     protocol: protocol
@@ -36,4 +36,4 @@ client.end = function () {
     connection.end();
 };
 
-module.exports = client;
+export {client};

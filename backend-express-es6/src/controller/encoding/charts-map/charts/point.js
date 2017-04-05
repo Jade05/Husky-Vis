@@ -1,5 +1,3 @@
-var point = {};
-
 /**
  * [pointFormat description]
  * @param  {[type]} data [description]
@@ -41,8 +39,8 @@ var point = {};
     }
   }
  */
-point.pointFormat = function (data) {
-  var format = {
+export function pointFormat(data) {
+  let format = {
     "data": {
       "values": []
     },
@@ -54,22 +52,18 @@ point.pointFormat = function (data) {
     }
   };
 
-  var xName = data.x.name;
-  var yName = data.y.name;
-  var xType = data.x.type;
-  var yType = data.y.type;
-  var xData = data.x.values;
-  var yData = data.y.values;
-  var yAgg = data.y.aggregate;
+  let [xName, yName, xType, yType, xData, yData, yAgg] = [
+    data.x.name, data.y.name, data.x.type, data.y.type, data.x.values, data.y.values, data.y.aggregate
+  ];
 
   // process values
   for (var i = 0; i < xData.length && i < yData.length; i++) {
-      var value = {};
+    let value = {};
 
-      value[xName] = xData[i];
-      value[yName] = yData[i];
+    value[xName] = xData[i];
+    value[yName] = yData[i];
 
-      format.data.values.push(value);
+    format.data.values.push(value);
   }
 
   format.encoding.x.field = xName;
@@ -83,5 +77,3 @@ point.pointFormat = function (data) {
 
   return format;
 };
-
-module.exports = point;

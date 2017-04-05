@@ -18,11 +18,6 @@ app.all('*', (req, res, next) => {
     next();
 });
 
-// router.get('/', (req, res, next) => {
-//   res.end('Hello World!');
-// });
-// app.use('/', router);
-
 routes(app);
 
 app.listen(3000, () => {

@@ -1,6 +1,6 @@
-var client = require('./gen-nodejs/client');
+import {client} from './gen-nodejs/client';
 
-var connect = {};
+let connect = {};
 
 connect.init = function() {
     client.init();
@@ -22,4 +22,4 @@ connect.select_attribute = function(attribute, callback) {
 	client.api.select_attribute(attribute, callback);
 }
 
-module.exports = connect;
+export {connect};

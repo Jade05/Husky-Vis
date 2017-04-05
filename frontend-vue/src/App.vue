@@ -34,24 +34,23 @@ export default {
     fetchSuggestions (params, url) {
       let vm = this;
       $.get(url, params, (result) => {
-        console.log(result);
         // object destruction
-        // [
-        //   vm.title,
-        //   vm.attributes,
-        //   vm.recommendedVis,
-        //   vm.selectedVis
-        // ] = [
-        //   result.title,
-        //   result.data.attributes,
-        //   result.data.recommendedVis,
-        //   result.data.selectedVis
-        // ];
-        //
-        // // renderCharts
-        // vm.$nextTick(function() {
-        //   vm.renderCharts();
-        // });
+        [
+          vm.title,
+          vm.attributes,
+          vm.recommendedVis,
+          vm.selectedVis
+        ] = [
+          result.title,
+          result.data.attributes,
+          result.data.recommendedVis,
+          result.data.selectedVis
+        ];
+
+        // renderCharts
+        vm.$nextTick(function() {
+          vm.renderCharts();
+        });
       });
     },
     renderCharts () {
@@ -76,7 +75,7 @@ export default {
       let params = {
         picked: pickedItem
       };
-      this.fetchSuggestions(params, 'http://localhost:3000/data');
+      this.fetchSuggestions(params, 'http://localhost:3000/selectAttribute');
     }
   }
 }

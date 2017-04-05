@@ -21,7 +21,7 @@
     "thrift": "^0.10.0"
   },
   "scripts": {
-    "start": "nodemon lib/index.js --exec babel-node --presets es2015,stage-2",
+    "start": "nodemon dist/app.js --exec babel-node --presets es2015,stage-2",
     "build": "babel lib -d dist",
     "server": "node dist/app.js"
   },

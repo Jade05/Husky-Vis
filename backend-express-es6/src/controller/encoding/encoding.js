@@ -1,6 +1,4 @@
-var chartsMap = require('./charts-map/map');
-
-var encoding = {};
+import {chartMap} from './charts-map/map'
 
 /**
  * @param  {[type]} data [description]
@@ -25,12 +23,12 @@ var encoding = {};
            '1982-01-01': 4989 },
          score: 970939.222222222
     },
- * 
+ *
  * @return {[type]}      [description]
  */
-encoding.encoding = function (data, chartType) {
+export function encoding(data, chartType) {
     // pre encoding
-    var chartEncoding = {
+    let chartEncoding = {
         "x": {
             "name:": "",
             "values": [],
@@ -47,7 +45,7 @@ encoding.encoding = function (data, chartType) {
     chartEncoding.x.name = data.dimension;
     chartEncoding.y.name = data.measure;
 
-    for(var obj in data.aggregate_data) {
+    for(let obj in data.aggregate_data) {
         chartEncoding.x.values.push(obj);
         chartEncoding.y.values.push(data.aggregate_data[obj]);
     }
@@ -55,9 +53,7 @@ encoding.encoding = function (data, chartType) {
     chartEncoding.y.aggregate = data.aggregate_type.toLowerCase();
 
     // encoding
-    encodingResult = chartsMap[('' + chartType).toLowerCase()](chartEncoding);
+    let encodingResult = chartMap[('' + chartType).toLowerCase()](chartEncoding);
 
     return encodingResult;
 }
-
-module.exports = encoding;
