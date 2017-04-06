@@ -37,15 +37,16 @@ export default {
         // object destruction
         [
           vm.title,
-          vm.attributes,
           vm.recommendedVis,
           vm.selectedVis
         ] = [
           result.title,
-          result.data.attributes,
           result.data.recommendedVis,
           result.data.selectedVis
         ];
+
+        // first load, attributes will have values
+        vm.attributes = result.data.attributes && result.data.attributes.length ? result.data.attributes : vm.attributes;
 
         // renderCharts
         vm.$nextTick(function() {
@@ -75,6 +76,7 @@ export default {
       let params = {
         picked: pickedItem
       };
+      
       this.fetchSuggestions(params, 'http://localhost:3000/selectAttribute');
     }
   }

@@ -2,7 +2,7 @@
 <div>
   <div id="pane-right-selected" class="row">
     <div v-for="(item, index) in selectedVis" class="chart-frame">
-      <div v-bind:id="'pane-right-selevted-vis-' + index" class="col-xs-4 chart-item"></div>
+      <div v-bind:id="'pane-right-selected-vis-' + index" class="col-xs-4 chart-item"></div>
     </div>
   </div>
   <div id="pane-right-recommended" class="row">

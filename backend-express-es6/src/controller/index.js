@@ -28,7 +28,6 @@ export function index(req, res, next) {
 
         // response frontend
         res.send(JSON.parse(JSON.stringify(result)));
-        connect.end();
       }).catch(function(err) {
         console.log(err);
       });

@@ -1,6 +1,6 @@
 import promise from 'bluebird';
 import {connect} from './connect/connect';
-import {handlerAttributes, handlerSuggestions} from './handler/handler'
+import {handlerSuggestions} from './handler/handler'
 
 export function selectAttribute(req, res, next) {
 	let result = {
@@ -12,10 +12,10 @@ export function selectAttribute(req, res, next) {
 		}
 	};
 
-	let attribute = req.body.selectAttribute;
+	let attribute = req.query.picked;
 
 	connect.select_attributeAsync(attribute).then(function(response) {
-		result.data.selectedVis = handler.handlerSuggestions(response);
+		result.data.selectedVis = handlerSuggestions(response);
 		res.send(JSON.parse(JSON.stringify(result)));
 	}).catch(function(err) {
     	console.log(err);
