@@ -1,3 +1,6 @@
+require('source-map-support').install({
+  environment: 'node'
+});
 // src/app.js
 
 import express, { Router } from 'express';
