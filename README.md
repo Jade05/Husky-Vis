@@ -1,63 +1,64 @@
-# Husky-Vis
+# Husky-Vis 
 
-The project is divied into three parts: 
-1. backend: recommendation engine, implemented by c++; 
-2. backend-express-es6: http webserver, connected with recommendation engine by thrift RPC to fetch data;
+The project is divied into three parts:  </br>
+1. backend: recommendation engine, implemented by c++;  </br>
+2. backend-express-es6: http webserver, connected with recommendation engine by thrift RPC to fetch data; </br>
 3. frontend-vue: frontend part
 
 # Build
 
-Download the source code with submodule Husky.
+Download the source code with submodule Husky. </br>
 
-git clone --recursive https://github.com/Gyingguo/Husky-Vis.git
+git clone --recursive https://github.com/Gyingguo/Husky-Vis.git </br>
 
-Go to the project root and do an out-of-source build using CMake:
+Go to the project root and do an out-of-source build using CMake: </br>
 
 # Build backend
 
-cd backend
-mkdir debug
-cd debug
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-make help               # List all build target
-make Server             # Build Server 
-make -j                 # Build all applications with all threads
+cd backend </br>
+mkdir debug </br>
+cd debug </br>
+cmake -DCMAKE_BUILD_TYPE=Debug .. </br>
+make help               # List all build target </br>
+make Server             # Build Server </br>
+make -j                 # Build all applications with all threads </br>
 
-Configuration
-master_host=master
-master_port=10086
-comm_port=14279
-hdfs_namenode=master
-hdfs_namenode_port=9000
-serve=1
+Configuration </br>
 
-// data is provided directly
-data=test_data.json
-data_schema=test_schema.json
-// suggestion is distributed by suggestions or data
-distribute=suggestions
-// distribute=data
-// data is provided by mongodb
-mongo_server=XXX
-mongo_db=XXX
-mongo_collection=XXX
-// return topk suggestions
-topk=10
-// configuable constant data
-constant=constant.json
+master_host=master </br>
+master_port=10086 </br>
+comm_port=14279 </br>
+hdfs_namenode=master </br>
+hdfs_namenode_port=9000 </br>
+serve=1 </br>
 
-// list your own parameters here:
+// data is provided directly </br>
+data=test_data.json </br>
+data_schema=test_schema.json </br>
+// suggestion is distributed by suggestions or data </br>
+distribute=suggestions </br>
+// distribute=data </br>
+// data is provided by mongodb </br>
+mongo_server=XXX </br>
+mongo_db=XXX </br>
+mongo_collection=XXX </br>
+// return topk suggestions </br>
+topk=10 </br>
+// configuable constant data </br>
+constant=constant.json </br>
 
-[worker]
-info=master:1
+// list your own parameters here: </br>
+
+[worker] </br>
+info=master:1 </br>
 
 
-# Run backend
-./debug/Server -C ./conf/single.conf
+# Run backend </br>
+./debug/Server -C ./conf/single.conf </br>
 
-# backend-express-es6
+# backend-express-es6 </br>
 gulp watch </br>
 npm run server </br>
 
-# frontend-vue
-npm run dev
+# frontend-vue </br>
+npm run dev </br>
