@@ -56,8 +56,8 @@ info=master:1
 ./debug/Server -C ./conf/single.conf
 
 # backend-express-es6
-gulp watch
-npm run server
+gulp watch </br>
+npm run server </br>
 
 # frontend-vue
 npm run dev
