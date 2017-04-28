@@ -1,7 +1,8 @@
 require('source-map-support').install({
   environment: 'node'
 });
-// src/app.js
+
+require("babel-polyfill");
 
 import express, { Router } from 'express';
 import path from 'path'

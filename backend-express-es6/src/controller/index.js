@@ -1,7 +1,17 @@
-import promise from 'bluebird';
+// import promise from 'bluebird';
 
 import {connect} from './connect/connect';
-import {handlerAttributes, handlerSuggestions} from './handler/handler'
+import {handlerAttributes, handlerSuggestions} from './handler/handler';
+
+// let promisify = (fn, receiver) => {
+//   return (...args) => {
+//     return new Promise((resolve, reject) => {
+//       fn.apply(receiver, [...args, (err, res) => {
+//         return err ? reject(err) : resolve(res);
+//       }]);
+//     });
+//   };
+// };
 
 export function index(req, res, next) {
   let result = {
@@ -12,44 +22,45 @@ export function index(req, res, next) {
       "recommendedVis": []
     }
   };
-
-
-  throw new Error('test');
   
   // connect to c++ backend
   connect.init();
 
-  async function getAttributesAsync() {
-    try {
-      await connect.get_attributes();
-    } catch (err) {
-      console.log(err);
-    }
+  async function getAttributes() {
+    let getAttributePromise = await connect.get_attributes();
+    return getAttributePromise;
   }
 
-  async function getSuggestionsAsync() {
-    try {
-      await connect.get_suggestions();
-    } catch (err) {
-      console.log(err);
-    }
+  async function getSuggestions() {
+    let getSuggestionsPromise = await connect.get_suggestions();
+    return getSuggestionsPromise;
   }
 
-  getAttributesAsync.then(function(response) {
-    console.log('attributes async');
-    // get the attributes
-    result.data.attributes = handlerAttributes(response);
+  let attributesPromise = new Promise((resolve, reject) => {
+    getAttributes().then((data) => {
+      // set attributes
+      result.data.attributes = handlerAttributes(data);
+      resolve();
+    });
   });
 
-  getSuggestionsAsync.then(function(response) {
-    console.log('suggestions async');
-    // get suggestions
-    result.data.recommendedVis = handlerSuggestions(response);
+  let suggestionsPromise = new Promise((resolve, reject) => {
+    getSuggestions().then((data) => {
+      // set suggestions
+      result.data.recommendedVis = handlerSuggestions(data);
+      resolve();
+    });
+  });
 
-    // response frontend
+  Promise.all([attributesPromise, suggestionsPromise]).then(() => {
     res.send(JSON.parse(JSON.stringify(result)));
   });
 
+
+  /*
+   * bluebird promisify implementation
+   *
+   */
   // // promisify all
   // promise.promisifyAll(connect);
   // // connect to c++ backend

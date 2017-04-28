@@ -10,16 +10,28 @@ connect.end = function() {
     client.end();
 };
 
-connect.get_suggestions = function (callback) {
-    client.api.get_suggestions(callback);
+connect.get_suggestions = function () {
+    return new Promise((resolve, reject) => {
+        client.api.get_suggestions((err, response) => {
+            if(!err) resolve(response);
+        });
+    });
 };
 
-connect.get_attributes = function (callback) {
-    client.api.get_attributes(callback);
+connect.get_attributes = function () {
+    return new Promise((resolve, reject) => {
+        client.api.get_attributes((err, response) => {
+            if(!err) resolve(response);
+        });
+    });
 };
 
-connect.select_attribute = function(attribute, callback) {
-	client.api.select_attribute(attribute, callback);
+connect.select_attribute = function(attribute) {
+    return new Promise((resolve, reject) => {
+        client.api.select_attribute(attribute, (err, response) => {
+            if (!err) resolve(response);
+        });
+    });
 }
 
 export {connect};
