@@ -32,22 +32,22 @@ hdfs_namenode=master </br>
 hdfs_namenode_port=9000 </br>
 serve=1 </br>
 
-// data is provided directly </br>
+#data is provided directly </br>
 data=test_data.json </br>
 data_schema=test_schema.json </br>
-// suggestion is distributed by suggestions or data </br>
+#suggestion is distributed by suggestions or data </br>
 distribute=suggestions </br>
-// distribute=data </br>
-// data is provided by mongodb </br>
+#distribute=data </br>
+#data is provided by mongodb </br>
 mongo_server=XXX </br>
 mongo_db=XXX </br>
 mongo_collection=XXX </br>
-// return topk suggestions </br>
+#return topk suggestions </br>
 topk=10 </br>
-// configuable constant data </br>
+#configuable constant data </br>
 constant=constant.json </br>
 
-// list your own parameters here: </br>
+#list your own parameters here: </br>
 
 [worker] </br>
 info=master:1 </br>
