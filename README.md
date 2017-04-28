@@ -1,6 +1,6 @@
 # Husky-Vis 
 
-The project is divied into three parts:  </br>
+The project is divided into three parts:  </br>
 1. backend: recommendation engine, implemented by c++;  </br>
 2. backend-express-es6: http webserver, connected with recommendation engine by thrift RPC to fetch data; </br>
 3. frontend-vue: frontend part
