@@ -27,6 +27,7 @@ export default {
   },
   created () {
     this.fetchSuggestions({}, 'http://localhost:3000/');
+    // this.fetchSuggestions({}, 'http://103.207.68.50:3000/');
   },
   mounted () {
   },
@@ -78,6 +79,7 @@ export default {
       };
       
       this.fetchSuggestions(params, 'http://localhost:3000/selectAttribute');
+      // this.fetchSuggestions(params, 'http://103.207.68.50:3000/selectAttribute');
     }
   }
 }
@@ -106,6 +108,12 @@ export default {
     }
     #pane-right {
       margin-left: 18%;
+      position: absolute;
+      top: 40px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: scroll;
     }
   }
 }

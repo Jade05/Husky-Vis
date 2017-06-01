@@ -36,6 +36,6 @@ export default {
 }
 
 .chart-item {
-  overflow: scroll;
+  overflow: auto;
 }
 </style>
