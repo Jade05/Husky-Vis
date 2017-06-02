@@ -30,12 +30,12 @@
     "promise": "^7.1.1",
     "thrift": "^0.10.0",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "webpack": "^2.6.1"
   },
   "scripts": {
-    "start": "nodemon dist/app.js --exec babel-node --presets es2015,stage-2",
-    "build": "babel lib -d dist",
-    "server": "node dist/app.js"
+    "build": "webpack",
+    "server": "node build/bundle.js"
   },
   "author": "",
   "license": "ISC"

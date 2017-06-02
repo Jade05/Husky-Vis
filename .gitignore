@@ -26,6 +26,7 @@ backend-express-es6/*.seed
 backend-express-es6/*.pid.lock
 backend-express-es6/node_modules
 backend-express-es6/dist
+backend-express-es6/build
 
 #frontend-vue
 frontend-vue/logs
