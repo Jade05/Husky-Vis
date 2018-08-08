@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "backend-express-es6/package.json",
+        "frontend-vue/package.json"
+      ]
+    }
+  }
+}
