@@ -1,5 +1,7 @@
 # Husky-Vis 
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Jade05/Husky-Vis.svg)](https://greenkeeper.io/)
+
 The project is divided into three parts:  </br>
 1. backend: recommendation engine, implemented by c++;  </br>
 2. backend-express-es6: http webserver, connected with recommendation engine by thrift RPC to fetch data; </br>
