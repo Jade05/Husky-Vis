@@ -1,64 +1,156 @@
-# Husky-Vis 
+# Husky Visualization: Intelligent Data Visualization Recommendation System
 
-The project is divided into three parts:  </br>
-1. backend: recommendation engine, implemented by c++;  </br>
-2. backend-express-es6: http webserver, connected with recommendation engine by thrift RPC to fetch data; </br>
-3. frontend-vue: frontend part
+Husky Visualization is a distributed data visualization recommendation system that automatically generates and suggests appropriate visualizations based on data characteristics and statistical analysis. The system combines backend processing power with an intuitive frontend interface to help users explore and understand their data through meaningful visual representations.
 
-# Build
+The system consists of three main components:
+- A C++ backend that handles data processing, statistical analysis, and visualization recommendations using the Husky distributed computing framework
+- An Express.js middleware layer that facilitates communication between frontend and backend
+- A Vue.js frontend that provides an interactive interface for users to explore and select visualizations
 
-Download the source code with submodule Husky. </br>
+Key features include:
+- Automatic chart type suggestion based on data characteristics
+- Statistical analysis including variance, mean, sum, max/min calculations
+- Support for distributed data processing
+- Real-time visualization updates
+- Interactive attribute selection and filtering
+- Support for multiple chart types including bar, line and point charts
+- MongoDB integration for data storage and retrieval
 
-git clone --recursive https://github.com/Gyingguo/Husky-Vis.git </br>
+## Repository Structure
+```
+.
+├── backend/                 # C++ backend implementation
+│   ├── app/                # Main application code and Thrift interface
+│   ├── core/               # Core business logic components
+│   │   ├── channel/        # Data processing and visualization channels
+│   │   ├── common/         # Shared utilities and constants
+│   │   └── dataloader/     # Data loading and schema management
+│   └── test/              # Comprehensive test suite
+├── backend-express-es6/    # Express.js middleware layer
+│   ├── src/               # Source code for API endpoints and controllers
+│   └── controller/        # Business logic controllers
+└── frontend-vue/          # Vue.js frontend application
+    ├── src/              # Vue application source code
+    ├── test/             # Frontend unit and e2e tests
+    └── mock-server/      # Mock data for development
+```
 
-Go to the project root and do an out-of-source build using CMake: </br>
+## Usage Instructions
+### Prerequisites
+- C++ compiler with C++14 support
+- CMake 3.0 or higher
+- Node.js 12.x or higher
+- MongoDB 4.x
+- Husky distributed computing framework
+- Boost libraries
+- Thrift RPC framework
+
+### Installation
+
+#### Backend (C++)
+```bash
+# MacOS
+brew install cmake boost thrift mongodb
+
+# Linux
+sudo apt-get install cmake libboost-all-dev thrift-compiler mongodb
 
 # Build backend
+cd backend
+mkdir build && cd build
+cmake ..
+make
+```
 
-cd backend </br>
-mkdir debug </br>
-cd debug </br>
-cmake -DCMAKE_BUILD_TYPE=Debug .. </br>
-make help               # List all build target </br>
-make Server             # Build Server </br>
-make -j                 # Build all applications with all threads </br>
+#### Middleware (Express.js)
+```bash
+cd backend-express-es6
+npm install
+npm run build
+```
 
-Configuration </br>
+#### Frontend (Vue.js)
+```bash
+cd frontend-vue
+npm install
+```
 
-master_host=master </br>
-master_port=10086 </br>
-comm_port=14279 </br>
-hdfs_namenode=master </br>
-hdfs_namenode_port=9000 </br>
-serve=1 </br>
+### Quick Start
+1. Start MongoDB:
+```bash
+mongod --dbpath /path/to/data
+```
 
-#data is provided directly </br>
-data=test_data.json </br>
-data_schema=test_schema.json </br>
-#suggestion is distributed by suggestions or data </br>
-distribute=suggestions </br>
-#distribute=data </br>
-#data is provided by mongodb </br>
-mongo_server=XXX </br>
-mongo_db=XXX </br>
-mongo_collection=XXX </br>
-#return topk suggestions </br>
-topk=10 </br>
-#configuable constant data </br>
-constant=constant.json </br>
+2. Start the backend server:
+```bash
+cd backend/build
+./Server
+```
 
-#list your own parameters here: </br>
+3. Start the Express middleware:
+```bash
+cd backend-express-es6
+npm start
+```
 
-[worker] </br>
-info=master:1 </br>
+4. Start the frontend development server:
+```bash
+cd frontend-vue
+npm run dev
+```
 
+### More Detailed Examples
+1. Loading data and generating visualizations:
+```cpp
+// Initialize the visualization system
+husky::visualization::Controller::init_visualization();
 
-# Run backend </br>
-./debug/Server -C ./conf/single.conf </br>
+// Select an attribute to analyze
+std::string attribute = "Weight_in_lbs";
+std::vector<husky::visualization::SuggestionObject> suggestions;
+Controller::init_visualization(suggestions, attribute);
+```
 
-# Run backend-express-es6 </br>
-gulp watch </br>
-npm run server </br>
+2. Using the frontend interface:
+```javascript
+// Select an attribute for visualization
+this.$http.post('/api/selectAttribute', {
+  attribute: 'Weight_in_lbs'
+}).then(response => {
+  this.suggestions = response.data;
+});
+```
 
-# Run frontend-vue </br>
-npm run dev </br>
+### Troubleshooting
+1. Backend build issues:
+- Error: "Boost not found"
+  ```bash
+  export BOOST_ROOT=/path/to/boost
+  cmake ..
+  ```
+
+2. MongoDB connection issues:
+- Check MongoDB is running:
+  ```bash
+  ps aux | grep mongod
+  ```
+- Verify connection string in configuration
+
+## Data Flow
+The system processes data through multiple channels to generate appropriate visualizations.
+
+```
+[Raw Data] -> [DataLoader] -> [GenerateChannel] -> [ChartTypeChannel] -> [AggregateChannel]
+     |              |              |                       |                    |
+     v              v              v                       v                    v
+[MongoDB] -> [Schema Validation] -> [Statistical Analysis] -> [Chart Selection] -> [Frontend]
+```
+
+Key component interactions:
+1. DataLoader reads data from MongoDB and validates against schema
+2. GenerateChannel creates initial visualization suggestions
+3. ChartTypeChannel determines appropriate chart types
+4. AggregateChannel performs statistical aggregations
+5. ProcessRawDataChannel handles raw data transformations
+6. ProcessAggregateDataChannel processes aggregated results
+7. Frontend receives and displays visualization recommendations
